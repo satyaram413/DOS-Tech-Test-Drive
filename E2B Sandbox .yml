@@ -1,0 +1,964 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: 'E2B Sandbox '
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges: []
+    nodes:
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: e2b_base_image
+          form: llm
+          human_description:
+            en_US: 'Choose what to start from. Recommended: E2B base image.'
+            ja_JP: テンプレートのベースを選択します。推奨：E2B base image。
+            pt_BR: 'Escolha a base do template. Recomendado: imagem base do E2B.'
+            zh_Hans: 选择模板从哪里开始构建。推荐：E2B base image。
+          label:
+            en_US: Base for the Template (Optional)
+            ja_JP: テンプレートのベース（任意）
+            pt_BR: Base do Template (Opcional)
+            zh_Hans: 模板基础环境（可选）
+          llm_description: "Select the base used to build the template.\n\n## Options\n\
+            - e2b_base_image: Start from E2B default base image via Template().from_base_image().\n\
+            \  This matches the official Quickstart and is recommended for most use\
+            \ cases.\n- template_alias: Start from an existing template alias via\
+            \ Template().from_template(alias).\n  This is advanced and may fail if\
+            \ the alias is not accessible for the current team/region.\n- docker_image:\
+            \ Start from a Docker image via Template().from_image(image).\n  This\
+            \ is advanced and is useful when you need a very specific base image.\n\
+            \n## References\n- Quickstart (Manual SDK): https://e2b.dev/docs/template/quickstart\n\
+            - Base Images: https://e2b.dev/docs/template/base-image\n- Aliases: https://e2b.dev/docs/template/aliases\n"
+          max: null
+          min: null
+          name: base_strategy
+          options:
+          - icon: ''
+            label:
+              en_US: E2B base image (Recommended)
+              ja_JP: E2B base image（推奨）
+              pt_BR: Imagem base do E2B (Recomendado)
+              zh_Hans: E2B base image（推荐）
+            value: e2b_base_image
+          - icon: ''
+            label:
+              en_US: Existing template alias (Advanced)
+              ja_JP: 既存テンプレートの alias（上級）
+              pt_BR: Alias de template existente (Avançado)
+              zh_Hans: 已有模板别名（高级）
+            value: template_alias
+          - icon: ''
+            label:
+              en_US: Docker image (Advanced)
+              ja_JP: Docker イメージ（上級）
+              pt_BR: Imagem Docker (Avançado)
+              zh_Hans: Docker 镜像（高级）
+            value: docker_image
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Only used when base_strategy is ''Existing template alias''. Example:
+              claude-code'
+            ja_JP: base_strategy が「既存テンプレートの alias」の場合のみ使用。例：claude-code
+            pt_BR: 'Usado apenas quando base_strategy é ''Alias de template existente''.
+              Exemplo: claude-code'
+            zh_Hans: 仅在 base_strategy 选择“已有模板别名”时使用。例如：claude-code
+          label:
+            en_US: Base Template Alias (Advanced, Optional)
+            ja_JP: ベーステンプレート Alias（上級、任意）
+            pt_BR: Alias do Template Base (Avançado, Opcional)
+            zh_Hans: 基础模板别名（高级，可选）
+          llm_description: 'The template alias (or template ID) to start from when
+            base_strategy=template_alias.
+
+
+            Example:
+
+            - claude-code
+
+
+            Reference:
+
+            - Template Aliases: https://e2b.dev/docs/template/aliases
+
+            '
+          max: null
+          min: null
+          name: base_template_alias
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Only used when base_strategy is ''Docker image''. Example: e2bdev/claude-code:latest'
+            ja_JP: base_strategy が「Docker イメージ」の場合のみ使用。例：e2bdev/claude-code:latest
+            pt_BR: 'Usado apenas quando base_strategy é ''Imagem Docker''. Exemplo:
+              e2bdev/claude-code:latest'
+            zh_Hans: 仅在 base_strategy 选择“Docker 镜像”时使用。例如：e2bdev/claude-code:latest
+          label:
+            en_US: Base Docker Image (Advanced, Optional)
+            ja_JP: ベース Docker イメージ（上級、任意）
+            pt_BR: Imagem Docker Base (Avançado, Opcional)
+            zh_Hans: 基础 Docker 镜像（高级，可选）
+          llm_description: 'Docker image to use as a base when base_strategy=docker_image.
+
+
+            Example:
+
+            - e2bdev/claude-code:latest
+
+
+            Reference:
+
+            - Base Images: https://e2b.dev/docs/template/base-image
+
+            '
+          max: null
+          min: null
+          name: base_image
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 2
+          form: llm
+          human_description:
+            en_US: 'How many CPU cores to allocate for sandboxes created from this
+              template. Default: 2.'
+            ja_JP: このテンプレートから作成されるサンドボックスに割り当てる CPU コア数。デフォルト：2。
+            pt_BR: 'Quantos núcleos de CPU alocar para sandboxes criados a partir
+              deste template. Padrão: 2.'
+            zh_Hans: 从该模板创建的沙盒将使用的 CPU 核心数。默认：2。
+          label:
+            en_US: CPU Cores (Optional)
+            ja_JP: CPU コア数（任意）
+            pt_BR: Núcleos de CPU (Opcional)
+            zh_Hans: CPU 核心数（可选）
+          llm_description: 'CPU cores for sandboxes created from this template.
+
+
+            This parameter is passed to E2B template build as cpu_count.
+
+
+            Notes:
+
+            - If you request more resources than your E2B account allows, E2B may
+            reject the build request.
+
+            - Choose higher CPU counts for compilation, large repository operations,
+            and heavy dependency installs.
+
+
+            Reference:
+
+            - Template Build parameters (cpu_count, memory_mb): https://e2b.dev/docs/template/build
+
+            '
+          max: null
+          min: null
+          name: cpu_count
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: 1024
+          form: llm
+          human_description:
+            en_US: 'How much memory (in MB) to allocate for sandboxes created from
+              this template. Default: 1024.'
+            ja_JP: このテンプレートから作成されるサンドボックスに割り当てるメモリ（MB）。デフォルト：1024。
+            pt_BR: 'Quanta memória (em MB) alocar para sandboxes criados a partir
+              deste template. Padrão: 1024.'
+            zh_Hans: 从该模板创建的沙盒将使用的内存大小（MB）。默认：1024。
+          label:
+            en_US: Memory in MB (Optional)
+            ja_JP: メモリ MB（任意）
+            pt_BR: Memória em MB (Opcional)
+            zh_Hans: 内存 MB（可选）
+          llm_description: 'Memory in MB for sandboxes created from this template.
+
+
+            This parameter is passed to E2B template build as memory_mb.
+
+
+            Notes:
+
+            - If you request more resources than your E2B account allows, E2B may
+            reject the build request.
+
+            - Larger memory helps when installing big dependencies, running builds,
+            or handling large codebases.
+
+
+            Reference:
+
+            - Template Build parameters (cpu_count, memory_mb): https://e2b.dev/docs/template/build
+
+            '
+          max: null
+          min: null
+          name: memory_mb
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: private
+          form: llm
+          human_description:
+            en_US: 'Whether the template is Private (team-only) or Public. Default:
+              Private.'
+            ja_JP: テンプレートを Private（チームのみ）にするか Public にするか。デフォルト：Private。
+            pt_BR: 'Se o template é Private (apenas para o time) ou Public. Padrão:
+              Private.'
+            zh_Hans: 模板是 Private（仅团队可用）还是 Public。默认：Private。
+          label:
+            en_US: Visibility (Optional)
+            ja_JP: 公開設定（任意）
+            pt_BR: Visibilidade (Opcional)
+            zh_Hans: 可见性（可选）
+          llm_description: 'Visibility of the created template.
+
+
+            - private: Accessible only within your E2B team/account.
+
+            - public: Publicly accessible (use with care).
+
+
+            Implementation detail:
+
+            This tool builds the template, then updates its visibility via the E2B
+            Templates API.
+
+
+            Reference:
+
+            - Templates Quickstart: https://e2b.dev/docs/template/quickstart
+
+            '
+          max: null
+          min: null
+          name: visibility
+          options:
+          - icon: ''
+            label:
+              en_US: Private
+              ja_JP: Private
+              pt_BR: Private
+              zh_Hans: Private
+            value: private
+          - icon: ''
+            label:
+              en_US: Public
+              ja_JP: Public
+              pt_BR: Public
+              zh_Hans: Public
+            value: public
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional. Build the template under a specific E2B team. You can
+              find Team ID in E2B dashboard team settings.
+            ja_JP: 任意。特定の E2B チーム配下でテンプレートを構築します。Team ID は E2B ダッシュボードのチーム設定で確認できます。
+            pt_BR: Opcional. Construa o template em um time específico do E2B. Você
+              pode encontrar o Team ID nas configurações do time no painel da E2B.
+            zh_Hans: 可选。将模板构建到指定的 E2B 团队下。你可以在 E2B 仪表板的团队设置中找到 Team ID。
+          label:
+            en_US: Team ID (Optional)
+            ja_JP: Team ID（任意）
+            pt_BR: Team ID (Opcional)
+            zh_Hans: Team ID（可选）
+          llm_description: 'Optional team identifier for creating the template under
+            a specific team.
+
+
+            If omitted, E2B uses the default team associated with your API Key.
+
+
+            Where to find it:
+
+            https://e2b.dev/dashboard?tab=team
+
+            '
+          max: null
+          min: null
+          name: team_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Unique name for the template. Use lowercase letters, numbers,
+              and hyphens. Example: dify-latest, my-python-env, code-review-bot'
+            ja_JP: テンプレートの一意の名前。小文字、数字、ハイフンを使用してください。例：dify-latest、my-python-env、code-review-bot
+            pt_BR: 'Nome único para o template. Use letras minúsculas, números e hifens.
+              Exemplo: dify-latest, my-python-env, code-review-bot'
+            zh_Hans: 模板的唯一名称。使用小写字母、数字和连字符。例如：dify-latest、my-python-env、code-review-bot
+          label:
+            en_US: Template name
+            ja_JP: テンプレート名
+            pt_BR: Nome do template
+            zh_Hans: 模板名称
+          llm_description: 'A unique name for the custom template. This will become
+            the template alias.
+
+
+            ## Naming rules
+
+            - Use lowercase letters, numbers, and hyphens only
+
+            - Must start with a letter
+
+            - No spaces or special characters
+
+            - Examples: "my-dify-analyzer", "code-review-bot", "python-ml-env"
+
+
+            ## After building
+
+            Use this name as the template_alias parameter in "Run Claude Code" tool.
+
+
+            ## Reference
+
+            - Template Aliases: https://e2b.dev/docs/template/aliases
+
+            '
+          max: null
+          min: null
+          name: template_name
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Git repository URLs to pre-clone (comma-separated). Example: https://github.com/langgenius/dify
+              or multiple: https://github.com/user/repo1,https://github.com/user/repo2'
+            ja_JP: 事前クローンする Git リポジトリ URL（カンマ区切り）。例：https://github.com/langgenius/dify
+            pt_BR: 'URLs de repositórios Git para pré-clonar (separados por vírgula).
+              Exemplo: https://github.com/langgenius/dify'
+            zh_Hans: 要预先克隆的 Git 仓库 URL（逗号分隔）。例如：https://github.com/langgenius/dify
+              或多个：https://github.com/user/repo1,https://github.com/user/repo2
+          label:
+            en_US: Git Repositories to Clone (Optional)
+            ja_JP: クローンする Git リポジトリ（任意）
+            pt_BR: Repositórios Git para Clonar (Opcional)
+            zh_Hans: 要克隆的 Git 仓库（可选）
+          llm_description: 'Git repositories to pre-clone into the template during
+            build.
+
+
+            ## Format
+
+            Provide comma-separated repository URLs:
+
+            "https://github.com/user/repo1,https://github.com/user/repo2"
+
+
+            ## Benefits
+
+            Pre-cloning repositories during template build means:
+
+            - Faster sandbox startup (no clone needed at runtime)
+
+            - Consistent codebase version across all sandboxes
+
+            - Reduced network usage during sandbox creation
+
+
+            ## Clone location
+
+            Repositories are cloned into /home/user/<repo-name>/
+
+
+            ## Private repositories
+
+            For private repos, use HTTPS URLs with personal access tokens:
+
+            "https://<token>@github.com/user/private-repo"
+
+
+            ## Reference
+
+            - Template Quickstart: https://e2b.dev/docs/template/quickstart
+
+            '
+          max: null
+          min: null
+          name: git_repositories
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Linux system packages to install (comma-separated). Just write
+              package names, no ''apt install'' needed. Examples: ffmpeg,imagemagick.
+              Already included: Node.js, npm, git, curl, ripgrep, wget'
+            ja_JP: インストールする Linux システムパッケージ（カンマ区切り）。パッケージ名のみを記入、'apt install' は不要。例：ffmpeg,imagemagick。既に含まれています：Node.js、npm、git、curl、ripgrep、wget
+            pt_BR: 'Pacotes de sistema Linux para instalar (separados por vírgula).
+              Apenas escreva os nomes dos pacotes, não é necessário ''apt install''.
+              Exemplos: ffmpeg,imagemagick. Já incluídos: Node.js, npm, git, curl,
+              ripgrep, wget'
+            zh_Hans: 要安装的 Linux 系统软件包（逗号分隔）。只需写包名，不需要写 'apt install'。示例：ffmpeg,imagemagick。已包含：Node.js、npm、git、curl、ripgrep、wget
+          label:
+            en_US: APT Packages to Install (Optional)
+            ja_JP: インストールする APT パッケージ（任意）
+            pt_BR: Pacotes APT para Instalar (Opcional)
+            zh_Hans: 要安装的 APT 包（可选）
+          llm_description: 'Linux system packages to install via apt-get during template
+            build.
+
+
+            ## How to fill this field
+
+            Just write the package name(s), DO NOT include "apt install" or "apt-get
+            install" prefix.
+
+            The system will automatically run "apt-get install <package>" for you.
+
+
+            ## Format examples
+
+            Single package:
+
+            - ffmpeg
+
+            - imagemagick
+
+
+            Multiple packages (comma-separated):
+
+            - ffmpeg,imagemagick,postgresql-client
+
+
+            ## Pre-installed system packages
+
+            The base template includes: Node.js, npm, git, curl, ripgrep, wget, ca-certificates,
+            and standard build tools.
+
+            Only add packages that are NOT already installed.
+
+
+            ## Common additions
+
+            - Media processing: ffmpeg, imagemagick, libvips-tools
+
+            - Database clients: postgresql-client, mysql-client, redis-tools
+
+            - Additional languages: golang, rustc, openjdk-17-jdk
+
+
+            ## Reference
+
+            - Base Images: https://e2b.dev/docs/template/base-image
+
+            - Defining Templates: https://e2b.dev/docs/template/defining-template
+
+            '
+          max: null
+          min: null
+          name: apt_packages
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Python packages to install (comma-separated). Just write package
+              names, no ''pip install'' needed. Examples: langchain,openai or langchain==0.1.0.
+              Many packages pre-installed, check first: https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries'
+            ja_JP: インストールする Python パッケージ（カンマ区切り）。パッケージ名のみを記入、'pip install' は不要。例：langchain,openai。多くのパッケージがプリインストール済み、まず確認：https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries
+            pt_BR: 'Pacotes Python para instalar (separados por vírgula). Apenas escreva
+              os nomes dos pacotes, não é necessário ''pip install''. Exemplos: langchain,openai.
+              Muitos pacotes pré-instalados, verifique primeiro: https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries'
+            zh_Hans: 要安装的 Python 包（逗号分隔）。只需写包名，不需要写 'pip install'。示例：langchain,openai
+              或 langchain==0.1.0。已预装许多包，请先查看：https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries
+          label:
+            en_US: Python Packages to Install (Optional)
+            ja_JP: インストールする Python パッケージ（任意）
+            pt_BR: Pacotes Python para Instalar (Opcional)
+            zh_Hans: 要安装的 Python 包（可选）
+          llm_description: 'Python packages to install via pip during template build.
+
+
+            ## How to fill this field
+
+            Just write the package name(s), DO NOT include "pip install" prefix.
+
+            The system will automatically run "pip install <package>" for you.
+
+
+            ## Format examples
+
+            Single package:
+
+            - langchain
+
+            - openai
+
+
+            Multiple packages (comma-separated):
+
+            - langchain,openai,chromadb
+
+
+            With version constraints:
+
+            - langchain==0.1.0
+
+            - openai>=1.0.0
+
+            - chromadb~=0.4.0
+
+
+            Mixed example:
+
+            - langchain==0.1.0,openai>=1.0.0,tiktoken
+
+
+            ## IMPORTANT: Check pre-installed packages first
+
+            The claude-code base template already includes many common Python packages.
+
+            Before adding packages here, check if they''re already installed to avoid
+            redundant installations:
+
+            https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries
+
+
+            ## Pre-installed Python packages (partial list)
+
+            pandas (2.2.3), numpy (1.26.4), matplotlib (3.10.3), scikit-learn (1.6.1),
+
+            scipy (1.13.1), requests (2.32.4), pillow (11.3.0), opencv-python (4.11.0.86),
+
+            beautifulsoup4 (4.13.4), nltk (3.9.1), spacy (3.8.2), and many more.
+
+
+            ## Reference
+
+            - Defining Templates: https://e2b.dev/docs/template/defining-template
+
+            - Pre-installed Libraries: https://e2b.dev/docs/code-interpreting/analyze-data-with-ai/pre-installed-libraries
+
+            '
+          max: null
+          min: null
+          name: pip_packages
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'NPM packages to install globally (comma-separated). Just write
+              package names, no ''npm install'' needed. Examples: typescript,prettier
+              or @anthropic-ai/claude-code or lodash@4.17.21'
+            ja_JP: グローバルにインストールする NPM パッケージ（カンマ区切り）。パッケージ名のみを記入、'npm install' は不要。例：typescript,prettier
+              または @anthropic-ai/claude-code
+            pt_BR: 'Pacotes NPM para instalar globalmente (separados por vírgula).
+              Apenas escreva os nomes dos pacotes, não é necessário ''npm install''.
+              Exemplos: typescript,prettier ou @anthropic-ai/claude-code'
+            zh_Hans: 要全局安装的 NPM 包（逗号分隔）。只需写包名，不需要写 'npm install'。示例：typescript,prettier
+              或 @anthropic-ai/claude-code 或 lodash@4.17.21
+          label:
+            en_US: NPM Packages to Install (Optional)
+            ja_JP: インストールする NPM パッケージ（任意）
+            pt_BR: Pacotes NPM para Instalar (Opcional)
+            zh_Hans: 要安装的 NPM 包（可选）
+          llm_description: 'NPM packages to install globally during template build.
+
+
+            ## How to fill this field
+
+            Just write the package name(s), DO NOT include "npm install" or "npm i"
+            prefix.
+
+            The system will automatically run "npm install -g <package>" for you.
+
+
+            ## Format examples
+
+            Single package:
+
+            - typescript
+
+            - prettier
+
+
+            Multiple packages (comma-separated):
+
+            - typescript,eslint,prettier
+
+
+            Scoped packages (packages with @scope/):
+
+            - @anthropic-ai/claude-code
+
+            - @types/node
+
+
+            With specific version:
+
+            - lodash@4.17.21
+
+            - typescript@5.0.0
+
+
+            Mixed example:
+
+            - typescript,@anthropic-ai/claude-code,lodash@4.17.21
+
+
+            ## Pre-installed Node.js environment
+
+            The claude-code base template includes Node.js and npm pre-installed.
+
+            Note: Claude Code itself is already in the base template, no need to install
+            it here.
+
+
+            ## Common packages
+
+            - TypeScript tooling: typescript, ts-node, tsx
+
+            - Linting/formatting: eslint, prettier, stylelint
+
+            - Build tools: webpack, vite, esbuild
+
+            - Testing: jest, vitest, playwright
+
+
+            ## Reference
+
+            - Defining Templates: https://e2b.dev/docs/template/defining-template
+
+            '
+          max: null
+          min: null
+          name: npm_packages
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Advanced: Shell commands to run during template build. Use semicolon
+              (;) to separate multiple commands. Single command example: echo hello.
+              Multiple commands example: mkdir -p /data; chmod 755 /data; wget https://example.com/file.txt
+              -O /data/file.txt'
+            ja_JP: 上級：テンプレート構築時に実行するシェルコマンド。複数のコマンドはセミコロン（;）で区切ります。単一コマンド例：echo hello。複数コマンド例：mkdir
+              -p /data; chmod 755 /data
+            pt_BR: 'Avançado: Comandos shell para executar durante a construção do
+              template. Use ponto e vírgula (;) para separar vários comandos. Exemplo
+              de comando único: echo hello. Exemplo de vários comandos: mkdir -p /data;
+              chmod 755 /data'
+            zh_Hans: 高级功能：在模板构建时运行的 Shell 命令。使用分号（;）分隔多条命令。单条命令示例：echo hello。多条命令示例：mkdir
+              -p /data; chmod 755 /data; wget https://example.com/file.txt -O /data/file.txt
+          label:
+            en_US: Custom Dockerfile Commands (Optional)
+            ja_JP: カスタム Dockerfile コマンド（任意）
+            pt_BR: Comandos Dockerfile Personalizados (Opcional)
+            zh_Hans: 自定义 Dockerfile 命令（可选）
+          llm_description: 'Custom shell commands to run during template build (advanced
+            feature).
+
+
+            ## What is this?
+
+            This field allows you to run arbitrary shell commands when building the
+            template.
+
+            These commands are executed inside a Docker container during the build
+            process.
+
+            Use this for advanced configurations that cannot be achieved with the
+            other package fields.
+
+
+            ## Input format
+
+            Use semicolon (;) to separate multiple commands:
+
+            "mkdir -p /home/user/data; chmod 755 /home/user/data; wget https://example.com/config.json
+            -O /home/user/config.json"
+
+
+            Alternatively, use newlines (press Enter) to separate commands:
+
+            mkdir -p /home/user/data
+
+            chmod 755 /home/user/data
+
+            wget https://example.com/config.json -O /home/user/config.json
+
+
+            ## Examples
+
+            Single command:
+
+            "echo ''export MY_VAR=value'' >> /home/user/.bashrc"
+
+
+            Multiple commands (semicolon-separated):
+
+            "mkdir -p /opt/tools; cd /opt/tools; wget https://example.com/tool.tar.gz;
+            tar -xzf tool.tar.gz"
+
+
+            ## When to use
+
+            - Download and install custom tools not in APT/pip/npm
+
+            - Create directories or configuration files
+
+            - Set environment variables in .bashrc
+
+            - Run custom setup scripts
+
+
+            ## When NOT to use
+
+            - For APT packages, use the "APT packages to install" field
+
+            - For Python packages, use the "Python packages to install" field
+
+            - For NPM packages, use the "NPM packages to install" field
+
+
+            ## Execution context
+
+            Commands run as root during Docker build. The final template will switch
+            to "user" account.
+
+
+            ## Reference
+
+            - Defining Templates: https://e2b.dev/docs/template/defining-template
+
+            '
+          max: null
+          min: null
+          name: custom_dockerfile_commands
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          apt_packages: ''
+          base_image: ''
+          base_strategy: ''
+          base_template_alias: ''
+          cpu_count: ''
+          custom_dockerfile_commands: ''
+          git_repositories: ''
+          memory_mb: ''
+          npm_packages: ''
+          pip_packages: ''
+          team_id: ''
+          template_name: ''
+          visibility: ''
+        plugin_id: lysonober/better-e2b-sandbox
+        plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=38609287-f6bf-4975-8002-4e7f35dda3a1&filename=c7c2954f2b9391227c7a44c8a8df6ea60c466fb393b26d8c42cd295d9508aa80.svg
+        provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_type: builtin
+        selected: true
+        title: Build Custom Template
+        tool_configurations: {}
+        tool_description: Build a custom E2B template with pre-installed dependencies
+          and repositories.
+        tool_label: Build Custom Template
+        tool_name: build-template
+        tool_node_version: '2'
+        tool_parameters:
+          apt_packages:
+            type: mixed
+            value: ''
+          base_image:
+            type: mixed
+            value: null
+          base_strategy:
+            type: constant
+            value: template_alias
+          base_template_alias:
+            type: mixed
+            value: code-interpreter-v1
+          cpu_count:
+            type: constant
+            value: 4
+          custom_dockerfile_commands:
+            type: mixed
+            value: null
+          git_repositories:
+            type: mixed
+            value: null
+          memory_mb:
+            type: constant
+            value: 4096
+          npm_packages:
+            type: mixed
+            value: null
+          pip_packages:
+            type: mixed
+            value: lazypredict
+          team_id:
+            type: mixed
+            value: 11af1406-09d6-4a59-af34-f771879afe88
+          template_name:
+            type: mixed
+            value: dos-lazypredict
+          visibility:
+            type: constant
+            value: private
+        type: tool
+      height: 52
+      id: '1777474638220'
+      position:
+        x: 294
+        y: 411
+      positionAbsolute:
+        x: 294
+        y: 411
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -10.519678843798488
+      y: 33.712696415442
+      zoom: 0.9149234928942636
+  rag_pipeline_variables: []
