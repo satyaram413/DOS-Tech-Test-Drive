@@ -77,6 +77,7 @@ workflow:
         sourceType: tool
         targetType: tool
       id: 1776584483616-source-1776584635962-target
+      selected: false
       source: '1776584483616'
       sourceHandle: source
       target: '1776584635962'
@@ -89,6 +90,7 @@ workflow:
         sourceType: tool
         targetType: tool
       id: 1776584635962-source-1776584772260-target
+      selected: false
       source: '1776584635962'
       sourceHandle: source
       target: '1776584772260'
@@ -98,33 +100,10 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: tool
-        targetType: tool
-      id: 1776584772260-source-1776584849787-target
-      source: '1776584772260'
-      sourceHandle: source
-      target: '1776584849787'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: tool
-        targetType: llm
-      id: 1776584849787-source-1776584860907-target
-      source: '1776584849787'
-      sourceHandle: source
-      target: '1776584860907'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: llm
         targetType: end
       id: 1776584860907-source-1776585058748-target
+      selected: false
       source: '1776584860907'
       sourceHandle: source
       target: '1776585058748'
@@ -134,22 +113,23 @@ workflow:
     - data:
         isInLoop: false
         sourceType: start
-        targetType: llm
-      id: 1776584414076-source-1778660903315-target
+        targetType: tool
+      id: 1776584414076-source-1776584483616-target
+      selected: false
       source: '1776584414076'
       sourceHandle: source
-      target: '1778660903315'
+      target: '1776584483616'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: llm
-        targetType: tool
-      id: 1778660903315-source-1776584483616-target
-      source: '1778660903315'
+        sourceType: tool
+        targetType: llm
+      id: 1776584772260-source-1776584860907-target
+      source: '1776584772260'
       sourceHandle: source
-      target: '1776584483616'
+      target: '1776584860907'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -1078,7 +1058,7 @@ workflow:
             value: true
           template_alias:
             type: mixed
-            value: makasitaram/dos-lazypredict
+            value: makasitaramw/dos-lazypredict
           timeout_preset:
             type: constant
             value: '300'
@@ -1348,7 +1328,7 @@ workflow:
             value: ''
           file_path:
             type: mixed
-            value: /home/user/data
+            value: /home/user/data/
           sandbox_id:
             type: mixed
             value: '{{#1776584483616.text#}}'
@@ -1779,7 +1759,7 @@ workflow:
         provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
         provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
         provider_type: builtin
-        selected: false
+        selected: true
         title: Send Sandbox Input
         tool_configurations: {}
         tool_description: Send input to an existing sandbox. You can talk to Claude
@@ -1805,47 +1785,75 @@ workflow:
             value: null
           input_text:
             type: mixed
-            value: "python3 << 'EOF'\nimport pandas as pd\nimport json\nimport warnings\n\
-              warnings.filterwarnings('ignore')\n\ntry:\n    df = pd.read_csv('/home/user/data/URA\
-              \ 21 26.csv')\n\n    result = {}\n    # Force numeric conversion\n\
-              \    df['Floor Area (sq ft)'] = pd.to_numeric(df['Floor Area (sq ft)'],\
-              \ errors='coerce')\n    df['No. of Bedroom(for Non-Landed Only)'] =\
-              \ pd.to_numeric(df['No. of Bedroom(for Non-Landed Only)'], errors='coerce')\n\
-              \    # Basic shape\n    result['rows'] = int(df.shape[0])\n    result['columns']\
-              \ = int(df.shape[1])\n    result['column_names'] = list(df.columns)\n\
-              \n\n    # Descriptive stats\n    numeric_cols = df.select_dtypes(include='number')\n\
-              \    if not numeric_cols.empty:\n        desc = numeric_cols.describe().round(2)\n\
-              \        result['descriptive_stats'] = desc.to_dict()\n\n    # Correlation\n\
-              \    if len(numeric_cols.columns) >= 2:\n        corr = numeric_cols.corr().round(3)\n\
-              \        result['correlation'] = corr.to_dict()\n\n    # Missing values\n\
-              \    missing = df.isnull().sum()\n    result['missing_values'] = missing[missing\
-              \ > 0].to_dict()\n\n    # Categorical summary\n    cat_cols = df.select_dtypes(include='object')\n\
-              \    cat_summary = {}\n    for col in cat_cols.columns[:3]:\n      \
-              \  cat_summary[col] = df[col].value_counts().head(5).to_dict()\n   \
-              \ result['categorical_summary'] = cat_summary\n\n    # LazyPredict —\
-              \ auto ML model comparison\n    if len(numeric_cols.columns) >= 2:\n\
-              \        try:\n            from lazypredict.Supervised import LazyClassifier,\
-              \ LazyRegressor\n            from sklearn.model_selection import train_test_split\n\
-              \n            # Use last numeric column as target\n            target_col\
-              \ = numeric_cols.columns[-1]\n            X = numeric_cols.drop(columns=[target_col]).dropna()\n\
-              \            y = numeric_cols[target_col].loc[X.index]\n\n         \
-              \   X_train, X_test, y_train, y_test = train_test_split(\n         \
-              \       X, y, test_size=0.2, random_state=42\n            )\n\n    \
-              \        # Decide classifier or regressor\n            unique_vals =\
-              \ y.nunique()\n            if unique_vals <= 10:\n                model\
-              \ = LazyClassifier(verbose=0, ignore_warnings=True)\n              \
-              \  models, _ = model.fit(X_train, X_test, y_train, y_test)\n       \
-              \         model_type = 'classification'\n            else:\n       \
-              \         model = LazyRegressor(verbose=0, ignore_warnings=True)\n \
-              \               models, _ = model.fit(X_train, X_test, y_train, y_test)\n\
-              \                model_type = 'regression'\n\n            top5 = models.head(5).round(3)\n\
-              \            result['lazypredict'] = {\n                'target_column':\
-              \ target_col,\n                'model_type': model_type,\n         \
-              \       'top_5_models': top5.to_dict()\n            }\n\n        except\
-              \ Exception as lp_err:\n            result['lazypredict'] = {'error':\
-              \ str(lp_err)}\n\n    print(json.dumps(result, indent=2, default=str))\n\
-              \nexcept Exception as e:\n    print(json.dumps({\"error\": str(e)}))\n\
-              EOF"
+            value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport json\nimport\
+              \ warnings\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot\
+              \ as plt\nimport base64\nfrom io import BytesIO\nwarnings.filterwarnings('ignore')\n\
+              \ndef parse_floor_area(val):\n    try:\n        parts = str(val).split('\
+              \ to ')\n        return (int(parts[0]) + int(parts[1])) / 2\n    except:\n\
+              \        return None\n\ntry:\n    df = pd.read_csv('/home/user/data/URA\
+              \ 21 26.csv', on_bad_lines='skip')\n\n    # Fix numeric columns\n  \
+              \  df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n\
+              \    df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(df['No.\
+              \ of Bedroom(for Non-Landed Only)'], errors='coerce')\n    df['Lease\
+              \ Year'] = pd.to_datetime(df['Lease Commencement Date'], format='%b-%Y',\
+              \ errors='coerce').dt.year\n\n    result = {}\n    result['rows'] =\
+              \ int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n    result['column_names']\
+              \ = list(df.columns)\n\n    # Stats on full dataset\n    numeric_cols\
+              \ = df.select_dtypes(include='number')\n    if not numeric_cols.empty:\n\
+              \        result['descriptive_stats'] = numeric_cols.describe().round(2).to_dict()\n\
+              \    if len(numeric_cols.columns) >= 2:\n        result['correlation']\
+              \ = numeric_cols.corr().round(3).to_dict()\n\n    missing = df.isnull().sum()\n\
+              \    result['missing_values'] = missing[missing > 0].to_dict()\n\n \
+              \   cat_cols = df.select_dtypes(include='object')\n    cat_summary =\
+              \ {}\n    for col in list(cat_cols.columns)[:3]:\n        cat_summary[col]\
+              \ = df[col].value_counts().head(5).to_dict()\n    result['categorical_summary']\
+              \ = cat_summary\n\n    # Charts\n    try:\n        fig, axes = plt.subplots(1,\
+              \ 2, figsize=(12, 4))\n\n        axes[0].hist(df['Monthly Gross Rent($)'].dropna(),\
+              \ bins=50,\n                     color='steelblue', edgecolor='white')\n\
+              \        axes[0].set_title('Monthly Gross Rent Distribution')\n    \
+              \    axes[0].set_xlabel('Rent ($)')\n        axes[0].set_ylabel('Frequency')\n\
+              \n        district_groups = df.groupby('Postal District')['Monthly Gross\
+              \ Rent($)'].median().sort_index()\n        axes[1].bar(district_groups.index.astype(str),\
+              \ district_groups.values,\n                    color='steelblue', edgecolor='white')\n\
+              \        axes[1].set_title('Median Rent by Postal District')\n     \
+              \   axes[1].set_xlabel('Postal District')\n        axes[1].set_ylabel('Median\
+              \ Rent ($)')\n\n        plt.tight_layout()\n        buffer = BytesIO()\n\
+              \        plt.savefig(buffer, format='png', dpi=100, bbox_inches='tight')\n\
+              \        buffer.seek(0)\n        result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')\n\
+              \        plt.close()\n    except Exception as e:\n        result['chart_error']\
+              \ = str(e)\n\n    # ML on 5000 sample\n    df_ml = df.sample(5000, random_state=42).copy()\n\
+              \n    target_col = 'Monthly Gross Rent($)'\n    preferred = ['Postal\
+              \ District', 'Floor Area (sq ft)',\n                 'No. of Bedroom(for\
+              \ Non-Landed Only)', 'Lease Year']\n    available = [c for c in preferred\
+              \ if df_ml[c].notna().sum() > 100]\n\n    if not available:\n      \
+              \  available = [c for c in df_ml.select_dtypes(include='number').columns\n\
+              \                    if c not in [target_col, 'S/N']]\n\n    df_ml =\
+              \ df_ml[available + [target_col]].dropna()\n\n    if len(df_ml) < 10:\n\
+              \        result['ml_error'] = 'Insufficient data after cleaning'\n \
+              \   else:\n        X = df_ml[available]\n        y = df_ml[target_col]\n\
+              \        task = 'classification' if y.nunique() <= 10 else 'regression'\n\
+              \        result['ml_sample_size'] = int(len(X))\n        result['features_used']\
+              \ = available\n\n        from sklearn.model_selection import train_test_split\n\
+              \        X_train, X_test, y_train, y_test = train_test_split(\n    \
+              \        X, y, test_size=0.2, random_state=42)\n\n        try:\n   \
+              \         from lazypredict.Supervised import LazyClassifier, LazyRegressor\n\
+              \            if task == 'classification':\n                lz = LazyClassifier(verbose=0,\
+              \ ignore_warnings=True)\n            else:\n                lz = LazyRegressor(verbose=0,\
+              \ ignore_warnings=True)\n            models, _ = lz.fit(X_train, X_test,\
+              \ y_train, y_test)\n            result['lazypredict_leaderboard'] =\
+              \ {\n                'target': target_col,\n                'task':\
+              \ task,\n                'top_10': models.head(10).round(3).to_dict()\n\
+              \            }\n        except Exception as e:\n            result['lazypredict_leaderboard']\
+              \ = {'error': str(e)}\n\n        try:\n            from flaml import\
+              \ AutoML\n            automl = AutoML()\n            automl.fit(X_train,\
+              \ y_train, task=task, time_budget=30, verbose=0)\n            result['flaml_best_model']\
+              \ = {\n                'target': target_col,\n                'task':\
+              \ task,\n                'winner': automl.best_estimator,\n        \
+              \        'score': round(automl.best_loss, 4)\n            }\n      \
+              \  except Exception as e:\n            result['flaml_best_model'] =\
+              \ {'error': str(e)}\n\n    print(json.dumps(result, indent=2, default=str))\n\
+              \nexcept Exception as e:\n    print(json.dumps({'error': str(e)}))\n\
+              PYEOF"
           resume_session:
             type: constant
             value: true
@@ -1870,109 +1878,7 @@ workflow:
       positionAbsolute:
         x: 1026
         y: 42
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The unique ID of the sandbox to permanently terminate. Get it from
-              Create Sandbox output or List Sandboxes. Example - ixjj3iankaishgcge4jwn-b0b684e9
-            ja_JP: 永久に終了するサンドボックスの一意の ID。「サンドボックスを作成」の出力または「サンドボックス一覧」から取得。例 - ixjj3iankaishgcge4jwn-b0b684e9
-            pt_BR: O ID único do sandbox a encerrar permanentemente. Obtenha de Criar
-              Sandbox ou Listar Sandboxes. Exemplo - ixjj3iankaishgcge4jwn-b0b684e9
-            zh_Hans: 要永久终止的沙盒的唯一 ID。可从「创建沙盒」输出或「列出沙盒」获取。示例 - ixjj3iankaishgcge4jwn-b0b684e9
-          label:
-            en_US: Sandbox ID
-            ja_JP: サンドボックス ID
-            pt_BR: ID do Sandbox
-            zh_Hans: 沙盒 ID
-          llm_description: 'The unique identifier of the E2B sandbox to permanently
-            terminate.
-
-
-            ## Format
-
-            Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
-
-
-            ## Where to get this
-
-            - From the output of "Create Sandbox" tool
-
-            - From "List Sandboxes" tool
-
-            - From your application''s database
-
-
-            ## Example values
-
-            - ixjj3iankaishgcge4jwn-b0b684e9
-
-            - abc123def456-12345678
-
-
-            ## WARNING
-
-            This action is IRREVERSIBLE!
-
-            - The sandbox and all its data will be permanently deleted
-
-            - Use "Pause Sandbox" instead if you might need it later
-
-
-            ## Reference
-
-            - Sandbox Lifecycle: https://e2b.dev/docs/sandbox
-
-            '
-          max: null
-          min: null
-          name: sandbox_id
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        params:
-          sandbox_id: ''
-        plugin_id: lysonober/better-e2b-sandbox
-        plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=38609287-f6bf-4975-8002-4e7f35dda3a1&filename=c7c2954f2b9391227c7a44c8a8df6ea60c466fb393b26d8c42cd295d9508aa80.svg
-        provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
-        provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
-        provider_type: builtin
-        selected: false
-        title: Kill Sandbox
-        tool_configurations: {}
-        tool_description: Permanently terminate an E2B sandbox and delete all its
-          data. WARNING - This action is irreversible! Use Pause Sandbox instead if
-          you might need the sandbox later.
-        tool_label: Kill Sandbox
-        tool_name: kill-sandbox
-        tool_node_version: '2'
-        tool_parameters:
-          sandbox_id:
-            type: mixed
-            value: '{{#1776584483616.text#}}'
-        type: tool
-      height: 52
-      id: '1776584849787'
-      position:
-        x: 1368
-        y: 42
-      positionAbsolute:
-        x: 1368
-        y: 42
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2070,7 +1976,7 @@ workflow:
           - text
           value_type: string
           variable: text
-        selected: true
+        selected: false
         title: Output
         type: end
       height: 88
@@ -2081,59 +1987,13 @@ workflow:
       positionAbsolute:
         x: 2052
         y: 42
-      selected: true
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        model:
-          completion_params:
-            temperature: 0.7
-          mode: completion
-          name: ai21
-          provider: langgenius/bedrock/bedrock
-        prompt_template:
-          edition_type: basic
-          text: 'Here are the chat histories between human and assistant, inside <histories></histories>
-            XML tags.
-
-
-            <histories>
-
-            {{#histories#}}
-
-            </histories>
-
-
-
-            Human: {{#sys.query#}}
-
-
-            Assistant:'
-        selected: false
-        title: LLM 2
-        type: llm
-        vision:
-          enabled: false
-      height: 88
-      id: '1778660903315'
-      position:
-        x: 227.5135130667071
-        y: -147.4298570063517
-      positionAbsolute:
-        x: 227.5135130667071
-        y: -147.4298570063517
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -385.63968496288226
-      y: 234.34113790001652
-      zoom: 0.4754996337045569
+      x: -115.42319692321553
+      y: 376.14493580854264
+      zoom: 0.5757934553104017
   rag_pipeline_variables: []
