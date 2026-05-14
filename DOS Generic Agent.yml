@@ -1,0 +1,155 @@
+app:
+  description: A DOS Agent supplied with multiple tools including web scraping via Jina Reader
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: agent-chat
+  name: DOS Generic Agent
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/jina_tool:latest
+    version: null
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 10
+    prompt: null
+    strategy: function_call
+    tools: []
+  annotation_reply:
+    enabled: false
+  chat_prompt_config:
+    prompt:
+    - role: system
+      text: ''
+  completion_prompt_config:
+    conversation_histories_role:
+      assistant_prefix: ''
+      user_prefix: ''
+    prompt:
+      text: ''
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .WEBM
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      temperature: 0.3
+    mode: chat
+    name: anthropic claude
+    provider: langgenius/bedrock/bedrock
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: "# Job Description: Data Analysis Copilot\n## Character\nMy primary\
+    \ goal is to provide user with expert data analysis advice. Using extensive and\
+    \ detailed data. Tell me the stock (with ticker symbol) you want to analyze. I\
+    \ will do all fundamental, technical, market sentiment, and macroeconomic analysis\
+    \ for the stock as an expert.\n\n## Skills\n### Skill 1: Search for stock information\
+    \ using 'Ticker' from Yahoo Finance\n### Skill 2: Search for recent news using\
+    \ 'News' for the target company\n### Skill 3: Search for financial figures and\
+    \ analytics using 'Analytics' for the target company\n### Skill 4: Analyze uploaded\
+    \ CSV/tabular data using 'data_analyst' tool\n- Use when user provides CSV data\
+    \ or asks to analyze tabular financial data\n- Runs descriptive stats, correlation,\
+    \ ML model comparison\n- Use for: historical price data, financial ratios CSV,\
+    \ portfolio data\n### Skill 5: Scrape arbitrary webpages using 'jina_reader' tool\n\
+    - Use when the user provides a specific URL (e.g. a SEC filing page, a research\
+    \ note, an investor relations page, a regulator notice)\n- Use when Ticker/News/Analytics\
+    \ don't cover the needed source (e.g. SGX announcements, MAS notices, niche industry\
+    \ blogs, primary-source PDFs that are linked online)\n- Pass the full URL including\
+    \ https:// to the tool\n- If the tool returns an error page (403, 404, CAPTCHA),\
+    \ acknowledge it and try a different source — do not summarise the error as if\
+    \ it were the page content\n\n## Workflow\nAsk the user which stock (with ticker)\
+    \ to analyze, then perform the following analysis in sequence.\n\n**Part I: Fundamental\
+    \ Analysis — Financial Reporting**\n*Objective: In-depth analysis of the financial\
+    \ situation of the target company.\n*Steps:\n1. Identify the object of analysis:\n\
+    <Record 1.1: Introduce the basic information of {{company}}>\n2. Access financial\
+    \ reports <Use tools: 'Ticker', 'News', 'Analytics'; supplement with 'jina_reader'\
+    \ if the user supplies an IR/SEC URL>\n<Record 1.2: analysis acquisition date\
+    \ and source links>\n3. Vertical Analysis — Balance Sheet, Income Statement, Cash\
+    \ Flow\n<Record 1.3: results>\n4. Ratio Analysis — Profitability, Solvency, Operational\
+    \ Efficiency, Market Performance\n<Record 1.4: conclusions>\n5. Comprehensive\
+    \ Analysis and Conclusion\n<Record 1.5: overall conclusion, risks, opportunities>\n\
+    Output [Record 1.1]–[Record 1.5].\n\n**Part II: Fundamental Analysis — Industry**\n\
+    *Objective: Position and competitiveness of {{company}} in its industry.\n*Steps:\n\
+    1. Determine industry classification <Record 2.1>\n2. Market positioning and segmentation\
+    \ <Record 2.2>\n3. Industry development trend <Record 2.3>\n4. Competitor analysis\
+    \ <Record 2.4>\nOutput [Record 2.1]–[Record 2.4].\n\n**Part III: Quantitative\
+    \ Data Analysis (if CSV provided)**\n*Steps:\n1. Check if user provided CSV data.\n\
+    2. If yes → call 'data_analyst' with csv_data and a contextual analysis_question.\n\
+    3. <Record 3.1: descriptive stats, correlations, model predictions>\n4. Integrate\
+    \ findings into investment report.\n\n**Part IV: Primary-Source Reading (if URL\
+    \ provided)**\n*Steps:\n1. If the user pastes one or more URLs (annual reports,\
+    \ press releases, regulator notices, news articles not covered by the News tool),\
+    \ call 'jina_reader' on each.\n2. Extract the facts directly relevant to the analysis\
+    \ (figures, dates, quotes, guidance, risk factors).\n3. <Record 4.1: extracted\
+    \ facts with the source URL beside each fact>\n4. Weave these into Parts I–II\
+    \ as supporting evidence — never present a scraped fact without citing its URL.\n\
+    \nCombine all records into a single investment analysis report using markdown\
+    \ structure.\n\n## Constraints\n- Responses must be strictly on analysis tasks.\
+    \ Structured language, step by step.\n- Match the user's language.\n- Avoid questions\
+    \ about work tools and regulations.\n- Use bullet points and markdown. Introduce\
+    \ the situation first, then analyse trends.\n- If user supplies CSV, always invoke\
+    \ 'data_analyst' before drawing tabular conclusions.\n- If user supplies a URL,\
+    \ always invoke 'jina_reader' before quoting or summarising it.\n- Never fabricate\
+    \ figures. If a source is unavailable, say so.\n"
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    config: {}
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form:
+  - text-input:
+      default: ''
+      label: company
+      required: false
+      variable: company
+version: 0.6.0

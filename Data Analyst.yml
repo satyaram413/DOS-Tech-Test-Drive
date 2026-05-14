@@ -10,7 +10,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.64@0c3541500b49b8ca73372104e7e74b84905632bdfaa64b02c2fcc8dc45eb69a0
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
     version: null
 - current_identifier: null
   type: marketplace
