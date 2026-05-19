@@ -933,13 +933,13 @@ workflow:
             value: null
           pip_packages:
             type: mixed
-            value: lazypredict
+            value: lazypredict,flaml[automl]
           team_id:
             type: mixed
             value: 11af1406-09d6-4a59-af34-f771879afe88
           template_name:
             type: mixed
-            value: dos-lazypredict
+            value: dos-lazypredict-flaml
           visibility:
             type: constant
             value: private

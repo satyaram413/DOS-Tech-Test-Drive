@@ -1285,7 +1285,7 @@ workflow:
             value: true
           template_alias:
             type: mixed
-            value: makasitaramw/dos-lazypredict
+            value: makasitaramw/dos-lazypredict-flaml
           timeout_preset:
             type: constant
             value: '300'
