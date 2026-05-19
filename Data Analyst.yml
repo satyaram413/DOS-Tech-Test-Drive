@@ -218,9 +218,18 @@ workflow:
           options: []
           placeholder: ''
           required: false
+          hide: true
           type: paragraph
           variable: csv_text
-      height: 161
+        - default: ''
+          hint: Public, raw, or presigned URL that returns CSV content
+          label: CSV URL
+          options: []
+          placeholder: https://example.com/data.csv
+          required: false
+          type: text-input
+          variable: csv_url
+      height: 187
       id: '1776584414076'
       position:
         x: 0
@@ -1845,21 +1854,34 @@ workflow:
           input_text:
             type: mixed
             value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport json\nimport\
-              \ warnings\nimport os\nimport io\nimport matplotlib\nmatplotlib.use('Agg')\n\
+              \ warnings\nimport os\nimport io\nimport urllib.request\nimport matplotlib\nmatplotlib.use('Agg')\n\
               import matplotlib.pyplot as plt\nimport base64\nfrom io import BytesIO\n\
               warnings.filterwarnings('ignore')\n\ndef parse_floor_area(val):\n  \
               \  try:\n        parts = str(val).split(' to ')\n        return (int(parts[0])\
-              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef load_dataframe(csv_text_input):\n\
-              \    # Path 1 — file uploaded to sandbox\n    upload_dir = '/home/user/upload/'\n\
-              \    data_dir = '/home/user/data/'\n    \n    for directory in [upload_dir,\
-              \ data_dir]:\n        if os.path.exists(directory):\n            files\
-              \ = [f for f in os.listdir(directory) if f.endswith('.csv')]\n     \
-              \       if files:\n                filepath = os.path.join(directory,\
+              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef download_url_to_csv(url, output_path):\n\
+              \    request = urllib.request.Request(\n        url.strip(),\n     \
+              \   headers={'User-Agent': 'Mozilla/5.0'}\n    )\n    with urllib.request.urlopen(request,\
+              \ timeout=60) as response:\n        data = response.read()\n    with\
+              \ open(output_path, 'wb') as f:\n        f.write(data)\n    return output_path\n\
+              \n\ndef load_dataframe():\n    data_dir = '/home/user/data/'\n    upload_dirs\
+              \ = [data_dir, '/home/user/upload/', '/home/user/uploads/']\n\n    #\
+              \ Path 1 — a real CSV file already exists in the sandbox\n    for directory\
+              \ in upload_dirs:\n        if os.path.exists(directory):\n         \
+              \   files = [f for f in os.listdir(directory) if f.lower().endswith('.csv')]\n\
+              \            if files:\n                filepath = os.path.join(directory,\
               \ files[0])\n                return pd.read_csv(filepath, on_bad_lines='skip')\n\
-              \    \n    # Path 2 — CSV passed as text via io.StringIO\n    if csv_text_input\
-              \ and csv_text_input.strip():\n        return pd.read_csv(io.StringIO(csv_text_input.strip()))\n\
-              \    \n    raise ValueError(\"No CSV data found. Upload a file or paste\
-              \ CSV text.\")\n\ntry:\n    df = load_dataframe('')\n\n    # Fix URA-specific\
+              \n    # Path 2 — agent provided a CSV URL. The workflow wrote it as\
+              \ a local .url file first.\n    if os.path.exists(data_dir):\n     \
+              \   url_files = [f for f in os.listdir(data_dir) if f.lower().endswith('.url')]\n\
+              \        if url_files:\n            url_path = os.path.join(data_dir,\
+              \ url_files[0])\n            with open(url_path, 'r', encoding='utf-8')\
+              \ as f:\n                url = f.read().strip()\n            if not\
+              \ url:\n                raise ValueError('CSV URL file is empty.')\n\
+              \            csv_path = os.path.join(data_dir, 'input.csv')\n      \
+              \      download_url_to_csv(url, csv_path)\n            return pd.read_csv(csv_path,\
+              \ on_bad_lines='skip')\n\n    raise ValueError(\"No CSV file found.\
+              \ Upload a CSV file or provide a CSV URL.\")\n\ntry:\n    df = load_dataframe()\n\
+              \n    # Fix URA-specific\
               \ columns if present\n    if 'Floor Area (sq ft)' in df.columns:\n \
               \       df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n\
               \    if 'No. of Bedroom(for Non-Landed Only)' in df.columns:\n     \
@@ -2104,7 +2126,7 @@ workflow:
             varType: string
             variable_selector:
             - '1776584414076'
-            - csv_text
+            - csv_url
           logical_operator: and
         selected: false
         title: IF/ELSE
@@ -2453,7 +2475,7 @@ workflow:
         provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
         provider_type: builtin
         selected: false
-        title: Write Sandbox File
+        title: Write CSV URL File
         tool_configurations: {}
         tool_description: Upload and write content to a file inside an E2B sandbox.
           Use this to create configuration files, upload code, or provide input data
@@ -2464,10 +2486,10 @@ workflow:
         tool_parameters:
           content:
             type: mixed
-            value: '{{#1776584414076.csv_text#}}'
+            value: '{{#1776584414076.csv_url#}}'
           file_path:
             type: mixed
-            value: /home/user/upload/CSV_Text.csv
+            value: /home/user/data/input.url
           sandbox_id:
             type: mixed
             value: '{{#1776584483616.text#}}'
