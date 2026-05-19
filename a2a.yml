@@ -1,26 +1,54 @@
 app:
-  description: Multi-agent workflow demo
+  description: Two-agent conversation demo. Agent A proposes, Agent B challenges, Agent A revises, and a moderator summarizes.
   icon: 🤖
   icon_background: '#FFEAD5'
+  icon_type: emoji
   mode: workflow
-  name: multi-agent-planner-researcher-executor
+  name: A2A Analyst Debate
   use_icon_as_answer_icon: false
 
-dependencies: []
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
+    version: null
 
 kind: app
-version: 0.1.0
+version: 0.6.0
 
 workflow:
   conversation_variables: []
   environment_variables: []
   features:
     file_upload:
+      allowed_file_extensions: []
+      allowed_file_types: []
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
       enabled: false
-    opening_statement: |
-      Welcome to the Multi-Agent Demo.
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
     retriever_resource:
-      enabled: false
+      enabled: true
     sensitive_word_avoidance:
       enabled: false
     speech_to_text:
@@ -30,28 +58,382 @@ workflow:
       enabled: false
     text_to_speech:
       enabled: false
+      language: ''
+      voice: ''
 
   graph:
     edges:
-      - data:
-          sourceType: start
-          targetType: llm
-        id: start-planner
-        source: start
-        sourceHandle: source
-        target: planner
-        targetHandle: target
-        type: custom
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: start-source-agent_a_first-target
+      source: start
+      sourceHandle: source
+      target: agent_a_first
+      targetHandle: target
+      type: custom
+      zIndex: 0
 
-      - data:
-          sourceType: llm
-          targetType: llm
-        id: planner-researcher
-        source: planner
-        sourceHandle: source
-        target: researcher
-        targetHandle: target
-        type: custom
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: agent_a_first-source-agent_b_response-target
+      source: agent_a_first
+      sourceHandle: source
+      target: agent_b_response
+      targetHandle: target
+      type: custom
+      zIndex: 0
 
-      - data:
-        sourcePosition: r
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: agent_b_response-source-agent_a_final-target
+      source: agent_b_response
+      sourceHandle: source
+      target: agent_a_final
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: agent_a_final-source-moderator-target
+      source: agent_a_final
+      sourceHandle: source
+      target: moderator
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: moderator-source-end-target
+      source: moderator
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - default: How can the Department of Statistics use AI agents to improve data analysis workflows?
+          hint: Enter the problem the two agents should discuss.
+          label: Task
+          options: []
+          placeholder: Ask the agents to solve or debate a topic
+          required: true
+          type: paragraph
+          variable: task
+        - default: Senior Data Analyst
+          hint: Role for the first agent.
+          label: Agent A Role
+          options: []
+          placeholder: Senior Data Analyst
+          required: false
+          type: text-input
+          variable: agent_a_role
+        - default: Risk and Governance Reviewer
+          hint: Role for the second agent.
+          label: Agent B Role
+          options: []
+          placeholder: Risk and Governance Reviewer
+          required: false
+          type: text-input
+          variable: agent_b_role
+      height: 167
+      id: start
+      position:
+        x: 0
+        y: 160
+      positionAbsolute:
+        x: 0
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.3
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: agent-a-system
+          role: system
+          text: |
+            You are Agent A: {{#start.agent_a_role#}}.
+
+            Your job is to propose a practical solution for the user's task.
+            Be concrete, operational, and suitable for a hands-on AI workshop.
+            Include:
+            - recommended workflow
+            - required tools
+            - implementation steps
+            - expected output
+            Keep your answer concise.
+        - edition_type: basic
+          id: agent-a-user
+          role: user
+          text: |
+            Task:
+            {{#start.task#}}
+
+            Produce your first proposal.
+        selected: false
+        title: Agent A - Proposal
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: agent_a_first
+      position:
+        x: 330
+        y: 160
+      positionAbsolute:
+        x: 330
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.2
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: agent-b-system
+          role: system
+          text: |
+            You are Agent B: {{#start.agent_b_role#}}.
+
+            Your job is to review Agent A's proposal.
+            Be constructive but skeptical.
+            Identify missing assumptions, operational risks, privacy risks,
+            reliability issues, and workshop delivery risks.
+            Then suggest concrete improvements.
+        - edition_type: basic
+          id: agent-b-user
+          role: user
+          text: |
+            Original task:
+            {{#start.task#}}
+
+            Agent A proposal:
+            {{#agent_a_first.text#}}
+
+            Review the proposal and suggest improvements.
+        selected: false
+        title: Agent B - Critique
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: agent_b_response
+      position:
+        x: 660
+        y: 160
+      positionAbsolute:
+        x: 660
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.25
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: agent-a-final-system
+          role: system
+          text: |
+            You are Agent A again.
+
+            Revise your proposal using Agent B's critique.
+            Keep the best parts of your original plan, fix weak points,
+            and produce a final practical version that can be used in a workshop.
+        - edition_type: basic
+          id: agent-a-final-user
+          role: user
+          text: |
+            Original task:
+            {{#start.task#}}
+
+            Your first proposal:
+            {{#agent_a_first.text#}}
+
+            Agent B critique:
+            {{#agent_b_response.text#}}
+
+            Produce the revised final proposal.
+        selected: false
+        title: Agent A - Revised Plan
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: agent_a_final
+      position:
+        x: 990
+        y: 160
+      positionAbsolute:
+        x: 990
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.2
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: moderator-system
+          role: system
+          text: |
+            You are the moderator.
+
+            Summarize the agent-to-agent conversation for a workshop audience.
+            Explain:
+            - what Agent A proposed
+            - what Agent B challenged
+            - what changed in the final plan
+            - the final recommended workflow
+            Keep it clear and demo-friendly.
+        - edition_type: basic
+          id: moderator-user
+          role: user
+          text: |
+            Task:
+            {{#start.task#}}
+
+            Agent A first proposal:
+            {{#agent_a_first.text#}}
+
+            Agent B critique:
+            {{#agent_b_response.text#}}
+
+            Agent A revised plan:
+            {{#agent_a_final.text#}}
+
+            Produce the final workshop-ready summary.
+        selected: false
+        title: Moderator - Summary
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: moderator
+      position:
+        x: 1320
+        y: 160
+      positionAbsolute:
+        x: 1320
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        outputs:
+        - value_selector:
+          - agent_a_first
+          - text
+          value_type: string
+          variable: agent_a_first_proposal
+        - value_selector:
+          - agent_b_response
+          - text
+          value_type: string
+          variable: agent_b_critique
+        - value_selector:
+          - agent_a_final
+          - text
+          value_type: string
+          variable: agent_a_revised_plan
+        - value_selector:
+          - moderator
+          - text
+          value_type: string
+          variable: final_summary
+        selected: false
+        title: Output
+        type: end
+      height: 167
+      id: end
+      position:
+        x: 1650
+        y: 160
+      positionAbsolute:
+        x: 1650
+        y: 160
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    viewport:
+      x: -240
+      y: 120
+      zoom: 0.8
+
+  rag_pipeline_variables: []
