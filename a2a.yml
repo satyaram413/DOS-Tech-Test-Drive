@@ -1,0 +1,57 @@
+app:
+  description: Multi-agent workflow demo
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: multi-agent-planner-researcher-executor
+  use_icon_as_answer_icon: false
+
+dependencies: []
+
+kind: app
+version: 0.1.0
+
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: |
+      Welcome to the Multi-Agent Demo.
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+
+  graph:
+    edges:
+      - data:
+          sourceType: start
+          targetType: llm
+        id: start-planner
+        source: start
+        sourceHandle: source
+        target: planner
+        targetHandle: target
+        type: custom
+
+      - data:
+          sourceType: llm
+          targetType: llm
+        id: planner-researcher
+        source: planner
+        sourceHandle: source
+        target: researcher
+        targetHandle: target
+        type: custom
+
+      - data:
+        sourcePosition: r
