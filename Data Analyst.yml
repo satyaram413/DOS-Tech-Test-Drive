@@ -132,21 +132,10 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: tool
-      id: 1779011116288-false-1779011984742-target
+      id: 1779011116288-false-1776584772260-target
       source: '1779011116288'
       sourceHandle: 'false'
-      target: '1779011984742'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: end
-      id: 1779011984742-source-1776585058748-target
-      source: '1779011984742'
-      sourceHandle: source
-      target: '1776585058748'
+      target: '1776584772260'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -213,15 +202,6 @@ workflow:
           type: text-input
           variable: analysis_question
         - default: ''
-          hint: ''
-          label: CSV Data Text
-          options: []
-          placeholder: ''
-          required: false
-          hide: true
-          type: paragraph
-          variable: csv_text
-        - default: ''
           hint: Public, raw, or presigned URL that returns CSV content
           label: CSV URL
           options: []
@@ -229,7 +209,7 @@ workflow:
           required: false
           type: text-input
           variable: csv_url
-      height: 187
+      height: 161
       id: '1776584414076'
       position:
         x: 0
