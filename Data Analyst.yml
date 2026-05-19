@@ -76,19 +76,6 @@ workflow:
         isInLoop: false
         sourceType: tool
         targetType: tool
-      id: 1776584483616-source-1776584635962-target
-      selected: false
-      source: '1776584483616'
-      sourceHandle: source
-      target: '1776584635962'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: tool
-        targetType: tool
       id: 1776584635962-source-1776584772260-target
       selected: false
       source: '1776584635962'
@@ -98,27 +85,35 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
         isInLoop: false
-        sourceType: llm
-        targetType: end
-      id: 1776584860907-source-1776585058748-target
-      selected: false
-      source: '1776584860907'
+        sourceType: start
+        targetType: tool
+      id: 1776584414076-source-1776584483616-target
+      source: '1776584414076'
       sourceHandle: source
-      target: '1776585058748'
+      target: '1776584483616'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1776584414076-source-1776584483616-target
-      selected: false
-      source: '1776584414076'
+        sourceType: tool
+        targetType: if-else
+      id: 1776584483616-source-1779011116288-target
+      source: '1776584483616'
       sourceHandle: source
-      target: '1776584483616'
+      target: '1779011116288'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1779011116288-true-1776584635962-target
+      source: '1779011116288'
+      sourceHandle: 'true'
+      target: '1776584635962'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -130,6 +125,61 @@ workflow:
       source: '1776584772260'
       sourceHandle: source
       target: '1776584860907'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1779011116288-false-1779011984742-target
+      source: '1779011116288'
+      sourceHandle: 'false'
+      target: '1779011984742'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1779011984742-source-1776585058748-target
+      source: '1779011984742'
+      sourceHandle: source
+      target: '1776585058748'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1779011116288-e6907ddb-8177-4b16-92a1-f1189c014dd8-1779162892173-target
+      source: '1779011116288'
+      sourceHandle: e6907ddb-8177-4b16-92a1-f1189c014dd8
+      target: '1779162892173'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1779162892173-source-1776584772260-target
+      source: '1779162892173'
+      sourceHandle: source
+      target: '1776584772260'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1776584860907-source-1776585058748-target
+      source: '1776584860907'
+      sourceHandle: source
+      target: '1776585058748'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -146,11 +196,12 @@ workflow:
           - local_file
           - remote_url
           default: ''
+          hide: false
           hint: ''
           label: Upload CSV here
           options: []
           placeholder: ''
-          required: true
+          required: false
           type: file
           variable: csv_data
         - default: ''
@@ -161,7 +212,15 @@ workflow:
           required: true
           type: text-input
           variable: analysis_question
-      height: 135
+        - default: ''
+          hint: ''
+          label: CSV Data Text
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: csv_text
+      height: 161
       id: '1776584414076'
       position:
         x: 0
@@ -1075,11 +1134,11 @@ workflow:
       height: 52
       id: '1776584483616'
       position:
-        x: 457.0450644448416
-        y: -97.44856296344433
+        x: 342
+        y: 81.33333333333333
       positionAbsolute:
-        x: 457.0450644448416
-        y: -97.44856296344433
+        x: 342
+        y: 81.33333333333333
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1341,11 +1400,11 @@ workflow:
       height: 52
       id: '1776584635962'
       position:
-        x: 685.743107037043
-        y: 42
+        x: 1046
+        y: 20.714285714285708
       positionAbsolute:
-        x: 685.743107037043
-        y: 42
+        x: 1046
+        y: 20.714285714285708
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1759,7 +1818,7 @@ workflow:
         provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
         provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
         provider_type: builtin
-        selected: true
+        selected: false
         title: Send Sandbox Input
         tool_configurations: {}
         tool_description: Send input to an existing sandbox. You can talk to Claude
@@ -1786,72 +1845,104 @@ workflow:
           input_text:
             type: mixed
             value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport json\nimport\
-              \ warnings\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot\
-              \ as plt\nimport base64\nfrom io import BytesIO\nwarnings.filterwarnings('ignore')\n\
-              \ndef parse_floor_area(val):\n    try:\n        parts = str(val).split('\
-              \ to ')\n        return (int(parts[0]) + int(parts[1])) / 2\n    except:\n\
-              \        return None\n\ntry:\n    df = pd.read_csv('/home/user/data/URA\
-              \ 21 26.csv', on_bad_lines='skip')\n\n    # Fix numeric columns\n  \
-              \  df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n\
-              \    df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(df['No.\
-              \ of Bedroom(for Non-Landed Only)'], errors='coerce')\n    df['Lease\
-              \ Year'] = pd.to_datetime(df['Lease Commencement Date'], format='%b-%Y',\
-              \ errors='coerce').dt.year\n\n    result = {}\n    result['rows'] =\
-              \ int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n    result['column_names']\
-              \ = list(df.columns)\n\n    # Stats on full dataset\n    numeric_cols\
-              \ = df.select_dtypes(include='number')\n    if not numeric_cols.empty:\n\
+              \ warnings\nimport os\nimport io\nimport matplotlib\nmatplotlib.use('Agg')\n\
+              import matplotlib.pyplot as plt\nimport base64\nfrom io import BytesIO\n\
+              warnings.filterwarnings('ignore')\n\ndef parse_floor_area(val):\n  \
+              \  try:\n        parts = str(val).split(' to ')\n        return (int(parts[0])\
+              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef load_dataframe(csv_text_input):\n\
+              \    # Path 1 — file uploaded to sandbox\n    upload_dir = '/home/user/upload/'\n\
+              \    data_dir = '/home/user/data/'\n    \n    for directory in [upload_dir,\
+              \ data_dir]:\n        if os.path.exists(directory):\n            files\
+              \ = [f for f in os.listdir(directory) if f.endswith('.csv')]\n     \
+              \       if files:\n                filepath = os.path.join(directory,\
+              \ files[0])\n                return pd.read_csv(filepath, on_bad_lines='skip')\n\
+              \    \n    # Path 2 — CSV passed as text via io.StringIO\n    if csv_text_input\
+              \ and csv_text_input.strip():\n        return pd.read_csv(io.StringIO(csv_text_input.strip()))\n\
+              \    \n    raise ValueError(\"No CSV data found. Upload a file or paste\
+              \ CSV text.\")\n\ntry:\n    df = load_dataframe('')\n\n    # Fix URA-specific\
+              \ columns if present\n    if 'Floor Area (sq ft)' in df.columns:\n \
+              \       df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n\
+              \    if 'No. of Bedroom(for Non-Landed Only)' in df.columns:\n     \
+              \   df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(\n   \
+              \         df['No. of Bedroom(for Non-Landed Only)'], errors='coerce')\n\
+              \    if 'Lease Commencement Date' in df.columns:\n        df['Lease\
+              \ Year'] = pd.to_datetime(\n            df['Lease Commencement Date'],\
+              \ format='%b-%Y', errors='coerce').dt.year\n\n    result = {}\n    result['rows']\
+              \ = int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n   \
+              \ result['column_names'] = list(df.columns)\n\n    # Descriptive stats\n\
+              \    numeric_cols = df.select_dtypes(include='number')\n    if not numeric_cols.empty:\n\
               \        result['descriptive_stats'] = numeric_cols.describe().round(2).to_dict()\n\
               \    if len(numeric_cols.columns) >= 2:\n        result['correlation']\
-              \ = numeric_cols.corr().round(3).to_dict()\n\n    missing = df.isnull().sum()\n\
-              \    result['missing_values'] = missing[missing > 0].to_dict()\n\n \
-              \   cat_cols = df.select_dtypes(include='object')\n    cat_summary =\
-              \ {}\n    for col in list(cat_cols.columns)[:3]:\n        cat_summary[col]\
-              \ = df[col].value_counts().head(5).to_dict()\n    result['categorical_summary']\
-              \ = cat_summary\n\n    # Charts\n    try:\n        fig, axes = plt.subplots(1,\
-              \ 2, figsize=(12, 4))\n\n        axes[0].hist(df['Monthly Gross Rent($)'].dropna(),\
+              \ = numeric_cols.corr().round(3).to_dict()\n\n    # Missing values\n\
+              \    missing = df.isnull().sum()\n    result['missing_values'] = missing[missing\
+              \ > 0].to_dict()\n\n    # Categorical summary\n    cat_cols = df.select_dtypes(include='object')\n\
+              \    cat_summary = {}\n    for col in list(cat_cols.columns)[:3]:\n\
+              \        cat_summary[col] = df[col].value_counts().head(5).to_dict()\n\
+              \    result['categorical_summary'] = cat_summary\n\n    # Charts — works\
+              \ for any dataset\n    try:\n        numeric_chart_cols = numeric_cols.columns.tolist()\n\
+              \        \n        fig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\
+              \n        # Chart 1 — distribution of last numeric column\n        target_col_chart\
+              \ = numeric_chart_cols[-1]\n        axes[0].hist(df[target_col_chart].dropna(),\
               \ bins=50,\n                     color='steelblue', edgecolor='white')\n\
-              \        axes[0].set_title('Monthly Gross Rent Distribution')\n    \
-              \    axes[0].set_xlabel('Rent ($)')\n        axes[0].set_ylabel('Frequency')\n\
-              \n        district_groups = df.groupby('Postal District')['Monthly Gross\
-              \ Rent($)'].median().sort_index()\n        axes[1].bar(district_groups.index.astype(str),\
-              \ district_groups.values,\n                    color='steelblue', edgecolor='white')\n\
-              \        axes[1].set_title('Median Rent by Postal District')\n     \
-              \   axes[1].set_xlabel('Postal District')\n        axes[1].set_ylabel('Median\
-              \ Rent ($)')\n\n        plt.tight_layout()\n        buffer = BytesIO()\n\
-              \        plt.savefig(buffer, format='png', dpi=100, bbox_inches='tight')\n\
-              \        buffer.seek(0)\n        result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')\n\
+              \        axes[0].set_title(f'{target_col_chart} Distribution')\n   \
+              \     axes[0].set_xlabel(target_col_chart)\n        axes[0].set_ylabel('Frequency')\n\
+              \n        # Chart 2 — if categorical column exists, group by it\n  \
+              \      if len(cat_cols.columns) > 0:\n            group_col = cat_cols.columns[0]\n\
+              \            group_data = df.groupby(group_col)[target_col_chart].median().head(15)\n\
+              \            axes[1].bar(range(len(group_data)), group_data.values,\n\
+              \                        color='steelblue', edgecolor='white')\n   \
+              \         axes[1].set_xticks(range(len(group_data)))\n            axes[1].set_xticklabels(group_data.index.astype(str),\n\
+              \                                     rotation=45, ha='right', fontsize=8)\n\
+              \            axes[1].set_title(f'Median {target_col_chart} by {group_col}')\n\
+              \            axes[1].set_ylabel(f'Median {target_col_chart}')\n    \
+              \    else:\n            # Fallback — second numeric col distribution\n\
+              \            if len(numeric_chart_cols) >= 2:\n                axes[1].hist(df[numeric_chart_cols[0]].dropna(),\
+              \ bins=30,\n                             color='coral', edgecolor='white')\n\
+              \                axes[1].set_title(f'{numeric_chart_cols[0]} Distribution')\n\
+              \n        plt.tight_layout()\n        buffer = BytesIO()\n        plt.savefig(buffer,\
+              \ format='png', dpi=100, bbox_inches='tight')\n        buffer.seek(0)\n\
+              \        result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')\n\
               \        plt.close()\n    except Exception as e:\n        result['chart_error']\
-              \ = str(e)\n\n    # ML on 5000 sample\n    df_ml = df.sample(5000, random_state=42).copy()\n\
-              \n    target_col = 'Monthly Gross Rent($)'\n    preferred = ['Postal\
-              \ District', 'Floor Area (sq ft)',\n                 'No. of Bedroom(for\
-              \ Non-Landed Only)', 'Lease Year']\n    available = [c for c in preferred\
-              \ if df_ml[c].notna().sum() > 100]\n\n    if not available:\n      \
-              \  available = [c for c in df_ml.select_dtypes(include='number').columns\n\
-              \                    if c not in [target_col, 'S/N']]\n\n    df_ml =\
-              \ df_ml[available + [target_col]].dropna()\n\n    if len(df_ml) < 10:\n\
-              \        result['ml_error'] = 'Insufficient data after cleaning'\n \
-              \   else:\n        X = df_ml[available]\n        y = df_ml[target_col]\n\
-              \        task = 'classification' if y.nunique() <= 10 else 'regression'\n\
-              \        result['ml_sample_size'] = int(len(X))\n        result['features_used']\
-              \ = available\n\n        from sklearn.model_selection import train_test_split\n\
-              \        X_train, X_test, y_train, y_test = train_test_split(\n    \
-              \        X, y, test_size=0.2, random_state=42)\n\n        try:\n   \
-              \         from lazypredict.Supervised import LazyClassifier, LazyRegressor\n\
-              \            if task == 'classification':\n                lz = LazyClassifier(verbose=0,\
-              \ ignore_warnings=True)\n            else:\n                lz = LazyRegressor(verbose=0,\
-              \ ignore_warnings=True)\n            models, _ = lz.fit(X_train, X_test,\
-              \ y_train, y_test)\n            result['lazypredict_leaderboard'] =\
-              \ {\n                'target': target_col,\n                'task':\
-              \ task,\n                'top_10': models.head(10).round(3).to_dict()\n\
-              \            }\n        except Exception as e:\n            result['lazypredict_leaderboard']\
-              \ = {'error': str(e)}\n\n        try:\n            from flaml import\
-              \ AutoML\n            automl = AutoML()\n            automl.fit(X_train,\
-              \ y_train, task=task, time_budget=30, verbose=0)\n            result['flaml_best_model']\
-              \ = {\n                'target': target_col,\n                'task':\
-              \ task,\n                'winner': automl.best_estimator,\n        \
-              \        'score': round(automl.best_loss, 4)\n            }\n      \
-              \  except Exception as e:\n            result['flaml_best_model'] =\
-              \ {'error': str(e)}\n\n    print(json.dumps(result, indent=2, default=str))\n\
+              \ = str(e)\n\n    # ML — sample up to 5000 rows\n    try:\n        sample_size\
+              \ = min(5000, len(df))\n        df_ml = df.sample(sample_size, random_state=42).copy()\n\
+              \n        target_col = numeric_cols.columns[-1]\n\n        # Prefer\
+              \ known URA columns, fall back to all numeric\n        preferred = ['Postal\
+              \ District', 'Floor Area (sq ft)',\n                     'No. of Bedroom(for\
+              \ Non-Landed Only)', 'Lease Year']\n        available = [c for c in\
+              \ preferred if c in df_ml.columns\n                     and df_ml[c].notna().sum()\
+              \ > 100]\n        if not available:\n            available = [c for\
+              \ c in df_ml.select_dtypes(include='number').columns\n             \
+              \            if c not in [target_col, 'S/N']]\n\n        df_ml = df_ml[available\
+              \ + [target_col]].dropna()\n\n        if len(df_ml) < 10:\n        \
+              \    result['ml_error'] = 'Insufficient data after cleaning'\n     \
+              \   else:\n            X = df_ml[available]\n            y = df_ml[target_col]\n\
+              \            task = 'classification' if y.nunique() <= 10 else 'regression'\n\
+              \            result['ml_sample_size'] = int(len(X))\n            result['features_used']\
+              \ = available\n            result['target_column'] = target_col\n  \
+              \          result['task_type'] = task\n\n            from sklearn.model_selection\
+              \ import train_test_split\n            X_train, X_test, y_train, y_test\
+              \ = train_test_split(\n                X, y, test_size=0.2, random_state=42)\n\
+              \n            # LazyPredict leaderboard\n            try:\n        \
+              \        from lazypredict.Supervised import LazyClassifier, LazyRegressor\n\
+              \                if task == 'classification':\n                    lz\
+              \ = LazyClassifier(verbose=0, ignore_warnings=True)\n              \
+              \  else:\n                    lz = LazyRegressor(verbose=0, ignore_warnings=True)\n\
+              \                models, _ = lz.fit(X_train, X_test, y_train, y_test)\n\
+              \                result['lazypredict_leaderboard'] = {\n           \
+              \         'target': target_col,\n                    'task': task,\n\
+              \                    'top_10': models.head(10).round(3).to_dict()\n\
+              \                }\n            except Exception as e:\n           \
+              \     result['lazypredict_leaderboard'] = {'error': str(e)}\n\n    \
+              \        # FLAML best model\n            try:\n                from\
+              \ flaml import AutoML\n                automl = AutoML()\n         \
+              \       automl.fit(X_train, y_train, task=task,\n                  \
+              \         time_budget=30, verbose=0)\n                result['flaml_best_model']\
+              \ = {\n                    'target': target_col,\n                 \
+              \   'task': task,\n                    'winner': automl.best_estimator,\n\
+              \                    'score': round(automl.best_loss, 4)\n         \
+              \       }\n            except Exception as e:\n                result['flaml_best_model']\
+              \ = {'error': str(e)}\n\n    except Exception as e:\n        result['ml_error']\
+              \ = str(e)\n\n    print(json.dumps(result, indent=2, default=str))\n\
               \nexcept Exception as e:\n    print(json.dumps({'error': str(e)}))\n\
               PYEOF"
           resume_session:
@@ -1873,12 +1964,12 @@ workflow:
       height: 52
       id: '1776584772260'
       position:
-        x: 1026
-        y: 42
+        x: 1408
+        y: 63.04761904761904
       positionAbsolute:
-        x: 1026
-        y: 42
-      selected: true
+        x: 1408
+        y: 63.04761904761904
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1951,7 +2042,7 @@ workflow:
             ## Answer to the Question
 
             A direct answer to: "{{#1776584414076.analysis_question#}}"'
-        selected: false
+        selected: true
         title: LLM
         type: llm
         vision:
@@ -1959,12 +2050,12 @@ workflow:
       height: 88
       id: '1776584860907'
       position:
-        x: 1713.5056533446955
-        y: 21
+        x: 1750
+        y: 53.71428571428571
       positionAbsolute:
-        x: 1713.5056533446955
-        y: 21
-      selected: false
+        x: 1750
+        y: 53.71428571428571
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1979,21 +2070,426 @@ workflow:
         selected: false
         title: Output
         type: end
-      height: 88
+      height: 89
       id: '1776585058748'
       position:
-        x: 2052
-        y: 42
+        x: 2454
+        y: 129.82142857142856
       positionAbsolute:
-        x: 2052
-        y: 42
+        x: 2454
+        y: 129.82142857142856
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: exists
+            id: 2582ac66-e616-49bb-be9f-62b197ffa614
+            value: ''
+            varType: file
+            variable_selector:
+            - '1776584414076'
+            - csv_data
+          id: 'true'
+          logical_operator: and
+        - case_id: e6907ddb-8177-4b16-92a1-f1189c014dd8
+          conditions:
+          - comparison_operator: not empty
+            id: e2a39b5c-2896-4f5f-a15b-6b025b312bef
+            value: ''
+            varType: string
+            variable_selector:
+            - '1776584414076'
+            - csv_text
+          logical_operator: and
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 188
+      id: '1779011116288'
+      position:
+        x: 684
+        y: 21.999999999999993
+      positionAbsolute:
+        x: 684
+        y: 21.999999999999993
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The unique ID of the sandbox to permanently terminate. Get it from
+              Create Sandbox output or List Sandboxes. Example - ixjj3iankaishgcge4jwn-b0b684e9
+            ja_JP: 永久に終了するサンドボックスの一意の ID。「サンドボックスを作成」の出力または「サンドボックス一覧」から取得。例 - ixjj3iankaishgcge4jwn-b0b684e9
+            pt_BR: O ID único do sandbox a encerrar permanentemente. Obtenha de Criar
+              Sandbox ou Listar Sandboxes. Exemplo - ixjj3iankaishgcge4jwn-b0b684e9
+            zh_Hans: 要永久终止的沙盒的唯一 ID。可从「创建沙盒」输出或「列出沙盒」获取。示例 - ixjj3iankaishgcge4jwn-b0b684e9
+          label:
+            en_US: Sandbox ID
+            ja_JP: サンドボックス ID
+            pt_BR: ID do Sandbox
+            zh_Hans: 沙盒 ID
+          llm_description: 'The unique identifier of the E2B sandbox to permanently
+            terminate.
+
+
+            ## Format
+
+            Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
+
+
+            ## Where to get this
+
+            - From the output of "Create Sandbox" tool
+
+            - From "List Sandboxes" tool
+
+            - From your application''s database
+
+
+            ## Example values
+
+            - ixjj3iankaishgcge4jwn-b0b684e9
+
+            - abc123def456-12345678
+
+
+            ## WARNING
+
+            This action is IRREVERSIBLE!
+
+            - The sandbox and all its data will be permanently deleted
+
+            - Use "Pause Sandbox" instead if you might need it later
+
+
+            ## Reference
+
+            - Sandbox Lifecycle: https://e2b.dev/docs/sandbox
+
+            '
+          max: null
+          min: null
+          name: sandbox_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          sandbox_id: ''
+        plugin_id: lysonober/better-e2b-sandbox
+        plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=70416b80-f372-4cbb-acaa-15aa41602092&filename=c7c2954f2b9391227c7a44c8a8df6ea60c466fb393b26d8c42cd295d9508aa80.svg
+        provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_type: builtin
+        selected: false
+        title: Kill Sandbox
+        tool_configurations: {}
+        tool_description: Permanently terminate an E2B sandbox and delete all its
+          data. WARNING - This action is irreversible! Use Pause Sandbox instead if
+          you might need the sandbox later.
+        tool_label: Kill Sandbox
+        tool_name: kill-sandbox
+        tool_node_version: '2'
+        tool_parameters:
+          sandbox_id:
+            type: mixed
+            value: '{{#1776584483616.text#}}'
+        type: tool
+      height: 52
+      id: '1779011984742'
+      position:
+        x: 2166.019744886575
+        y: 333.6659344419073
+      positionAbsolute:
+        x: 2166.019744886575
+        y: 333.6659344419073
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The unique ID of the sandbox to write to. Get it from Create Sandbox
+              output or List Sandboxes. Example - ixjj3iankaishgcge4jwn-b0b684e9
+            ja_JP: 書き込み先のサンドボックスの一意の ID。「サンドボックスを作成」の出力または「サンドボックス一覧」から取得。例 - ixjj3iankaishgcge4jwn-b0b684e9
+            pt_BR: O ID único do sandbox onde escrever. Obtenha de Criar Sandbox ou
+              Listar Sandboxes. Exemplo - ixjj3iankaishgcge4jwn-b0b684e9
+            zh_Hans: 要写入的沙盒的唯一 ID。可从「创建沙盒」输出或「列出沙盒」获取。示例 - ixjj3iankaishgcge4jwn-b0b684e9
+          label:
+            en_US: Sandbox ID
+            ja_JP: サンドボックス ID
+            pt_BR: ID do Sandbox
+            zh_Hans: 沙盒 ID
+          llm_description: 'The unique identifier of the E2B sandbox to write the
+            file to.
+
+
+            ## Format
+
+            Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
+
+
+            ## Where to get this
+
+            - From the output of "Create Sandbox" tool (sandbox_id field)
+
+            - From the output of "Create Next.js Sandbox" or other example tools
+
+            - From "List Sandboxes" tool
+
+            - From your application''s database
+
+
+            ## Example values
+
+            - ixjj3iankaishgcge4jwn-b0b684e9
+
+            - abc123def456-12345678
+
+
+            ## Requirements
+
+            - The sandbox must be running (not paused or killed)
+
+            - Use "Resume Existing Sandbox" first to resume a paused sandbox
+
+
+            ## Reference
+
+            - Connect to Sandbox: https://e2b.dev/docs/sandbox/connect
+
+            '
+          max: null
+          min: null
+          name: sandbox_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The full path where the file will be created. Use absolute paths
+              starting with /. Parent directories are auto-created. Example - /home/user/config.json
+            ja_JP: ファイルが作成されるフルパス。/ で始まる絝対パスを使用。親ディレクトリは自動作成されます。例 - /home/user/config.json
+            pt_BR: O caminho completo onde o arquivo será criado. Use caminhos absolutos
+              começando com /. Diretórios pai são criados automaticamente. Exemplo
+              - /home/user/config.json
+            zh_Hans: 文件将创建的完整路径。使用以 / 开头的绝对路径。父目录会自动创建。示例 - /home/user/config.json
+          label:
+            en_US: File Path
+            ja_JP: ファイルパス
+            pt_BR: Caminho do Arquivo
+            zh_Hans: 文件路径
+          llm_description: 'The absolute path where the file will be written in the
+            sandbox.
+
+
+            ## Path format
+
+            ALWAYS use absolute paths starting with /
+
+            Relative paths are not supported.
+
+
+            ## Example values
+
+            - /home/user/index.html
+
+            - /home/user/project/src/App.tsx
+
+            - /home/user/package.json
+
+            - /home/user/config.json
+
+            - /home/user/.env
+
+            - /tmp/input.txt
+
+
+            ## Directory creation
+
+            Parent directories are created automatically.
+
+            Writing to /home/user/a/b/c/file.txt will create /home/user/a/b/c/ if
+            needed.
+
+
+            ## Overwriting behavior
+
+            If the file already exists, it will be completely overwritten.
+
+            There is no append mode.
+
+
+            ## Reference
+
+            - Filesystem Overview: https://e2b.dev/docs/filesystem
+
+            - Read & Write Files: https://e2b.dev/docs/filesystem/read-write
+
+            '
+          max: null
+          min: null
+          name: file_path
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Upload one or more files directly. Each file is written to file_path
+              directory (or /home/user/uploads/ if file_path is not set) using its
+              original filename. When upload_files is provided, the content parameter
+              is ignored. Supports any file type (images, code, documents, binaries).
+            ja_JP: ファイルを直接アップロード（1つまたは複数）。upload_files 指定時は content パラメータは無視されます。
+            pt_BR: Faça upload de um ou mais arquivos diretamente. Quando fornecido,
+              o parâmetro content é ignorado.
+            zh_Hans: 直接上传一个或多个文件。每个文件使用原始文件名写入 file_path 目录（如果未设置 file_path 则写入 /home/user/uploads/）。提供
+              upload_files 时，content 参数被忽略。支持任何文件类型（图片、代码、文档、二进制文件）。
+          label:
+            en_US: Upload Files (Optional)
+            ja_JP: ファイルアップロード（任意）
+            pt_BR: Upload de Arquivos (Opcional)
+            zh_Hans: 上传文件（可选）
+          llm_description: 'Upload files directly into the sandbox.
+
+            When provided, content parameter is ignored.
+
+            Each file is written using its original filename to:
+
+            - file_path directory (if file_path looks like a directory)
+
+            - /home/user/uploads/ (if file_path is not set)
+
+            '
+          max: null
+          min: null
+          name: upload_files
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Text content to write to the file specified by file_path. Supports
+              multi-line content. Ignored when upload_files is provided. Either upload_files
+              or content must be provided.
+            ja_JP: ファイルに書き込むテキスト内容。upload_files 指定時は無視されます。
+            pt_BR: Conteúdo de texto para escrever no arquivo. Ignorado quando upload_files
+              é fornecido.
+            zh_Hans: 要写入 file_path 指定文件的文本内容。支持多行内容。当提供了 upload_files 时此参数被忽略。upload_files
+              和 content 至少提供一个。
+          label:
+            en_US: File Content (Optional)
+            ja_JP: ファイル内容（任意）
+            pt_BR: Conteúdo do Arquivo (Opcional)
+            zh_Hans: 文件内容（可选）
+          llm_description: "The content to write to the file as a string.\n\n## How\
+            \ to provide content\nJust provide the text content directly. The system\
+            \ handles:\n- Multi-line content with normal newlines\n- Special characters\n\
+            - UTF-8 encoding\n\n## Example values\n\n### JSON configuration\n{\"name\"\
+            : \"my-app\", \"version\": \"1.0.0\"}\n\n### Environment variables\nAPI_KEY=sk-xxx\n\
+            DEBUG=true\n\n### Python code\ndef hello():\n    print(\"Hello, World!\"\
+            )\n\n### HTML file\n<!DOCTYPE html>\n<html><head><title>My App</title></head><body><h1>Hello</h1></body></html>\n\
+            \n## Special cases\n- For binary files, use base64-encoded content\n-\
+            \ Very large files may timeout\n\n## Reference\n- Read & Write Files:\
+            \ https://e2b.dev/docs/filesystem/read-write\n"
+          max: null
+          min: null
+          name: content
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          content: ''
+          file_path: ''
+          sandbox_id: ''
+          upload_files: ''
+        plugin_id: lysonober/better-e2b-sandbox
+        plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=70416b80-f372-4cbb-acaa-15aa41602092&filename=c7c2954f2b9391227c7a44c8a8df6ea60c466fb393b26d8c42cd295d9508aa80.svg
+        provider_id: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_name: lysonober/better-e2b-sandbox/better-e2b-sandbox
+        provider_type: builtin
+        selected: false
+        title: Write Sandbox File
+        tool_configurations: {}
+        tool_description: Upload and write content to a file inside an E2B sandbox.
+          Use this to create configuration files, upload code, or provide input data
+          before running commands.
+        tool_label: Write Sandbox File
+        tool_name: write-sandbox-file
+        tool_node_version: '2'
+        tool_parameters:
+          content:
+            type: mixed
+            value: '{{#1776584414076.csv_text#}}'
+          file_path:
+            type: mixed
+            value: /home/user/upload/CSV_Text.csv
+          sandbox_id:
+            type: mixed
+            value: '{{#1776584483616.text#}}'
+          upload_files:
+            type: constant
+            value: null
+        type: tool
+      height: 52
+      id: '1779162892173'
+      position:
+        x: 1084.7094916911333
+        y: 316.1466572436195
+      positionAbsolute:
+        x: 1084.7094916911333
+        y: 316.1466572436195
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -115.42319692321553
-      y: 376.14493580854264
-      zoom: 0.5757934553104017
+      x: -808.3642632437706
+      y: 105.90875909996055
+      zoom: 0.7032482575703963
   rag_pipeline_variables: []
