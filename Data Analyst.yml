@@ -89,6 +89,7 @@ workflow:
         sourceType: start
         targetType: if-else
       id: 1776584414076-source-1779300000001-target
+      selected: false
       source: '1776584414076'
       sourceHandle: source
       target: '1779300000001'
@@ -100,6 +101,7 @@ workflow:
         sourceType: if-else
         targetType: tool
       id: 1779300000001-true-1776584483616-target
+      selected: false
       source: '1779300000001'
       sourceHandle: 'true'
       target: '1776584483616'
@@ -111,6 +113,7 @@ workflow:
         sourceType: if-else
         targetType: tool
       id: 1779300000001-url-1776584483616-target
+      selected: false
       source: '1779300000001'
       sourceHandle: 1d1a47d8-9726-4d33-b07d-7ef7a786e4b4
       target: '1776584483616'
@@ -122,6 +125,7 @@ workflow:
         sourceType: if-else
         targetType: llm
       id: 1779300000001-false-1779300000002-target
+      selected: false
       source: '1779300000001'
       sourceHandle: 'false'
       target: '1779300000002'
@@ -133,6 +137,7 @@ workflow:
         sourceType: tool
         targetType: if-else
       id: 1776584483616-source-1779011116288-target
+      selected: false
       source: '1776584483616'
       sourceHandle: source
       target: '1779011116288'
@@ -144,6 +149,7 @@ workflow:
         sourceType: if-else
         targetType: tool
       id: 1779011116288-true-1776584635962-target
+      selected: false
       source: '1779011116288'
       sourceHandle: 'true'
       target: '1776584635962'
@@ -155,6 +161,7 @@ workflow:
         sourceType: tool
         targetType: llm
       id: 1776584772260-source-1776584860907-target
+      selected: false
       source: '1776584772260'
       sourceHandle: source
       target: '1776584860907'
@@ -166,6 +173,7 @@ workflow:
         sourceType: if-else
         targetType: tool
       id: 1779011116288-false-1779300000002-target
+      selected: false
       source: '1779011116288'
       sourceHandle: 'false'
       target: '1779300000002'
@@ -177,6 +185,7 @@ workflow:
         sourceType: llm
         targetType: end
       id: 1779300000002-source-1779300000003-target
+      selected: false
       source: '1779300000002'
       sourceHandle: source
       target: '1779300000003'
@@ -188,6 +197,7 @@ workflow:
         sourceType: if-else
         targetType: tool
       id: 1779011116288-e6907ddb-8177-4b16-92a1-f1189c014dd8-1779162892173-target
+      selected: false
       source: '1779011116288'
       sourceHandle: e6907ddb-8177-4b16-92a1-f1189c014dd8
       target: '1779162892173'
@@ -199,6 +209,7 @@ workflow:
         sourceType: tool
         targetType: tool
       id: 1779162892173-source-1776584772260-target
+      selected: false
       source: '1779162892173'
       sourceHandle: source
       target: '1776584772260'
@@ -208,9 +219,20 @@ workflow:
     - data:
         isInLoop: false
         sourceType: llm
-        targetType: end
-      id: 1776584860907-source-1776585058748-target
+        targetType: tool
+      id: 1776584860907-source-1779011984742-target
       source: '1776584860907'
+      sourceHandle: source
+      target: '1779011984742'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1779011984742-source-1776585058748-target
+      source: '1779011984742'
       sourceHandle: source
       target: '1776585058748'
       targetHandle: target
@@ -282,8 +304,8 @@ workflow:
         - edition_type: basic
           id: 89c2ce02-0f03-401c-b39b-b78a2e921fa8
           role: system
-          text: 'You are a concise workflow guardrail. Explain that the workflow cannot
-            run until the user provides data.'
+          text: You are a concise workflow guardrail. Explain that the workflow cannot
+            run until the user provides data.
         - edition_type: basic
           id: 3b97ced0-c49f-4fd6-8e4b-4529e6744231
           role: user
@@ -1991,13 +2013,13 @@ workflow:
           input_text:
             type: mixed
             value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport json\nimport\
-              \ warnings\nimport os\nimport io\nimport urllib.request\nimport matplotlib\nmatplotlib.use('Agg')\n\
-              import matplotlib.pyplot as plt\nimport base64\nfrom io import BytesIO\n\
-              warnings.filterwarnings('ignore')\n\ndef parse_floor_area(val):\n  \
-              \  try:\n        parts = str(val).split(' to ')\n        return (int(parts[0])\
-              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef download_url_to_csv(url, output_path):\n\
-              \    request = urllib.request.Request(\n        url.strip(),\n     \
-              \   headers={'User-Agent': 'Mozilla/5.0'}\n    )\n    with urllib.request.urlopen(request,\
+              \ warnings\nimport os\nimport io\nimport urllib.request\nimport matplotlib\n\
+              matplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nimport base64\n\
+              from io import BytesIO\nwarnings.filterwarnings('ignore')\n\ndef parse_floor_area(val):\n\
+              \    try:\n        parts = str(val).split(' to ')\n        return (int(parts[0])\
+              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef download_url_to_csv(url,\
+              \ output_path):\n    request = urllib.request.Request(\n        url.strip(),\n\
+              \        headers={'User-Agent': 'Mozilla/5.0'}\n    )\n    with urllib.request.urlopen(request,\
               \ timeout=60) as response:\n        data = response.read()\n    with\
               \ open(output_path, 'wb') as f:\n        f.write(data)\n    return output_path\n\
               \n\ndef load_dataframe():\n    data_dir = '/home/user/data/'\n    upload_dirs\
@@ -2018,29 +2040,29 @@ workflow:
               \      download_url_to_csv(url, csv_path)\n            return pd.read_csv(csv_path,\
               \ on_bad_lines='skip')\n\n    raise ValueError(\"No CSV file found.\
               \ Upload a CSV file or provide a CSV URL.\")\n\ntry:\n    df = load_dataframe()\n\
-              \n    # Fix URA-specific\
-              \ columns if present\n    if 'Floor Area (sq ft)' in df.columns:\n \
-              \       df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n\
-              \    if 'No. of Bedroom(for Non-Landed Only)' in df.columns:\n     \
-              \   df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(\n   \
-              \         df['No. of Bedroom(for Non-Landed Only)'], errors='coerce')\n\
-              \    if 'Lease Commencement Date' in df.columns:\n        df['Lease\
-              \ Year'] = pd.to_datetime(\n            df['Lease Commencement Date'],\
-              \ format='%b-%Y', errors='coerce').dt.year\n\n    result = {}\n    result['rows']\
-              \ = int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n   \
-              \ result['column_names'] = list(df.columns)\n\n    # Descriptive stats\n\
-              \    numeric_cols = df.select_dtypes(include='number')\n    if not numeric_cols.empty:\n\
-              \        result['descriptive_stats'] = numeric_cols.describe().round(2).to_dict()\n\
-              \    if len(numeric_cols.columns) >= 2:\n        result['correlation']\
-              \ = numeric_cols.corr().round(3).to_dict()\n\n    # Missing values\n\
-              \    missing = df.isnull().sum()\n    result['missing_values'] = missing[missing\
-              \ > 0].to_dict()\n\n    # Categorical summary\n    cat_cols = df.select_dtypes(include='object')\n\
-              \    cat_summary = {}\n    for col in list(cat_cols.columns)[:3]:\n\
-              \        cat_summary[col] = df[col].value_counts().head(5).to_dict()\n\
-              \    result['categorical_summary'] = cat_summary\n\n    # Charts — works\
-              \ for any dataset\n    try:\n        numeric_chart_cols = numeric_cols.columns.tolist()\n\
-              \        \n        fig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\
-              \n        # Chart 1 — distribution of last numeric column\n        target_col_chart\
+              \n    # Fix URA-specific columns if present\n    if 'Floor Area (sq\
+              \ ft)' in df.columns:\n        df['Floor Area (sq ft)'] = df['Floor\
+              \ Area (sq ft)'].apply(parse_floor_area)\n    if 'No. of Bedroom(for\
+              \ Non-Landed Only)' in df.columns:\n        df['No. of Bedroom(for Non-Landed\
+              \ Only)'] = pd.to_numeric(\n            df['No. of Bedroom(for Non-Landed\
+              \ Only)'], errors='coerce')\n    if 'Lease Commencement Date' in df.columns:\n\
+              \        df['Lease Year'] = pd.to_datetime(\n            df['Lease Commencement\
+              \ Date'], format='%b-%Y', errors='coerce').dt.year\n\n    result = {}\n\
+              \    result['rows'] = int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n\
+              \    result['column_names'] = list(df.columns)\n\n    # Descriptive\
+              \ stats\n    numeric_cols = df.select_dtypes(include='number')\n   \
+              \ if not numeric_cols.empty:\n        result['descriptive_stats'] =\
+              \ numeric_cols.describe().round(2).to_dict()\n    if len(numeric_cols.columns)\
+              \ >= 2:\n        result['correlation'] = numeric_cols.corr().round(3).to_dict()\n\
+              \n    # Missing values\n    missing = df.isnull().sum()\n    result['missing_values']\
+              \ = missing[missing > 0].to_dict()\n\n    # Categorical summary\n  \
+              \  cat_cols = df.select_dtypes(include='object')\n    cat_summary =\
+              \ {}\n    for col in list(cat_cols.columns)[:3]:\n        cat_summary[col]\
+              \ = df[col].value_counts().head(5).to_dict()\n    result['categorical_summary']\
+              \ = cat_summary\n\n    # Charts — works for any dataset\n    try:\n\
+              \        numeric_chart_cols = numeric_cols.columns.tolist()\n      \
+              \  \n        fig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\n   \
+              \     # Chart 1 — distribution of last numeric column\n        target_col_chart\
               \ = numeric_chart_cols[-1]\n        axes[0].hist(df[target_col_chart].dropna(),\
               \ bins=50,\n                     color='steelblue', edgecolor='white')\n\
               \        axes[0].set_title(f'{target_col_chart} Distribution')\n   \
@@ -2201,7 +2223,7 @@ workflow:
             ## Answer to the Question
 
             A direct answer to: "{{#1776584414076.analysis_question#}}"'
-        selected: true
+        selected: false
         title: LLM
         type: llm
         vision:
@@ -2214,7 +2236,7 @@ workflow:
       positionAbsolute:
         x: 1750
         y: 53.71428571428571
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2373,12 +2395,12 @@ workflow:
       height: 52
       id: '1779011984742'
       position:
-        x: 2166.019744886575
-        y: 333.6659344419073
+        x: 2143.1416657542354
+        y: 81.33333333333333
       positionAbsolute:
-        x: 2166.019744886575
-        y: 333.6659344419073
-      selected: false
+        x: 2143.1416657542354
+        y: 81.33333333333333
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2648,7 +2670,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -808.3642632437706
-      y: 105.90875909996055
-      zoom: 0.7032482575703963
+      x: -1258.8504893123281
+      y: 121.58666798427913
+      zoom: 0.699359413325176
   rag_pipeline_variables: []
