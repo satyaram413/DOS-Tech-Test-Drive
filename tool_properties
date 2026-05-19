@@ -1,0 +1,9 @@
+tool description: Analyze tabular CSV data using Python in an E2B sandbox. Use this tool when the user asks for data analysis, statistical summaries, trends, correlations, missing-value checks, charts, or predictive modeling from a CSV file or CSV URL. If the user provides a GitHub CSV link, convert it to the raw.githubusercontent.com URL before calling this tool. For autonomous agent use, prefer csv_url over file upload. Do not pass full CSV text into this tool.
+input description: csv_data:
+Optional uploaded CSV file. Use only when the workflow or chatflow passes a real file object directly. Do not use from an Agent node.
+
+csv_url:
+Optional direct URL to a CSV file. Use this for Agent calls. The URL must return raw CSV content, such as a raw.githubusercontent.com link or a presigned S3 URL.
+
+analysis_question:
+The user’s analysis question or goal, for example “Find rental trends by district” or “Summarize missing values and correlations.”
