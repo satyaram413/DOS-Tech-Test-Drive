@@ -2086,11 +2086,24 @@ workflow:
               \        plt.close()\n    except Exception as e:\n        result['chart_error']\
               \ = str(e)\n\n    # ML — sample up to 5000 rows\n    try:\n        sample_size\
               \ = min(5000, len(df))\n        df_ml = df.sample(sample_size, random_state=42).copy()\n\
-              \n        target_col = numeric_cols.columns[-1]\n\n        # Prefer\
-              \ known URA columns, fall back to all numeric\n        preferred = ['Postal\
-              \ District', 'Floor Area (sq ft)',\n                     'No. of Bedroom(for\
-              \ Non-Landed Only)', 'Lease Year']\n        available = [c for c in\
-              \ preferred if c in df_ml.columns\n                     and df_ml[c].notna().sum()\
+              \n        question = '''{{#1776584414076.analysis_question#}}'''.lower()\n\
+              \        numeric_names = list(numeric_cols.columns)\n\n        def choose_target_column():\n\
+              \            if 'rent' in question:\n                rent_candidates\
+              \ = [c for c in numeric_names if 'rent' in c.lower()]\n           \
+              \     if rent_candidates:\n                    return rent_candidates[0]\n\
+              \            for keyword in ['price', 'amount', 'value', 'sales', 'income',\
+              \ 'cost']:\n                if keyword in question:\n             \
+              \       matches = [c for c in numeric_names if keyword in c.lower()]\n\
+              \                    if matches:\n                        return matches[0]\n\
+              \            non_time_cols = [c for c in numeric_names\n          \
+              \                   if c not in ['S/N'] and 'year' not in c.lower()\
+              \ and 'date' not in c.lower()]\n            return non_time_cols[-1]\
+              \ if non_time_cols else numeric_names[-1]\n\n        target_col = choose_target_column()\n\
+              \n        # Prefer known URA columns, fall back to all numeric\n   \
+              \     preferred = ['Postal District', 'Floor Area (sq ft)',\n     \
+              \                'No. of Bedroom(for Non-Landed Only)', 'Lease Year']\n\
+              \        available = [c for c in preferred if c in df_ml.columns\n \
+              \                    and c != target_col and df_ml[c].notna().sum()\
               \ > 100]\n        if not available:\n            available = [c for\
               \ c in df_ml.select_dtypes(include='number').columns\n             \
               \            if c not in [target_col, 'S/N']]\n\n        df_ml = df_ml[available\
@@ -2109,9 +2122,13 @@ workflow:
               \ = LazyClassifier(verbose=0, ignore_warnings=True)\n              \
               \  else:\n                    lz = LazyRegressor(verbose=0, ignore_warnings=True)\n\
               \                models, _ = lz.fit(X_train, X_test, y_train, y_test)\n\
-              \                result['lazypredict_leaderboard'] = {\n           \
-              \         'target': target_col,\n                    'task': task,\n\
-              \                    'top_10': models.head(10).round(3).to_dict()\n\
+              \                top_models = models.head(10).round(3)\n           \
+              \     result['lazypredict_leaderboard'] = {\n                    'target':\
+              \ target_col,\n                    'task': task,\n                \
+              \    'metric_columns': list(top_models.columns),\n                \
+              \    'best_model': str(top_models.index[0]) if len(top_models) else\
+              \ None,\n                    'best_model_metrics': top_models.iloc[0].to_dict()\
+              \ if len(top_models) else {},\n                    'top_10': top_models.to_dict()\n\
               \                }\n            except Exception as e:\n           \
               \     result['lazypredict_leaderboard'] = {'error': str(e)}\n\n    \
               \        # FLAML best model\n            try:\n                from\
@@ -2184,6 +2201,15 @@ workflow:
 
             - Flag any data quality issues (missing values, skewed distributions)
 
+            - If lazypredict_leaderboard is present, explicitly report the best_model,
+            best_model_metrics, target, task, and features_used
+
+            - If flaml_best_model is present, explicitly report its winner and score
+
+            - If ml_error, lazypredict_leaderboard.error, or flaml_best_model.error
+            is present, quote the exact error instead of saying the tool could not
+            run modeling
+
             - Use plain language alongside technical terms
 
             - Structure your response clearly with sections'
@@ -2213,6 +2239,25 @@ workflow:
             ## Notable Relationships
 
             Any strong correlations or patterns worth highlighting.
+
+
+            ## Machine Learning Model Results
+
+            If present in the JSON, report:
+
+            - prediction target
+
+            - task type
+
+            - sample size
+
+            - features used
+
+            - LazyPredict best model and metrics
+
+            - FLAML winner and score
+
+            If model outputs contain errors, show the exact error messages.
 
 
             ## Data Quality Notes
