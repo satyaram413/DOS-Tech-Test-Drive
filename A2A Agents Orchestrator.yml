@@ -1,0 +1,375 @@
+app:
+  description: A2A workflow that calls Research Agent and Data Agent, then synthesizes their messages.
+  icon: 🤝
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: A2A Agents Orchestrator
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions: []
+      allowed_file_types: []
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: start-source-research-target
+      source: start
+      sourceHandle: source
+      target: research_agent_call
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: http-request
+      id: research-source-data-target
+      source: research_agent_call
+      sourceHandle: source
+      target: data_agent_call
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: data-source-synthesis-target
+      source: data_agent_call
+      sourceHandle: source
+      target: synthesis_agent
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: synthesis-source-end-target
+      source: synthesis_agent
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - default: Compare current Singapore private residential rental market commentary with historical URA rental data. What drives monthly gross rent, what is the best performing predictive model, and should a young professional rent a 2-bedroom non-landed home now?
+          hint: The overall question for the agent team.
+          label: User Question
+          options: []
+          placeholder: Ask a housing/rental intelligence question
+          required: true
+          type: paragraph
+          variable: user_question
+        - default: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/URA%2021%2026.csv
+          hint: Direct raw CSV URL for Data Agent.
+          label: CSV URL
+          options: []
+          placeholder: https://raw.githubusercontent.com/.../data.csv
+          required: true
+          type: text-input
+          variable: csv_url
+        - default: ''
+          hint: Market commentary or source page for Research Agent.
+          label: Web URL
+          options: []
+          placeholder: https://www.ura.gov.sg/...
+          required: true
+          type: text-input
+          variable: web_url
+        - default: https://api.dify.ai/v1
+          hint: Dify API base URL.
+          label: Dify API Base
+          options: []
+          placeholder: https://api.dify.ai/v1
+          required: true
+          type: text-input
+          variable: dify_api_base
+        - default: ''
+          hint: API key from published A2A Research Agent app.
+          label: Research Agent API Key
+          options: []
+          placeholder: app-...
+          required: true
+          type: text-input
+          variable: research_agent_api_key
+        - default: ''
+          hint: API key from published A2A Data Agent app.
+          label: Data Agent API Key
+          options: []
+          placeholder: app-...
+          required: true
+          type: text-input
+          variable: data_agent_api_key
+      height: 297
+      id: start
+      position:
+        x: 0
+        y: 120
+      positionAbsolute:
+        x: 0
+        y: 120
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: |-
+            {
+              "inputs": {
+                "web_url": "{{#start.web_url#}}",
+                "research_question": "{{#start.user_question#}}"
+              },
+              "query": "Use your Web Scraper tool to read this URL: {{#start.web_url#}}. Research question: {{#start.user_question#}}. Send a clear Message to Data Agent.",
+              "response_mode": "blocking",
+              "user": "a2a-workshop"
+            }
+          type: raw-text
+        headers: 'Authorization:Bearer {{#start.research_agent_api_key#}}
+
+          Content-Type:application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 1
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 180
+          max_write_timeout: 20
+        title: Call Research Agent
+        type: http-request
+        url: '{{#start.dify_api_base#}}/chat-messages'
+        variables: []
+      height: 168
+      id: research_agent_call
+      position:
+        x: 340
+        y: 80
+      positionAbsolute:
+        x: 340
+        y: 80
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: |-
+            {
+              "inputs": {
+                "csv_url": "{{#start.csv_url#}}",
+                "analysis_question": "{{#start.user_question#}}",
+                "research_agent_message": "{{#research_agent_call.body#}}"
+              },
+              "query": "Use your Data Analyst tool on this CSV URL: {{#start.csv_url#}}. Question: {{#start.user_question#}}. Research Agent message: {{#research_agent_call.body#}}. Send a clear Message to Synthesis Agent.",
+              "response_mode": "blocking",
+              "user": "a2a-workshop"
+            }
+          type: raw-text
+        headers: 'Authorization:Bearer {{#start.data_agent_api_key#}}
+
+          Content-Type:application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 1
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 420
+          max_write_timeout: 20
+        title: Call Data Agent
+        type: http-request
+        url: '{{#start.dify_api_base#}}/chat-messages'
+        variables: []
+      height: 168
+      id: data_agent_call
+      position:
+        x: 680
+        y: 80
+      positionAbsolute:
+        x: 680
+        y: 80
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.2
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: synthesis-system
+          role: system
+          text: 'You are the A2A Synthesis Agent. You receive messages from two separate
+            agents. Treat them as peers. Compare evidence, resolve conflicts, and
+            produce the final answer.'
+        - edition_type: basic
+          id: synthesis-user
+          role: user
+          text: 'User question:
+
+            {{#start.user_question#}}
+
+
+            Research Agent API response:
+
+            {{#research_agent_call.body#}}
+
+
+            Data Agent API response:
+
+            {{#data_agent_call.body#}}
+
+
+            Produce:
+
+            ## Executive Answer
+
+            ## What the Research Agent Found
+
+            ## What the Data Agent Found
+
+            ## Where the Agents Agree or Disagree
+
+            ## Recommendation
+
+            ## Caveats'
+        selected: false
+        title: Synthesis Agent
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: synthesis_agent
+      position:
+        x: 1020
+        y: 80
+      positionAbsolute:
+        x: 1020
+        y: 80
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    - data:
+        outputs:
+        - value_selector:
+          - synthesis_agent
+          - text
+          value_type: string
+          variable: final_answer
+        - value_selector:
+          - research_agent_call
+          - body
+          value_type: string
+          variable: research_agent_raw_response
+        - value_selector:
+          - data_agent_call
+          - body
+          value_type: string
+          variable: data_agent_raw_response
+        selected: false
+        title: Output
+        type: end
+      height: 141
+      id: end
+      position:
+        x: 1360
+        y: 80
+      positionAbsolute:
+        x: 1360
+        y: 80
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    viewport:
+      x: -120
+      y: 120
+      zoom: 0.8
+  rag_pipeline_variables: []

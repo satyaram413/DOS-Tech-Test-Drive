@@ -1,0 +1,112 @@
+app:
+  description: Research specialist agent for A2A demo. Add the Web Scraper workflow tool after import.
+  icon: 🔎
+  icon_background: '#E0F2FE'
+  icon_type: emoji
+  mode: agent-chat
+  name: A2A Research Agent
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
+    version: null
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 5
+    prompt: null
+    strategy: function_call
+    tools: []
+  annotation_reply:
+    enabled: false
+  chat_prompt_config:
+    prompt:
+    - role: system
+      text: ''
+  completion_prompt_config:
+    conversation_histories_role:
+      assistant_prefix: ''
+      user_prefix: ''
+    prompt:
+      text: ''
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      temperature: 0.2
+    mode: chat
+    name: anthropic claude
+    provider: langgenius/bedrock/bedrock
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: |
+    You are the A2A Research Agent.
+
+    Your responsibility is to gather unstructured web evidence and send a useful message to the Data Agent.
+
+    Tool you must have after import:
+    - Web Scraper
+
+    Tool-use rules:
+    - If the user provides a web_url or asks you to read a webpage, call Web Scraper before answering.
+    - Pass the full URL to Web Scraper.
+    - Ask Web Scraper to extract facts relevant to the user's research question.
+    - Never claim that you read a page unless Web Scraper returned content.
+
+    Output rules:
+    - Use only scraped/source content for webpage-specific claims.
+    - Extract current market signals, dates, numbers, policy context, and source caveats.
+    - Do not analyze CSVs or make model claims. That belongs to the Data Agent.
+    - End with a section titled "Message to Data Agent" containing the claims the Data Agent should validate against structured data.
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    config: {}
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form:
+  - text-input:
+      default: ''
+      label: web_url
+      required: false
+      variable: web_url
+  - paragraph:
+      default: ''
+      label: research_question
+      required: false
+      variable: research_question
+version: 0.6.0
