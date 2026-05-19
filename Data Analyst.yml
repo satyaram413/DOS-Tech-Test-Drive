@@ -87,11 +87,44 @@ workflow:
     - data:
         isInLoop: false
         sourceType: start
-        targetType: tool
-      id: 1776584414076-source-1776584483616-target
+        targetType: if-else
+      id: 1776584414076-source-1779300000001-target
       source: '1776584414076'
       sourceHandle: source
+      target: '1779300000001'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1779300000001-true-1776584483616-target
+      source: '1779300000001'
+      sourceHandle: 'true'
       target: '1776584483616'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1779300000001-url-1776584483616-target
+      source: '1779300000001'
+      sourceHandle: 1d1a47d8-9726-4d33-b07d-7ef7a786e4b4
+      target: '1776584483616'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1779300000001-false-1779300000002-target
+      source: '1779300000001'
+      sourceHandle: 'false'
+      target: '1779300000002'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -132,10 +165,21 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: tool
-      id: 1779011116288-false-1776584772260-target
+      id: 1779011116288-false-1779300000002-target
       source: '1779011116288'
       sourceHandle: 'false'
-      target: '1776584772260'
+      target: '1779300000002'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1779300000002-source-1779300000003-target
+      source: '1779300000002'
+      sourceHandle: source
+      target: '1779300000003'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -217,6 +261,119 @@ workflow:
       positionAbsolute:
         x: 0
         y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.2
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: 89c2ce02-0f03-401c-b39b-b78a2e921fa8
+          role: system
+          text: 'You are a concise workflow guardrail. Explain that the workflow cannot
+            run until the user provides data.'
+        - edition_type: basic
+          id: 3b97ced0-c49f-4fd6-8e4b-4529e6744231
+          role: user
+          text: 'The user asked: {{#1776584414076.analysis_question#}}
+
+
+            No CSV file or CSV URL was provided. Ask the user to provide either:
+
+            - an uploaded CSV file, or
+
+            - a direct raw CSV URL such as a raw.githubusercontent.com link or a presigned
+            S3 URL.
+
+
+            Keep the response under 80 words.'
+        selected: false
+        title: Missing CSV Response
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1779300000002'
+      position:
+        x: 684
+        y: 360
+      positionAbsolute:
+        x: 684
+        y: 360
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1779300000002'
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: Missing CSV Output
+        type: end
+      height: 89
+      id: '1779300000003'
+      position:
+        x: 1026
+        y: 360
+      positionAbsolute:
+        x: 1026
+        y: 360
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: exists
+            id: 3f8da2b6-5f84-4df3-8b93-7c7de32c24a7
+            value: ''
+            varType: file
+            variable_selector:
+            - '1776584414076'
+            - csv_data
+          id: 'true'
+          logical_operator: and
+        - case_id: 1d1a47d8-9726-4d33-b07d-7ef7a786e4b4
+          conditions:
+          - comparison_operator: not empty
+            id: c230a1e5-43d0-47a5-b2f2-97c699f596ef
+            value: ''
+            varType: string
+            variable_selector:
+            - '1776584414076'
+            - csv_url
+          logical_operator: and
+        selected: false
+        title: Validate CSV Input
+        type: if-else
+      height: 188
+      id: '1779300000001'
+      position:
+        x: 342
+        y: 81.33333333333333
+      positionAbsolute:
+        x: 342
+        y: 81.33333333333333
       selected: false
       sourcePosition: right
       targetPosition: left
