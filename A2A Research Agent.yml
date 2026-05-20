@@ -72,7 +72,7 @@ model_config:
     - Web Scraper
 
     Tool-use rules:
-    - If the user provides a web_url or asks you to read a webpage, call Web Scraper before answering.
+    - If the user provides a URL or asks you to read a webpage, call Web Scraper before answering.
     - Pass the full URL to Web Scraper.
     - Ask Web Scraper to extract facts relevant to the user's research question.
     - Never claim that you read a page unless Web Scraper returned content.
@@ -98,15 +98,5 @@ model_config:
     enabled: false
     language: ''
     voice: ''
-  user_input_form:
-  - text-input:
-      default: ''
-      label: web_url
-      required: false
-      variable: web_url
-  - paragraph:
-      default: ''
-      label: research_question
-      required: false
-      variable: research_question
+  user_input_form: []
 version: 0.6.0
