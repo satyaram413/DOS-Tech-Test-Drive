@@ -1,5 +1,6 @@
 app:
-  description: A2A workflow that calls Research Agent and Data Agent, then synthesizes their messages.
+  description: A2A workflow that calls Research Agent and Data Agent, then synthesizes
+    their messages.
   icon: 🤝
   icon_background: '#FFEAD5'
   icon_type: emoji
@@ -61,39 +62,6 @@ workflow:
     edges:
     - data:
         isInLoop: false
-        sourceType: start
-        targetType: http-request
-      id: start-source-research-target
-      source: start
-      sourceHandle: source
-      target: research_agent_call
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: http-request
-      id: research-source-data-target
-      source: research_agent_call
-      sourceHandle: source
-      target: data_agent_call
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: llm
-      id: data-source-synthesis-target
-      source: data_agent_call
-      sourceHandle: source
-      target: synthesis_agent
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: llm
         targetType: end
       id: synthesis-source-end-target
@@ -103,13 +71,50 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1779289261495-source-synthesis_agent-target
+      source: '1779289261495'
+      sourceHandle: source
+      target: synthesis_agent
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: start-source-1779289370670-target
+      source: start
+      sourceHandle: source
+      target: '1779289370670'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1779289370670-source-1779289261495-target
+      source: '1779289370670'
+      sourceHandle: source
+      target: '1779289261495'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
-        selected: false
+        selected: true
         title: User Input
         type: start
         variables:
-        - default: Compare current Singapore private residential rental market commentary with historical URA rental data. What drives monthly gross rent, what is the best performing predictive model, and should a young professional rent a 2-bedroom non-landed home now?
+        - default: Compare current Singapore private residential rental market commentary
+            with historical URA rental data. What drives monthly gross rent, what
+            is the best performing predictive model, and should a young professional
+            rent a 2-bedroom non-landed home now?
           hint: The overall question for the agent team.
           label: User Question
           options: []
@@ -133,31 +138,7 @@ workflow:
           required: true
           type: text-input
           variable: web_url
-        - default: https://api.dify.ai/v1
-          hint: Dify API base URL.
-          label: Dify API Base
-          options: []
-          placeholder: https://api.dify.ai/v1
-          required: true
-          type: text-input
-          variable: dify_api_base
-        - default: ''
-          hint: API key from published A2A Research Agent app.
-          label: Research Agent API Key
-          options: []
-          placeholder: app-...
-          required: true
-          type: text-input
-          variable: research_agent_api_key
-        - default: ''
-          hint: API key from published A2A Data Agent app.
-          label: Data Agent API Key
-          options: []
-          placeholder: app-...
-          required: true
-          type: text-input
-          variable: data_agent_api_key
-      height: 297
+      height: 161
       id: start
       position:
         x: 0
@@ -165,108 +146,11 @@ workflow:
       positionAbsolute:
         x: 0
         y: 120
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 260
-    - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: |-
-            {
-              "inputs": {
-                "web_url": "{{#start.web_url#}}",
-                "research_question": "{{#start.user_question#}}"
-              },
-              "query": "Use your Web Scraper tool to read this URL: {{#start.web_url#}}. Research question: {{#start.user_question#}}. Send a clear Message to Data Agent.",
-              "response_mode": "blocking",
-              "user": "a2a-workshop"
-            }
-          type: raw-text
-        headers: 'Authorization:Bearer {{#start.research_agent_api_key#}}
-
-          Content-Type:application/json'
-        method: post
-        params: ''
-        retry_config:
-          max_retries: 1
-          retry_enabled: true
-          retry_interval: 1000
-        selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 10
-          max_read_timeout: 180
-          max_write_timeout: 20
-        title: Call Research Agent
-        type: http-request
-        url: '{{#start.dify_api_base#}}/chat-messages'
-        variables: []
-      height: 168
-      id: research_agent_call
-      position:
-        x: 340
-        y: 80
-      positionAbsolute:
-        x: 340
-        y: 80
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 260
-    - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: |-
-            {
-              "inputs": {
-                "csv_url": "{{#start.csv_url#}}",
-                "analysis_question": "{{#start.user_question#}}",
-                "research_agent_message": "{{#research_agent_call.body#}}"
-              },
-              "query": "Use your Data Analyst tool on this CSV URL: {{#start.csv_url#}}. Question: {{#start.user_question#}}. Research Agent message: {{#research_agent_call.body#}}. Send a clear Message to Synthesis Agent.",
-              "response_mode": "blocking",
-              "user": "a2a-workshop"
-            }
-          type: raw-text
-        headers: 'Authorization:Bearer {{#start.data_agent_api_key#}}
-
-          Content-Type:application/json'
-        method: post
-        params: ''
-        retry_config:
-          max_retries: 1
-          retry_enabled: true
-          retry_interval: 1000
-        selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 10
-          max_read_timeout: 420
-          max_write_timeout: 20
-        title: Call Data Agent
-        type: http-request
-        url: '{{#start.dify_api_base#}}/chat-messages'
-        variables: []
-      height: 168
-      id: data_agent_call
-      position:
-        x: 680
-        y: 80
-      positionAbsolute:
-        x: 680
-        y: 80
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 260
+      width: 242
     - data:
         context:
           enabled: false
@@ -283,9 +167,9 @@ workflow:
         - edition_type: basic
           id: synthesis-system
           role: system
-          text: 'You are the A2A Synthesis Agent. You receive messages from two separate
+          text: You are the A2A Synthesis Agent. You receive messages from two separate
             agents. Treat them as peers. Compare evidence, resolve conflicts, and
-            produce the final answer.'
+            produce the final answer.
         - edition_type: basic
           id: synthesis-user
           role: user
@@ -296,12 +180,12 @@ workflow:
 
             Research Agent API response:
 
-            {{#research_agent_call.body#}}
+            {{#1779289370670.text#}}
 
 
             Data Agent API response:
 
-            {{#data_agent_call.body#}}
+            {{#1779289261495.text#}}
 
 
             Produce:
@@ -334,7 +218,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 260
+      width: 242
     - data:
         outputs:
         - value_selector:
@@ -343,13 +227,13 @@ workflow:
           value_type: string
           variable: final_answer
         - value_selector:
-          - research_agent_call
-          - body
+          - '1779289370670'
+          - text
           value_type: string
           variable: research_agent_raw_response
         - value_selector:
-          - data_agent_call
-          - body
+          - '1779289261495'
+          - text
           value_type: string
           variable: data_agent_raw_response
         selected: false
@@ -367,9 +251,241 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 260
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: Upload CSV here
+            ja_JP: Upload CSV here
+            pt_BR: Upload CSV here
+            zh_Hans: Upload CSV here
+          llm_description: ''
+          max: null
+          min: null
+          name: csv_data
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: What do you want to know about the data
+            ja_JP: What do you want to know about the data
+            pt_BR: What do you want to know about the data
+            zh_Hans: What do you want to know about the data
+          llm_description: ''
+          max: null
+          min: null
+          name: analysis_question
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: CSV URL
+            ja_JP: CSV URL
+            pt_BR: CSV URL
+            zh_Hans: CSV URL
+          llm_description: ''
+          max: null
+          min: null
+          name: csv_url
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          analysis_question: ''
+          csv_data: ''
+          csv_url: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#FFEAD5'
+          content: 🤖
+        provider_id: 427144c2-7202-44f8-8f8e-70a83f6ed53b
+        provider_name: Data Analyst
+        provider_type: workflow
+        selected: false
+        title: Data Analyst
+        tool_configurations: {}
+        tool_description: 'Analyze tabular CSV data using Python in an E2B sandbox.
+          Use this tool when the user asks for data analysis, statistical summaries,
+          trends, correlations, missing-value checks, charts, or predictive modeling
+          from a CSV file or CSV URL. If the user provides a GitHub CSV link, convert
+          it to the raw.githubusercontent.com URL before calling this tool. For autonomous
+          agent use, prefer csv_url over file upload. '
+        tool_label: Data Analyst
+        tool_name: data_analyst
+        tool_node_version: '2'
+        tool_parameters:
+          analysis_question:
+            type: mixed
+            value: '{{#start.user_question#}}'
+          csv_data:
+            type: constant
+            value: ''
+          csv_url:
+            type: mixed
+            value: '{{#start.csv_url#}}'
+        type: tool
+      height: 52
+      id: '1779289261495'
+      position:
+        x: 642
+        y: 80
+      positionAbsolute:
+        x: 642
+        y: 80
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: Target URL
+            ja_JP: Target URL
+            pt_BR: Target URL
+            zh_Hans: Target URL
+          llm_description: ''
+          max: null
+          min: null
+          name: url
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: Summarize the main content of this page in 5 concise bullet points.
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: What do you want to extract or know?
+            ja_JP: What do you want to extract or know?
+            pt_BR: What do you want to extract or know?
+            zh_Hans: What do you want to extract or know?
+          llm_description: ''
+          max: null
+          min: null
+          name: instruction
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          instruction: ''
+          url: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#E0F2FE'
+          content: 🕷️
+        provider_id: ebda8969-04cb-41df-ab15-19d56758c752
+        provider_name: Web Scraper
+        provider_type: workflow
+        selected: false
+        title: Web Scraper
+        tool_configurations: {}
+        tool_description: Scrape any webpage to clean markdown via Jina Reader, then
+          extract or summarize with an LLM.
+        tool_label: Web Scraper
+        tool_name: web_scraper
+        tool_node_version: '2'
+        tool_parameters:
+          instruction:
+            type: mixed
+            value: Summarize the main content of this page in 5 concise bullet points.
+          url:
+            type: mixed
+            value: '{{#start.web_url#}}'
+        type: tool
+      height: 52
+      id: '1779289370670'
+      position:
+        x: 302
+        y: 120
+      positionAbsolute:
+        x: 302
+        y: 120
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -120
-      y: 120
-      zoom: 0.8
+      x: 131.50236294279762
+      y: 111.09692789530845
+      zoom: 0.7759962869514193
   rag_pipeline_variables: []
