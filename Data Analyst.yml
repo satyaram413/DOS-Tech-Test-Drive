@@ -1,22 +1,23 @@
+---
 app:
   description: ''
-  icon: 🤖
-  icon_background: '#FFEAD5'
+  icon: "\U0001F916"
+  icon_background: "#FFEAD5"
   icon_type: emoji
   mode: workflow
   name: Data Analyst
   use_icon_as_answer_icon: false
 dependencies:
-- current_identifier: null
+- current_identifier: 
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
-    version: null
-- current_identifier: null
+    version: 
+- current_identifier: 
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: lysonober/better-e2b-sandbox:0.0.3@7012679322cca2e4a2990ce57e9d8a8529c57f3c302f927de06b5fc56c57fa16
-    version: null
+    version: 
 kind: app
 version: 0.6.0
 workflow:
@@ -25,12 +26,12 @@ workflow:
   features:
     file_upload:
       allowed_file_extensions:
-      - .JPG
-      - .JPEG
-      - .PNG
-      - .GIF
-      - .WEBP
-      - .SVG
+      - ".JPG"
+      - ".JPEG"
+      - ".PNG"
+      - ".GIF"
+      - ".WEBP"
+      - ".SVG"
       allowed_file_types:
       - image
       allowed_file_upload_methods:
@@ -309,18 +310,14 @@ workflow:
         - edition_type: basic
           id: 3b97ced0-c49f-4fd6-8e4b-4529e6744231
           role: user
-          text: 'The user asked: {{#1776584414076.analysis_question#}}
-
+          text: |-
+            The user asked: {{#1776584414076.analysis_question#}}
 
             No CSV file or CSV URL was provided. Ask the user to provide either:
-
             - an uploaded CSV file, or
+            - a direct raw CSV URL such as a raw.githubusercontent.com link or a presigned S3 URL.
 
-            - a direct raw CSV URL such as a raw.githubusercontent.com link or a presigned
-            S3 URL.
-
-
-            Keep the response under 80 words.'
+            Keep the response under 80 words.
         selected: false
         title: Missing CSV Response
         type: llm
@@ -329,11 +326,11 @@ workflow:
       height: 88
       id: '1779300000002'
       position:
-        x: 684
-        y: 360
+        x: 1408
+        y: 266.8571428571429
       positionAbsolute:
-        x: 684
-        y: 360
+        x: 1408
+        y: 266.8571428571429
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -349,14 +346,14 @@ workflow:
         selected: false
         title: Missing CSV Output
         type: end
-      height: 89
+      height: 88
       id: '1779300000003'
       position:
-        x: 1026
-        y: 360
+        x: 1750
+        y: 281.5238095238096
       positionAbsolute:
-        x: 1026
-        y: 360
+        x: 1750
+        y: 281.5238095238096
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -384,6 +381,7 @@ workflow:
             variable_selector:
             - '1776584414076'
             - csv_url
+          id: 1d1a47d8-9726-4d33-b07d-7ef7a786e4b4
           logical_operator: and
         selected: false
         title: Validate CSV Input
@@ -392,10 +390,10 @@ workflow:
       id: '1779300000001'
       position:
         x: 342
-        y: 81.33333333333333
+        y: 13.333333333333371
       positionAbsolute:
         x: 342
-        y: 81.33333333333333
+        y: 13.333333333333371
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -404,7 +402,7 @@ workflow:
     - data:
         is_team_authorization: true
         paramSchemas:
-        - auto_generate: null
+        - auto_generate: 
           default: sandbox_global
           form: llm
           human_description:
@@ -427,62 +425,36 @@ workflow:
             ja_JP: 環境変数の注入範囲（任意）
             pt_BR: Escopo de Injeção de Ambiente (Opcional)
             zh_Hans: 环境变量注入范围（可选）
-          llm_description: 'Where to inject environment variables from envs_json.
-
+          llm_description: |
+            Where to inject environment variables from envs_json.
 
             ## Options Explained
 
-
             ### Sandbox Global (default)
-
-            Environment variables are set at sandbox creation time and persist for
-            the ENTIRE sandbox lifetime.
-
+            Environment variables are set at sandbox creation time and persist for the ENTIRE sandbox lifetime.
             - All commands, scripts, and processes inherit these env vars automatically
-
-            - Even if you close a shell and open a new one, the env vars are still
-            there
-
+            - Even if you close a shell and open a new one, the env vars are still there
             - Env vars persist until the sandbox is killed or expires
-
             - Use this when you want env vars available everywhere in the sandbox
 
-
-            Example: If you set API_KEY=xxx with Sandbox Global, every command you
-            run in the sandbox can access API_KEY.
-
+            Example: If you set API_KEY=xxx with Sandbox Global, every command you run in the sandbox can access API_KEY.
 
             ### Command Only
-
             Environment variables are NOT set at sandbox creation.
-
             - Env vars from envs_json are stored but not applied globally
-
             - Once you close the shell or command, the env vars are GONE
-
             - Opening a new shell will NOT have these env vars
-
             - Creating a new sandbox will NOT inherit these env vars
-
             - You must explicitly inject them for each specific command
 
-
-            Example: If you set API_KEY=xxx with Command Only, only that specific
-            command sees API_KEY. The next command you run will NOT have API_KEY.
-
+            Example: If you set API_KEY=xxx with Command Only, only that specific command sees API_KEY. The next command you run will NOT have API_KEY.
 
             ## Security Warning
-
-            Environment files are NOT private in the OS. Please be careful when storing
-            sensitive data like API keys or passwords. Any process running in the
-            sandbox can read environment variables.
-
+            Environment files are NOT private in the OS. Please be careful when storing sensitive data like API keys or passwords. Any process running in the sandbox can read environment variables.
 
             Reference: https://e2b.dev/docs/sandbox/environment-variables
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: env_injection_scope
           options:
           - icon: ''
@@ -499,14 +471,14 @@ workflow:
               pt_BR: Apenas Comando
               zh_Hans: 仅命令级
             value: command_only
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: select
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional. If provided, injects GITHUB_TOKEN into the sandbox environment
@@ -524,30 +496,25 @@ workflow:
             ja_JP: GitHub Token（上書き、任意）
             pt_BR: GitHub Token (Substituir, Opcional)
             zh_Hans: GitHub Token（覆盖，可选）
-          llm_description: 'Optional GitHub token injected as GITHUB_TOKEN.
-
+          llm_description: |
+            Optional GitHub token injected as GITHUB_TOKEN.
 
             Precedence (highest to lowest):
-
             1) github_token_override (this field)
-
             2) envs_json (if it contains GITHUB_TOKEN)
-
             3) provider credential github_token
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: github_token_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional. If provided, injects GITHUB_USER into the sandbox environment
@@ -565,30 +532,25 @@ workflow:
             ja_JP: GitHub ユーザー名（上書き、任意）
             pt_BR: GitHub Username (Substituir, Opcional)
             zh_Hans: GitHub 用户名（覆盖，可选）
-          llm_description: 'Optional GitHub username injected as GITHUB_USER.
-
+          llm_description: |
+            Optional GitHub username injected as GITHUB_USER.
 
             Precedence (highest to lowest):
-
             1) github_username_override (this field)
-
             2) envs_json (if it contains GITHUB_USER)
-
             3) provider credential github_username
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: github_username_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional. If provided, injects VERCEL_TOKEN at sandbox creation
@@ -607,30 +569,25 @@ workflow:
             ja_JP: Vercel Token（上書き、任意）
             pt_BR: Vercel Token (Substituir, Opcional)
             zh_Hans: Vercel Token（覆盖，可选）
-          llm_description: 'Optional Vercel token injected as VERCEL_TOKEN.
-
+          llm_description: |
+            Optional Vercel token injected as VERCEL_TOKEN.
 
             Precedence (highest to lowest):
-
             1) vercel_token_override (this field)
-
             2) envs_json (if it contains VERCEL_TOKEN)
-
             3) provider credential vercel_token
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: vercel_token_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional. If provided, injects VERCEL_ORG_ID and VERCEL_TEAM_ID
@@ -648,30 +605,25 @@ workflow:
             ja_JP: Vercel Team ID（上書き、任意）
             pt_BR: Vercel Team ID (Substituir, Opcional)
             zh_Hans: Vercel Team ID（覆盖，可选）
-          llm_description: 'Optional Vercel org/team ID injected as VERCEL_ORG_ID.
-
+          llm_description: |
+            Optional Vercel org/team ID injected as VERCEL_ORG_ID.
 
             Precedence (highest to lowest):
-
             1) vercel_org_id_override (this field)
-
             2) envs_json (if it contains VERCEL_ORG_ID)
-
             3) provider credential vercel_org_id
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: vercel_org_id_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional. If provided, injects VERCEL_PROJECT_ID at sandbox creation
@@ -688,30 +640,25 @@ workflow:
             ja_JP: Vercel Project ID（上書き、任意）
             pt_BR: Vercel Project ID (Substituir, Opcional)
             zh_Hans: Vercel Project ID（覆盖，可选）
-          llm_description: 'Optional Vercel project ID injected as VERCEL_PROJECT_ID.
-
+          llm_description: |
+            Optional Vercel project ID injected as VERCEL_PROJECT_ID.
 
             Precedence (highest to lowest):
-
             1) vercel_project_id_override (this field)
-
             2) envs_json (if it contains VERCEL_PROJECT_ID)
-
             3) provider credential vercel_project_id
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: vercel_project_id_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Which pre-configured environment to use. Leave empty to use the
@@ -726,88 +673,56 @@ workflow:
             ja_JP: テンプレート別名（任意）
             pt_BR: Alias do Template (Opcional)
             zh_Hans: 模板别名（可选）
-          llm_description: 'Template alias (or template ID) used to create the sandbox.
-
+          llm_description: |
+            Template alias (or template ID) used to create the sandbox.
 
             ## What is a template alias?
-
             A template alias is a human-readable name that points to a specific template.
-
-            It''s like a shortcut name for a pre-configured sandbox environment.
-
+            It's like a shortcut name for a pre-configured sandbox environment.
 
             ## How to fill this field
-
             Enter the template alias as a simple string. No quotes needed in the UI.
 
-
             ## Default behavior
-
             - Leave empty: Uses E2B default "base" template (minimal Ubuntu environment)
-
             - "base": Same as empty, explicitly uses default base template
 
-
             ## Custom templates
-
-            If you have built custom templates using the "Build Custom Template" tool,
-            you can use their alias here.
-
+            If you have built custom templates using the "Build Custom Template" tool, you can use their alias here.
             Use the "List Templates" tool to see all available templates in your account.
 
-
             ## Official E2B example templates
-
             E2B provides several official example templates:
-
             - claude-code: Claude Code sandbox with coding capabilities
-
             - base: Default sandbox template (no preinstalled app)
-
             - claude-code: Claude Code environment (if available in your account)
 
-
-            **However**, for these official templates, we have already created dedicated
-            tools in this plugin that are more convenient:
-
+            **However**, for these official templates, we have already created dedicated tools in this plugin that are more convenient:
             - "Create Claude Code Sandbox" for claude-code
-
             - "Create Next.js Sandbox"
-
             - "Create Next.js (Bun) Sandbox"
-
             - "Create Claude Code Sandbox"
 
-
-            Using these dedicated tools is recommended as they handle template-specific
-            configurations automatically.
-
+            Using these dedicated tools is recommended as they handle template-specific configurations automatically.
 
             ## How to find available templates
-
             - Use "List Templates" tool to see all templates in your account
-
             - Check your E2B Dashboard: https://e2b.dev/dashboard
 
-
             ## Reference
-
             - Template Aliases: https://e2b.dev/docs/template/aliases
-
             - Template Quickstart: https://e2b.dev/docs/template/quickstart
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: template_alias
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
+        - auto_generate: 
           default: '1800'
           form: llm
           human_description:
@@ -826,26 +741,18 @@ workflow:
             ja_JP: サンドボックスのタイムアウト（任意）
             pt_BR: Tempo Limite do Sandbox (Opcional)
             zh_Hans: 沙盒超时（可选）
-          llm_description: 'Preset sandbox lifetime. sandbox_timeout_seconds overrides
-            this if provided.
-
+          llm_description: |
+            Preset sandbox lifetime. sandbox_timeout_seconds overrides this if provided.
 
             ## E2B Plan Requirements
-
             - E2B Hobby: up to 1 hour (3600 seconds)
-
             - E2B Pro: up to 24 hours (86400 seconds)
-
             - E2B Ultimate: >24 hours (use sandbox_timeout_seconds)
 
-
             ## Reference
-
             - E2B Pricing: https://e2b.dev/pricing
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: timeout_preset
           options:
           - icon: ''
@@ -911,14 +818,14 @@ workflow:
               pt_BR: 24 horas (E2B Pro)
               zh_Hans: 24 小时（E2B Pro）
             value: '86400'
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: select
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'Custom timeout in seconds (overrides preset). E2B Hobby max: 3600
@@ -936,41 +843,31 @@ workflow:
             ja_JP: タイムアウト秒（上書き、任意）
             pt_BR: Segundos de Timeout (Substituir, Opcional)
             zh_Hans: 沙盒超时秒数（覆盖，可选）
-          llm_description: 'Custom timeout in seconds that overrides the preset.
-
+          llm_description: |
+            Custom timeout in seconds that overrides the preset.
 
             ## E2B Plan Limits
-
             - E2B Hobby: max 3600 seconds (1 hour)
-
             - E2B Pro: max 86400 seconds (24 hours)
-
             - E2B Ultimate: >86400 seconds (contact E2B for custom limits)
 
-
             ## When to use
-
             Use this for custom timeout values not available in the preset dropdown.
-
             For timeouts >24 hours, you must have E2B Ultimate plan.
 
-
             ## Reference
-
             - E2B Pricing: https://e2b.dev/pricing
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_timeout_seconds
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: number
-        - auto_generate: null
+        - auto_generate: 
           default: true
           form: llm
           human_description:
@@ -985,52 +882,37 @@ workflow:
             ja_JP: インターネットアクセス（任意）
             pt_BR: Permitir Acesso à Internet (Opcional)
             zh_Hans: 允许联网（可选）
-          llm_description: 'Whether the sandbox can access the public internet.
-
+          llm_description: |
+            Whether the sandbox can access the public internet.
 
             ## Values
-
             - true (default): Full internet access enabled
-
             - false: Network isolation, no external access
 
-
             ## When to use true
-
             - Installing packages (pip install, npm install, apt-get)
-
             - Accessing external APIs
-
             - Cloning git repositories
-
             - Downloading files from URLs
 
-
             ## When to use false
-
             - Security-sensitive workloads
-
             - Testing offline behavior
-
             - Preventing data exfiltration
 
-
             ## Reference
-
             - Internet access: https://e2b.dev/docs/sandbox/internet-access
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: allow_internet_access
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: boolean
-        - auto_generate: null
+        - auto_generate: 
           default: true
           form: llm
           human_description:
@@ -1046,38 +928,30 @@ workflow:
             ja_JP: セキュアモード（任意）
             pt_BR: Modo Seguro (Opcional)
             zh_Hans: 安全模式（可选）
-          llm_description: 'Whether to create the sandbox in secure mode.
-
+          llm_description: |
+            Whether to create the sandbox in secure mode.
 
             ## Values
-
             - true (default): Envd is protected and requires an access token
-
             - false: Envd is accessible without authentication
 
-
             ## Recommendation
-
             Always use secure mode (true) unless you have a specific reason not to.
 
-
             ## Reference
-
             - Secured access: https://e2b.dev/docs/sandbox/secured-access
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: secure
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: boolean
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'Environment variables. Supported formats: (1) KV: KEY=value;KEY2=value2
@@ -1093,28 +967,40 @@ workflow:
             ja_JP: 環境変数（任意）
             pt_BR: Variáveis de Ambiente (Opcional)
             zh_Hans: 环境变量（可选）
-          llm_description: "Optional environment variables input.\n\nSupported formats:\n\
-            1) KV single-line: KEY=value;KEY2=value2\n   - Use quotes to include semicolons:\
-            \ KEY=\"a;b\";KEY2='x;y'\n2) JSON object: {\"KEY\":\"value\",\"KEY2\"\
-            :\"value2\"}\n\n## Format\nValues are treated as strings.\n\n## Examples\n\
-            - KV: API_KEY=sk-xxx;DEBUG=true;NODE_ENV=development\n- KV with semicolons\
-            \ in value: TOKEN=\"a;b;c\";MODE=dev\n- JSON: {\"API_KEY\":\"sk-xxx\"\
-            ,\"DEBUG\":\"true\",\"NODE_ENV\":\"development\"}\n\n## Important notes\n\
-            - Keys are case-sensitive (API_KEY ≠ api_key)\n- Env vars are not private\
-            \ in the OS (do not rely on env vars as a secrecy boundary)\n\n## Reference\n\
-            - Environment variables: https://e2b.dev/docs/sandbox/environment-variables\n"
-          max: null
-          min: null
+          llm_description: |
+            Optional environment variables input.
+
+            Supported formats:
+            1) KV single-line: KEY=value;KEY2=value2
+               - Use quotes to include semicolons: KEY="a;b";KEY2='x;y'
+            2) JSON object: {"KEY":"value","KEY2":"value2"}
+
+            ## Format
+            Values are treated as strings.
+
+            ## Examples
+            - KV: API_KEY=sk-xxx;DEBUG=true;NODE_ENV=development
+            - KV with semicolons in value: TOKEN="a;b;c";MODE=dev
+            - JSON: {"API_KEY":"sk-xxx","DEBUG":"true","NODE_ENV":"development"}
+
+            ## Important notes
+            - Keys are case-sensitive (API_KEY ≠ api_key)
+            - Env vars are not private in the OS (do not rely on env vars as a secrecy boundary)
+
+            ## Reference
+            - Environment variables: https://e2b.dev/docs/sandbox/environment-variables
+          max: 
+          min: 
           name: envs_json
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'Custom metadata for identification/filtering. Supported formats:
@@ -1130,56 +1016,39 @@ workflow:
             ja_JP: メタデータ（任意）
             pt_BR: Metadados (Opcional)
             zh_Hans: 元数据（可选）
-          llm_description: 'Optional JSON object of metadata to attach to the sandbox
-            for later listing and debugging.
-
+          llm_description: |
+            Optional JSON object of metadata to attach to the sandbox for later listing and debugging.
 
             ## Purpose
-
             Metadata helps you:
-
             - Find specific sandboxes using "List Sandboxes" with metadata filtering
-
             - Track which sandboxes belong to which users/sessions/workflows
-
             - Debug and audit sandbox usage
 
-
             ## Format
-
             Supported formats:
-
             1) KV single-line: KEY=value;KEY2=value2
-
             2) JSON object: {"KEY":"value","KEY2":"value2"}
 
-
             ## Examples
-
             - KV: userId=user_123;sessionId=sess_abc;app=dify
-
             - JSON: {"userId":"user_123","sessionId":"sess_abc","app":"dify"}
 
-
             ## Reference
-
             - Metadata: https://e2b.dev/docs/sandbox/metadata
-
             - List sandboxes: https://e2b.dev/docs/sandbox/list
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: metadata_json
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'Ports to return external URLs for (comma-separated). Examples:
@@ -1197,29 +1066,55 @@ workflow:
             ja_JP: 公開ポート（任意）
             pt_BR: Portas para Expor (Opcional)
             zh_Hans: 暴露端口（可选）
-          llm_description: "Optional comma-separated list of ports to generate external\
-            \ URLs for.\n\n## Behavior\n\n### If you specify ports (e.g., \"3000,8080\"\
-            )\nThe tool will return external URLs for ONLY those specified ports in\
-            \ the output:\n```json\n{\n  \"port_urls\": {\n    \"3000\": \"https://3000-sandbox-id.e2b.dev\"\
-            ,\n    \"8080\": \"https://8080-sandbox-id.e2b.dev\"\n  }\n}\n```\n\n\
-            ### If you do NOT specify ports (leave empty)\nThe output will have an\
-            \ empty port_urls object:\n```json\n{\n  \"port_urls\": {}\n}\n```\nNote:\
-            \ Ports are still accessible, you just don't get the URLs in the response.\n\
-            You can always get port URLs later using \"Connect to Sandbox\" tool.\n\
-            \n## Format\nComma-separated port numbers (no spaces):\n- Single port:\
-            \ 3000\n- Multiple ports: 3000,8080,6080\n\n## Common port numbers\n-\
-            \ 3000 (Next.js, React dev server)\n- 8080 (Generic web server)\n- 8081\
-            \ (Expo)\n- 6080 (noVNC for Desktop sandbox)\n- 5173 (Vite dev server)\n\
-            \n## Reference\n- Sandbox internet access: https://e2b.dev/docs/sandbox/internet-access\n"
-          max: null
-          min: null
+          llm_description: |
+            Optional comma-separated list of ports to generate external URLs for.
+
+            ## Behavior
+
+            ### If you specify ports (e.g., "3000,8080")
+            The tool will return external URLs for ONLY those specified ports in the output:
+            ```json
+            {
+              "port_urls": {
+                "3000": "https://3000-sandbox-id.e2b.dev",
+                "8080": "https://8080-sandbox-id.e2b.dev"
+              }
+            }
+            ```
+
+            ### If you do NOT specify ports (leave empty)
+            The output will have an empty port_urls object:
+            ```json
+            {
+              "port_urls": {}
+            }
+            ```
+            Note: Ports are still accessible, you just don't get the URLs in the response.
+            You can always get port URLs later using "Connect to Sandbox" tool.
+
+            ## Format
+            Comma-separated port numbers (no spaces):
+            - Single port: 3000
+            - Multiple ports: 3000,8080,6080
+
+            ## Common port numbers
+            - 3000 (Next.js, React dev server)
+            - 8080 (Generic web server)
+            - 8081 (Expo)
+            - 6080 (noVNC for Desktop sandbox)
+            - 5173 (Vite dev server)
+
+            ## Reference
+            - Sandbox internet access: https://e2b.dev/docs/sandbox/internet-access
+          max: 
+          min: 
           name: ports
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
         params:
           allow_internet_access: ''
@@ -1264,49 +1159,49 @@ workflow:
             value: sandbox_global
           envs_json:
             type: mixed
-            value: null
+            value: 
           github_token_override:
             type: mixed
             value: ''
           github_username_override:
             type: mixed
-            value: null
+            value: 
           metadata_json:
             type: mixed
-            value: null
+            value: 
           ports:
             type: mixed
-            value: null
+            value: 
           sandbox_timeout_seconds:
             type: constant
-            value: null
+            value: 
           secure:
             type: constant
             value: true
           template_alias:
             type: mixed
-            value: makasitaramw/dos-lazypredict-flaml
+            value: makasitaram-c597/dos-lazypredict-flaml
           timeout_preset:
             type: constant
             value: '300'
           vercel_org_id_override:
             type: mixed
-            value: null
+            value: 
           vercel_project_id_override:
             type: mixed
-            value: null
+            value: 
           vercel_token_override:
             type: mixed
-            value: null
+            value: 
         type: tool
       height: 52
       id: '1776584483616'
       position:
-        x: 342
-        y: 81.33333333333333
+        x: 704
+        y: 81.42857142857144
       positionAbsolute:
-        x: 342
-        y: 81.33333333333333
+        x: 704
+        y: 81.42857142857144
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1315,8 +1210,8 @@ workflow:
     - data:
         is_team_authorization: true
         paramSchemas:
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: The unique ID of the sandbox to write to. Get it from Create Sandbox
@@ -1330,57 +1225,40 @@ workflow:
             ja_JP: サンドボックス ID
             pt_BR: ID do Sandbox
             zh_Hans: 沙盒 ID
-          llm_description: 'The unique identifier of the E2B sandbox to write the
-            file to.
-
+          llm_description: |
+            The unique identifier of the E2B sandbox to write the file to.
 
             ## Format
-
             Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
 
-
             ## Where to get this
-
             - From the output of "Create Sandbox" tool (sandbox_id field)
-
             - From the output of "Create Next.js Sandbox" or other example tools
-
             - From "List Sandboxes" tool
-
-            - From your application''s database
-
+            - From your application's database
 
             ## Example values
-
             - ixjj3iankaishgcge4jwn-b0b684e9
-
             - abc123def456-12345678
 
-
             ## Requirements
-
             - The sandbox must be running (not paused or killed)
-
             - Use "Resume Existing Sandbox" first to resume a paused sandbox
 
-
             ## Reference
-
             - Connect to Sandbox: https://e2b.dev/docs/sandbox/connect
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: The full path where the file will be created. Use absolute paths
@@ -1395,66 +1273,44 @@ workflow:
             ja_JP: ファイルパス
             pt_BR: Caminho do Arquivo
             zh_Hans: 文件路径
-          llm_description: 'The absolute path where the file will be written in the
-            sandbox.
-
+          llm_description: |
+            The absolute path where the file will be written in the sandbox.
 
             ## Path format
-
             ALWAYS use absolute paths starting with /
-
             Relative paths are not supported.
 
-
             ## Example values
-
             - /home/user/index.html
-
             - /home/user/project/src/App.tsx
-
             - /home/user/package.json
-
             - /home/user/config.json
-
             - /home/user/.env
-
             - /tmp/input.txt
 
-
             ## Directory creation
-
             Parent directories are created automatically.
-
-            Writing to /home/user/a/b/c/file.txt will create /home/user/a/b/c/ if
-            needed.
-
+            Writing to /home/user/a/b/c/file.txt will create /home/user/a/b/c/ if needed.
 
             ## Overwriting behavior
-
             If the file already exists, it will be completely overwritten.
-
             There is no append mode.
 
-
             ## Reference
-
             - Filesystem Overview: https://e2b.dev/docs/filesystem
-
             - Read & Write Files: https://e2b.dev/docs/filesystem/read-write
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: file_path
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Upload one or more files directly. Each file is written to file_path
@@ -1471,29 +1327,24 @@ workflow:
             ja_JP: ファイルアップロード（任意）
             pt_BR: Upload de Arquivos (Opcional)
             zh_Hans: 上传文件（可选）
-          llm_description: 'Upload files directly into the sandbox.
-
+          llm_description: |
+            Upload files directly into the sandbox.
             When provided, content parameter is ignored.
-
             Each file is written using its original filename to:
-
             - file_path directory (if file_path looks like a directory)
-
             - /home/user/uploads/ (if file_path is not set)
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: upload_files
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: files
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Text content to write to the file specified by file_path. Supports
@@ -1509,25 +1360,47 @@ workflow:
             ja_JP: ファイル内容（任意）
             pt_BR: Conteúdo do Arquivo (Opcional)
             zh_Hans: 文件内容（可选）
-          llm_description: "The content to write to the file as a string.\n\n## How\
-            \ to provide content\nJust provide the text content directly. The system\
-            \ handles:\n- Multi-line content with normal newlines\n- Special characters\n\
-            - UTF-8 encoding\n\n## Example values\n\n### JSON configuration\n{\"name\"\
-            : \"my-app\", \"version\": \"1.0.0\"}\n\n### Environment variables\nAPI_KEY=sk-xxx\n\
-            DEBUG=true\n\n### Python code\ndef hello():\n    print(\"Hello, World!\"\
-            )\n\n### HTML file\n<!DOCTYPE html>\n<html><head><title>My App</title></head><body><h1>Hello</h1></body></html>\n\
-            \n## Special cases\n- For binary files, use base64-encoded content\n-\
-            \ Very large files may timeout\n\n## Reference\n- Read & Write Files:\
-            \ https://e2b.dev/docs/filesystem/read-write\n"
-          max: null
-          min: null
+          llm_description: |
+            The content to write to the file as a string.
+
+            ## How to provide content
+            Just provide the text content directly. The system handles:
+            - Multi-line content with normal newlines
+            - Special characters
+            - UTF-8 encoding
+
+            ## Example values
+
+            ### JSON configuration
+            {"name": "my-app", "version": "1.0.0"}
+
+            ### Environment variables
+            API_KEY=sk-xxx
+            DEBUG=true
+
+            ### Python code
+            def hello():
+                print("Hello, World!")
+
+            ### HTML file
+            <!DOCTYPE html>
+            <html><head><title>My App</title></head><body><h1>Hello</h1></body></html>
+
+            ## Special cases
+            - For binary files, use base64-encoded content
+            - Very large files may timeout
+
+            ## Reference
+            - Read & Write Files: https://e2b.dev/docs/filesystem/read-write
+          max: 
+          min: 
           name: content
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
         params:
           content: ''
@@ -1555,10 +1428,10 @@ workflow:
             value: ''
           file_path:
             type: mixed
-            value: /home/user/data/
+            value: "/home/user/data/"
           sandbox_id:
             type: mixed
-            value: '{{#1776584483616.text#}}'
+            value: "{{#1776584483616.text#}}"
           upload_files:
             type: variable
             value:
@@ -1568,11 +1441,11 @@ workflow:
       height: 52
       id: '1776584635962'
       position:
-        x: 1046
-        y: 20.714285714285708
+        x: 1408
+        y: 1.5238095238095468
       positionAbsolute:
-        x: 1046
-        y: 20.714285714285708
+        x: 1408
+        y: 1.5238095238095468
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1581,8 +1454,8 @@ workflow:
     - data:
         is_team_authorization: true
         paramSchemas:
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'The sandbox ID to connect to. Example: ixjj3iankaishgcge4jwn-b0b684e9'
@@ -1595,18 +1468,18 @@ workflow:
             pt_BR: ID do Sandbox
             zh_Hans: 沙盒 ID
           llm_description: The sandbox ID to connect to.
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Prompt for Claude Code or a shell command, depending on action.
@@ -1619,18 +1492,18 @@ workflow:
             pt_BR: Texto de Entrada (Opcional)
             zh_Hans: 输入内容（可选）
           llm_description: Input text for claude_code or shell_command actions.
-          max: null
-          min: null
+          max: 
+          min: 
           name: input_text
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Optional files to upload into the sandbox before running the command.
@@ -1650,17 +1523,17 @@ workflow:
             zh_Hans: 附件（可选）
           llm_description: Optional file attachments. Each uploaded to /home/user/uploads/<filename>.
             All paths appended to input_text for Claude Code.
-          max: null
-          min: null
+          max: 
+          min: 
           name: attachments
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: files
-        - auto_generate: null
+        - auto_generate: 
           default: claude_code
           form: llm
           human_description:
@@ -1675,8 +1548,8 @@ workflow:
             zh_Hans: 动作（可选）
           llm_description: 'Action to perform: claude_code, shell_command, heartbeat,
             extend_lifecycle_1h.'
-          max: null
-          min: null
+          max: 
+          min: 
           name: action
           options:
           - icon: ''
@@ -1707,13 +1580,13 @@ workflow:
               pt_BR: Estender para 1 Hora
               zh_Hans: 延长生命周期到 1 小时
             value: extend_lifecycle_1h
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: select
-        - auto_generate: null
+        - auto_generate: 
           default: false
           form: llm
           human_description:
@@ -1737,25 +1610,21 @@ workflow:
             ja_JP: セッション ID をキャプチャ（任意）
             pt_BR: Capturar ID da Sessão (Opcional)
             zh_Hans: 捕获会话 ID（可选）
-          llm_description: 'When true, reads the current Claude Code session ID after
-            execution and returns it in JSON output.
-
-            When false (default), does not read session ID. JSON session_id will be
-            null unless session_id parameter was provided.
-
-            '
-          max: null
-          min: null
+          llm_description: |
+            When true, reads the current Claude Code session ID after execution and returns it in JSON output.
+            When false (default), does not read session ID. JSON session_id will be null unless session_id parameter was provided.
+          max: 
+          min: 
           name: capture_session_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: boolean
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: 'The Claude Code session ID to resume. Get it from the JSON output
@@ -1776,26 +1645,22 @@ workflow:
             ja_JP: Claude Code セッション ID（任意）
             pt_BR: ID da Sessão Claude Code (Opcional)
             zh_Hans: Claude Code 会话 ID（可选）
-          llm_description: 'Claude Code session ID for precise session resumption.
-
-            When provided, uses ''claude --resume <id>'' instead of ''claude --continue''.
-
+          llm_description: |
+            Claude Code session ID for precise session resumption.
+            When provided, uses 'claude --resume <id>' instead of 'claude --continue'.
             Get this value from a previous call where capture_session_id was true.
-
             Ignored when capture_session_id is true (first turn always starts fresh).
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: session_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
+        - auto_generate: 
           default: true
           form: llm
           human_description:
@@ -1815,28 +1680,23 @@ workflow:
             ja_JP: Claude Code セッションを再開（任意）
             pt_BR: Retomar Sessão do Claude Code (Opcional)
             zh_Hans: 恢复 Claude Code 会话（可选）
-          llm_description: 'Whether to resume a Claude Code session.
-
+          llm_description: |
+            Whether to resume a Claude Code session.
             - true + session_id: resume that specific session (recommended)
-
             - true + no session_id: resume most recent session
-
             - false: start a fresh session
-
             When capture_session_id=true, this is automatically false.
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: resume_session
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: boolean
-        - auto_generate: null
+        - auto_generate: 
           default: '1800'
           form: llm
           human_description:
@@ -1851,8 +1711,8 @@ workflow:
             zh_Hans: 沙盒超时（可选）
           llm_description: Preset timeout after connect. sandbox_timeout_seconds overrides
             this.
-          max: null
-          min: null
+          max: 
+          min: 
           name: timeout_preset
           options:
           - icon: ''
@@ -1890,14 +1750,14 @@ workflow:
               pt_BR: 2 horas
               zh_Hans: 2 小时
             value: '7200'
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: select
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Custom timeout in seconds. Overrides timeout_preset.
@@ -1910,18 +1770,18 @@ workflow:
             pt_BR: Timeout em Segundos (Substituir, Opcional)
             zh_Hans: 沙盒超时秒数（覆盖，可选）
           llm_description: Custom timeout in seconds that overrides the preset.
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_timeout_seconds
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: number
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Max time for the command. 0 means no timeout.
@@ -1934,18 +1794,18 @@ workflow:
             pt_BR: Timeout do Comando (Opcional)
             zh_Hans: 命令超时秒数（可选）
           llm_description: Max command time in seconds. 0 means no timeout.
-          max: null
-          min: null
+          max: 
+          min: 
           name: command_timeout_seconds
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: number
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Only for claude_code action. Overrides provider key for this run.
@@ -1958,15 +1818,15 @@ workflow:
             pt_BR: Anthropic API Key (Substituir, Opcional)
             zh_Hans: Anthropic API Key（覆盖，可选）
           llm_description: Optional Anthropic API key override for claude_code action.
-          max: null
-          min: null
+          max: 
+          min: 
           name: anthropic_api_key_override
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
         params:
           action: ''
@@ -2000,161 +1860,332 @@ workflow:
             value: shell_command
           anthropic_api_key_override:
             type: mixed
-            value: null
+            value: 
           attachments:
             type: constant
-            value: null
+            value: 
           capture_session_id:
             type: constant
             value: false
           command_timeout_seconds:
             type: constant
-            value: null
+            value: 
           input_text:
             type: mixed
-            value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport json\nimport\
-              \ warnings\nimport os\nimport io\nimport urllib.request\nimport matplotlib\n\
-              matplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nimport base64\n\
-              from io import BytesIO\nwarnings.filterwarnings('ignore')\n\ndef parse_floor_area(val):\n\
-              \    try:\n        parts = str(val).split(' to ')\n        return (int(parts[0])\
-              \ + int(parts[1])) / 2\n    except:\n        return None\n\ndef download_url_to_csv(url,\
-              \ output_path):\n    request = urllib.request.Request(\n        url.strip(),\n\
-              \        headers={'User-Agent': 'Mozilla/5.0'}\n    )\n    with urllib.request.urlopen(request,\
-              \ timeout=60) as response:\n        data = response.read()\n    with\
-              \ open(output_path, 'wb') as f:\n        f.write(data)\n    return output_path\n\
-              \n\ndef load_dataframe():\n    data_dir = '/home/user/data/'\n    upload_dirs\
-              \ = [data_dir, '/home/user/upload/', '/home/user/uploads/']\n\n    #\
-              \ Path 1 — a real CSV file already exists in the sandbox\n    for directory\
-              \ in upload_dirs:\n        if os.path.exists(directory):\n         \
-              \   files = [f for f in os.listdir(directory) if f.lower().endswith('.csv')]\n\
-              \            if files:\n                filepath = os.path.join(directory,\
-              \ files[0])\n                return pd.read_csv(filepath, on_bad_lines='skip')\n\
-              \n    # Path 2 — agent provided a CSV URL. The workflow wrote it as\
-              \ a local .url file first.\n    if os.path.exists(data_dir):\n     \
-              \   url_files = [f for f in os.listdir(data_dir) if f.lower().endswith('.url')]\n\
-              \        if url_files:\n            url_path = os.path.join(data_dir,\
-              \ url_files[0])\n            with open(url_path, 'r', encoding='utf-8')\
-              \ as f:\n                url = f.read().strip()\n            if not\
-              \ url:\n                raise ValueError('CSV URL file is empty.')\n\
-              \            csv_path = os.path.join(data_dir, 'input.csv')\n      \
-              \      download_url_to_csv(url, csv_path)\n            return pd.read_csv(csv_path,\
-              \ on_bad_lines='skip')\n\n    raise ValueError(\"No CSV file found.\
-              \ Upload a CSV file or provide a CSV URL.\")\n\ntry:\n    df = load_dataframe()\n\
-              \n    # Fix URA-specific columns if present\n    if 'Floor Area (sq\
-              \ ft)' in df.columns:\n        df['Floor Area (sq ft)'] = df['Floor\
-              \ Area (sq ft)'].apply(parse_floor_area)\n    if 'No. of Bedroom(for\
-              \ Non-Landed Only)' in df.columns:\n        df['No. of Bedroom(for Non-Landed\
-              \ Only)'] = pd.to_numeric(\n            df['No. of Bedroom(for Non-Landed\
-              \ Only)'], errors='coerce')\n    if 'Lease Commencement Date' in df.columns:\n\
-              \        df['Lease Year'] = pd.to_datetime(\n            df['Lease Commencement\
-              \ Date'], format='%b-%Y', errors='coerce').dt.year\n\n    result = {}\n\
-              \    result['rows'] = int(df.shape[0])\n    result['columns'] = int(df.shape[1])\n\
-              \    result['column_names'] = list(df.columns)\n\n    # Descriptive\
-              \ stats\n    numeric_cols = df.select_dtypes(include='number')\n   \
-              \ if not numeric_cols.empty:\n        result['descriptive_stats'] =\
-              \ numeric_cols.describe().round(2).to_dict()\n    if len(numeric_cols.columns)\
-              \ >= 2:\n        result['correlation'] = numeric_cols.corr().round(3).to_dict()\n\
-              \n    # Missing values\n    missing = df.isnull().sum()\n    result['missing_values']\
-              \ = missing[missing > 0].to_dict()\n\n    # Categorical summary\n  \
-              \  cat_cols = df.select_dtypes(include='object')\n    cat_summary =\
-              \ {}\n    for col in list(cat_cols.columns)[:3]:\n        cat_summary[col]\
-              \ = df[col].value_counts().head(5).to_dict()\n    result['categorical_summary']\
-              \ = cat_summary\n\n    # Charts — works for any dataset\n    try:\n\
-              \        numeric_chart_cols = numeric_cols.columns.tolist()\n      \
-              \  \n        fig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\n   \
-              \     # Chart 1 — distribution of last numeric column\n        target_col_chart\
-              \ = numeric_chart_cols[-1]\n        axes[0].hist(df[target_col_chart].dropna(),\
-              \ bins=50,\n                     color='steelblue', edgecolor='white')\n\
-              \        axes[0].set_title(f'{target_col_chart} Distribution')\n   \
-              \     axes[0].set_xlabel(target_col_chart)\n        axes[0].set_ylabel('Frequency')\n\
-              \n        # Chart 2 — if categorical column exists, group by it\n  \
-              \      if len(cat_cols.columns) > 0:\n            group_col = cat_cols.columns[0]\n\
-              \            group_data = df.groupby(group_col)[target_col_chart].median().head(15)\n\
-              \            axes[1].bar(range(len(group_data)), group_data.values,\n\
-              \                        color='steelblue', edgecolor='white')\n   \
-              \         axes[1].set_xticks(range(len(group_data)))\n            axes[1].set_xticklabels(group_data.index.astype(str),\n\
-              \                                     rotation=45, ha='right', fontsize=8)\n\
-              \            axes[1].set_title(f'Median {target_col_chart} by {group_col}')\n\
-              \            axes[1].set_ylabel(f'Median {target_col_chart}')\n    \
-              \    else:\n            # Fallback — second numeric col distribution\n\
-              \            if len(numeric_chart_cols) >= 2:\n                axes[1].hist(df[numeric_chart_cols[0]].dropna(),\
-              \ bins=30,\n                             color='coral', edgecolor='white')\n\
-              \                axes[1].set_title(f'{numeric_chart_cols[0]} Distribution')\n\
-              \n        plt.tight_layout()\n        buffer = BytesIO()\n        plt.savefig(buffer,\
-              \ format='png', dpi=100, bbox_inches='tight')\n        buffer.seek(0)\n\
-              \        result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')\n\
-              \        plt.close()\n    except Exception as e:\n        result['chart_error']\
-              \ = str(e)\n\n    # ML — sample up to 5000 rows\n    try:\n        sample_size\
-              \ = min(5000, len(df))\n        df_ml = df.sample(sample_size, random_state=42).copy()\n\
-              \n        question = '''{{#1776584414076.analysis_question#}}'''.lower()\n\
-              \        numeric_names = list(numeric_cols.columns)\n\n        def choose_target_column():\n\
-              \            if 'rent' in question:\n                rent_candidates\
-              \ = [c for c in numeric_names if 'rent' in c.lower()]\n           \
-              \     if rent_candidates:\n                    return rent_candidates[0]\n\
-              \            for keyword in ['price', 'amount', 'value', 'sales', 'income',\
-              \ 'cost']:\n                if keyword in question:\n             \
-              \       matches = [c for c in numeric_names if keyword in c.lower()]\n\
-              \                    if matches:\n                        return matches[0]\n\
-              \            non_time_cols = [c for c in numeric_names\n          \
-              \                   if c not in ['S/N'] and 'year' not in c.lower()\
-              \ and 'date' not in c.lower()]\n            return non_time_cols[-1]\
-              \ if non_time_cols else numeric_names[-1]\n\n        target_col = choose_target_column()\n\
-              \n        # Prefer known URA columns, fall back to all numeric\n   \
-              \     preferred = ['Postal District', 'Floor Area (sq ft)',\n     \
-              \                'No. of Bedroom(for Non-Landed Only)', 'Lease Year']\n\
-              \        available = [c for c in preferred if c in df_ml.columns\n \
-              \                    and c != target_col and df_ml[c].notna().sum()\
-              \ > 100]\n        if not available:\n            available = [c for\
-              \ c in df_ml.select_dtypes(include='number').columns\n             \
-              \            if c not in [target_col, 'S/N']]\n\n        df_ml = df_ml[available\
-              \ + [target_col]].dropna()\n\n        if len(df_ml) < 10:\n        \
-              \    result['ml_error'] = 'Insufficient data after cleaning'\n     \
-              \   else:\n            X = df_ml[available]\n            y = df_ml[target_col]\n\
-              \            task = 'classification' if y.nunique() <= 10 else 'regression'\n\
-              \            result['ml_sample_size'] = int(len(X))\n            result['features_used']\
-              \ = available\n            result['target_column'] = target_col\n  \
-              \          result['task_type'] = task\n\n            from sklearn.model_selection\
-              \ import train_test_split\n            X_train, X_test, y_train, y_test\
-              \ = train_test_split(\n                X, y, test_size=0.2, random_state=42)\n\
-              \n            # LazyPredict leaderboard\n            try:\n        \
-              \        from lazypredict.Supervised import LazyClassifier, LazyRegressor\n\
-              \                if task == 'classification':\n                    lz\
-              \ = LazyClassifier(verbose=0, ignore_warnings=True)\n              \
-              \  else:\n                    lz = LazyRegressor(verbose=0, ignore_warnings=True)\n\
-              \                models, _ = lz.fit(X_train, X_test, y_train, y_test)\n\
-              \                top_models = models.head(10).round(3)\n           \
-              \     result['lazypredict_leaderboard'] = {\n                    'target':\
-              \ target_col,\n                    'task': task,\n                \
-              \    'metric_columns': list(top_models.columns),\n                \
-              \    'best_model': str(top_models.index[0]) if len(top_models) else\
-              \ None,\n                    'best_model_metrics': top_models.iloc[0].to_dict()\
-              \ if len(top_models) else {},\n                    'top_10': top_models.to_dict()\n\
-              \                }\n            except Exception as e:\n           \
-              \     result['lazypredict_leaderboard'] = {'error': str(e)}\n\n    \
-              \        # FLAML best model\n            try:\n                from\
-              \ flaml import AutoML\n                automl = AutoML()\n         \
-              \       automl.fit(X_train, y_train, task=task,\n                  \
-              \         time_budget=30, verbose=0)\n                result['flaml_best_model']\
-              \ = {\n                    'target': target_col,\n                 \
-              \   'task': task,\n                    'winner': automl.best_estimator,\n\
-              \                    'score': round(automl.best_loss, 4)\n         \
-              \       }\n            except Exception as e:\n                result['flaml_best_model']\
-              \ = {'error': str(e)}\n\n    except Exception as e:\n        result['ml_error']\
-              \ = str(e)\n\n    print(json.dumps(result, indent=2, default=str))\n\
-              \nexcept Exception as e:\n    print(json.dumps({'error': str(e)}))\n\
-              PYEOF"
+            value: |
+              python3 - << 'PYEOF'
+              import pandas as pd
+              import numpy as np
+              import json
+              import warnings
+              import os
+              import urllib.request
+              import matplotlib
+              matplotlib.use('Agg')
+              import matplotlib.pyplot as plt
+              import base64
+              from io import BytesIO
+              warnings.filterwarnings('ignore')
+
+              QUESTION = '''{{#1776584414076.analysis_question#}}'''
+              QUESTION_LOWER = QUESTION.lower()
+
+
+              def parse_floor_area(val):
+                  try:
+                      parts = str(val).replace(',', '').split(' to ')
+                      if len(parts) == 2:
+                          return (float(parts[0]) + float(parts[1])) / 2
+                      return float(parts[0])
+                  except Exception:
+                      return np.nan
+
+
+              def download_url_to_csv(url, output_path):
+                  request = urllib.request.Request(url.strip(), headers={'User-Agent': 'Mozilla/5.0'})
+                  with urllib.request.urlopen(request, timeout=60) as response:
+                      data = response.read()
+                  with open(output_path, 'wb') as f:
+                      f.write(data)
+                  return output_path
+
+
+              def load_dataframe():
+                  data_dir = '/home/user/data/'
+                  upload_dirs = [data_dir, '/home/user/upload/', '/home/user/uploads/']
+                  for directory in upload_dirs:
+                      if os.path.exists(directory):
+                          files = [f for f in os.listdir(directory) if f.lower().endswith('.csv')]
+                          if files:
+                              return pd.read_csv(os.path.join(directory, files[0]), on_bad_lines='skip')
+                  if os.path.exists(data_dir):
+                      url_files = [f for f in os.listdir(data_dir) if f.lower().endswith('.url')]
+                      if url_files:
+                          with open(os.path.join(data_dir, url_files[0]), 'r', encoding='utf-8') as f:
+                              url = f.read().strip()
+                          if not url:
+                              raise ValueError('CSV URL file is empty.')
+                          csv_path = os.path.join(data_dir, 'input.csv')
+                          download_url_to_csv(url, csv_path)
+                          return pd.read_csv(csv_path, on_bad_lines='skip')
+                  raise ValueError('No CSV file found. Upload a CSV file or provide a CSV URL.')
+
+
+              def clean_dataframe(df):
+                  df = df.copy()
+                  df.columns = [str(c).strip() for c in df.columns]
+                  dirty_nulls = {'-', '–', '—', 'na', 'n/a', 'null', 'none', ''}
+                  for col in df.columns:
+                      if df[col].dtype == 'object':
+                          df[col] = df[col].map(lambda x: np.nan if str(x).strip().lower() in dirty_nulls else x)
+
+                  if 'Floor Area (sq ft)' in df.columns:
+                      df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)
+                  if 'No. of Bedroom(for Non-Landed Only)' in df.columns:
+                      df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(df['No. of Bedroom(for Non-Landed Only)'], errors='coerce')
+                  if 'Lease Commencement Date' in df.columns:
+                      df['Lease Year'] = pd.to_datetime(df['Lease Commencement Date'], format='%b-%Y', errors='coerce').dt.year
+
+                  for col in df.columns:
+                      if df[col].dtype == 'object':
+                          s = df[col].astype(str).str.strip()
+                          cleaned = s.str.replace(',', '', regex=False).str.replace('$', '', regex=False).str.replace('%', '', regex=False)
+                          numeric = pd.to_numeric(cleaned, errors='coerce')
+                          non_null_original = df[col].notna().sum()
+                          if non_null_original and numeric.notna().sum() / non_null_original >= 0.70:
+                              df[col] = numeric
+                          else:
+                              df[col] = s.replace({'nan': np.nan, 'None': np.nan})
+
+                  if 'room_type' in df.columns and df['room_type'].dtype == 'object':
+                      df['room_type'] = df['room_type'].str.strip()
+
+                  if {'min_selling_price', 'max_selling_price'}.issubset(df.columns):
+                      df['avg_selling_price'] = df[['min_selling_price', 'max_selling_price']].mean(axis=1)
+                      df['selling_price_range'] = df['max_selling_price'] - df['min_selling_price']
+                  if {'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg'}.issubset(df.columns):
+                      df['avg_selling_price_less_ahg_shg'] = df[['min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg']].mean(axis=1)
+                  return df
+
+
+              def json_safe_dict(d):
+                  return json.loads(json.dumps(d, default=str))
+
+
+              def choose_target_column(df):
+                  numeric_names = list(df.select_dtypes(include='number').columns)
+                  if not numeric_names:
+                      return None
+                  for col in numeric_names:
+                      cl = col.lower()
+                      if f'target: {cl}' in QUESTION_LOWER or f'target column {cl}' in QUESTION_LOWER:
+                          return col
+                      if f'predict {cl}' in QUESTION_LOWER or f'predicting {cl}' in QUESTION_LOWER:
+                          return col
+                      if f'use {cl} as' in QUESTION_LOWER and 'target' in QUESTION_LOWER:
+                          return col
+
+                  priority = []
+                  if 'max_selling_price' in QUESTION_LOWER:
+                      priority += ['max_selling_price']
+                  if 'min_selling_price' in QUESTION_LOWER:
+                      priority += ['min_selling_price']
+                  if 'average' in QUESTION_LOWER or 'avg' in QUESTION_LOWER:
+                      priority += ['avg_selling_price', 'avg_selling_price_less_ahg_shg']
+                  if 'price' in QUESTION_LOWER or 'affordability' in QUESTION_LOWER or 'cost' in QUESTION_LOWER:
+                      priority += ['max_selling_price', 'avg_selling_price', 'min_selling_price']
+                  if 'rent' in QUESTION_LOWER or 'rental' in QUESTION_LOWER:
+                      priority += ['Monthly Gross Rent ($)', 'monthly_gross_rent', '1room_rental', '2room_rental', '3room_rental']
+                  if 'dwelling' in QUESTION_LOWER or 'stock' in QUESTION_LOWER or 'supply' in QUESTION_LOWER:
+                      priority += ['total_dwelling_units']
+
+                  for wanted in priority:
+                      for col in numeric_names:
+                          if col.lower() == wanted.lower():
+                              return col
+                  for wanted in priority:
+                      matches = [c for c in numeric_names if wanted.lower() in c.lower()]
+                      if matches:
+                          return matches[0]
+                  non_time_cols = [c for c in numeric_names if c not in ['S/N'] and 'year' not in c.lower() and 'date' not in c.lower()]
+                  return non_time_cols[-1] if non_time_cols else numeric_names[-1]
+
+
+              def build_ml_frame(df, target_col):
+                  df_ml = df.copy()
+                  numeric_features = [c for c in df_ml.select_dtypes(include='number').columns if c != target_col and c != 'S/N']
+                  leakage_groups = {
+                      'max_selling_price': ['min_selling_price', 'avg_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
+                      'min_selling_price': ['max_selling_price', 'avg_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
+                      'avg_selling_price': ['min_selling_price', 'max_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
+                  }
+                  numeric_features = [c for c in numeric_features if c not in leakage_groups.get(target_col, [])]
+
+                  cat_features = []
+                  for col in df_ml.select_dtypes(include='object').columns:
+                      nunique = df_ml[col].nunique(dropna=True)
+                      if 2 <= nunique <= 50:
+                          cat_features.append(col)
+
+                  keep = numeric_features + cat_features + [target_col]
+                  model_df = df_ml[keep].dropna(subset=[target_col]).copy()
+                  for col in numeric_features:
+                      model_df[col] = model_df[col].fillna(model_df[col].median())
+                  for col in cat_features:
+                      model_df[col] = model_df[col].fillna('Unknown')
+                  if cat_features:
+                      model_df = pd.get_dummies(model_df, columns=cat_features, drop_first=True)
+                  feature_cols = [c for c in model_df.columns if c != target_col]
+                  return model_df, feature_cols, numeric_features, cat_features
+
+
+              try:
+                  df_raw = load_dataframe()
+                  df = clean_dataframe(df_raw)
+                  result = {
+                      'rows': int(df.shape[0]),
+                      'columns': int(df.shape[1]),
+                      'column_names': list(df.columns),
+                      'question': QUESTION,
+                  }
+
+                  numeric_cols = df.select_dtypes(include='number')
+                  cat_cols = df.select_dtypes(include='object')
+                  if not numeric_cols.empty:
+                      result['descriptive_stats'] = json_safe_dict(numeric_cols.describe().round(2).to_dict())
+                  if len(numeric_cols.columns) >= 2:
+                      result['correlation'] = json_safe_dict(numeric_cols.corr(numeric_only=True).round(3).to_dict())
+
+                  missing = df.isnull().sum()
+                  result['missing_values'] = json_safe_dict(missing[missing > 0].to_dict())
+
+                  cat_summary = {}
+                  for col in list(cat_cols.columns)[:8]:
+                      cat_summary[col] = df[col].value_counts(dropna=False).head(10).to_dict()
+                  result['categorical_summary'] = json_safe_dict(cat_summary)
+
+                  grouped = {}
+                  if 'financial_year' in df.columns:
+                      price_cols = [c for c in ['min_selling_price', 'max_selling_price', 'avg_selling_price'] if c in df.columns]
+                      if price_cols:
+                          grouped['price_by_year'] = json_safe_dict(df.groupby('financial_year')[price_cols].mean().round(2).tail(10).to_dict())
+                  if 'town' in df.columns:
+                      cols = [c for c in ['max_selling_price', 'avg_selling_price', 'total_dwelling_units'] if c in df.columns]
+                      if cols:
+                          grouped['top_towns'] = json_safe_dict(df.groupby('town')[cols].mean().round(2).sort_values(cols[0], ascending=False).head(10).to_dict())
+                  if 'room_type' in df.columns:
+                      cols = [c for c in ['max_selling_price', 'avg_selling_price'] if c in df.columns]
+                      if cols:
+                          grouped['price_by_room_type'] = json_safe_dict(df.groupby('room_type')[cols].mean().round(2).to_dict())
+                  if grouped:
+                      result['grouped_insights'] = grouped
+
+                  try:
+                      if len(numeric_cols.columns) > 0:
+                          target_for_chart = choose_target_column(df) or numeric_cols.columns[-1]
+                          fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+                          axes[0].hist(df[target_for_chart].dropna(), bins=40, color='steelblue', edgecolor='white')
+                          axes[0].set_title(f'{target_for_chart} Distribution')
+                          axes[0].set_xlabel(target_for_chart)
+                          axes[0].set_ylabel('Frequency')
+                          if 'financial_year' in df.columns:
+                              trend = df.groupby('financial_year')[target_for_chart].mean().dropna()
+                              axes[1].plot(trend.index, trend.values, marker='o', color='coral')
+                              axes[1].set_title(f'Average {target_for_chart} by Year')
+                              axes[1].tick_params(axis='x', rotation=45)
+                          elif len(cat_cols.columns) > 0:
+                              group_col = 'room_type' if 'room_type' in df.columns else cat_cols.columns[0]
+                              group_data = df.groupby(group_col)[target_for_chart].median().sort_values(ascending=False).head(15)
+                              axes[1].bar(range(len(group_data)), group_data.values, color='coral', edgecolor='white')
+                              axes[1].set_xticks(range(len(group_data)))
+                              axes[1].set_xticklabels(group_data.index.astype(str), rotation=45, ha='right', fontsize=8)
+                              axes[1].set_title(f'Median {target_for_chart} by {group_col}')
+                          plt.tight_layout()
+                          buffer = BytesIO()
+                          plt.savefig(buffer, format='png', dpi=100, bbox_inches='tight')
+                          buffer.seek(0)
+                          result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')
+                          plt.close()
+                  except Exception as e:
+                      result['chart_error'] = str(e)
+
+                  try:
+                      if numeric_cols.empty:
+                          result['ml_error'] = 'No numeric columns available for modeling.'
+                      else:
+                          df_sample = df.sample(min(5000, len(df)), random_state=42).copy()
+                          target_col = choose_target_column(df_sample)
+                          if target_col is None:
+                              result['ml_error'] = 'No target column could be selected.'
+                          else:
+                              model_df, feature_cols, numeric_features, cat_features = build_ml_frame(df_sample, target_col)
+                              model_df = model_df.dropna()
+                              if len(model_df) < 20 or len(feature_cols) == 0:
+                                  result['ml_error'] = 'Insufficient rows or features after cleaning.'
+                              else:
+                                  X = model_df[feature_cols]
+                                  y = model_df[target_col]
+                                  task = 'classification' if y.nunique() <= 10 and not pd.api.types.is_float_dtype(y) else 'regression'
+                                  if task == 'classification':
+                                      y = y.astype(str)
+                                  result['ml_sample_size'] = int(len(X))
+                                  result['target_column'] = target_col
+                                  result['task_type'] = task
+                                  result['numeric_features_used'] = numeric_features
+                                  result['categorical_features_encoded'] = cat_features
+                                  result['features_used_count'] = int(len(feature_cols))
+                                  result['features_used_preview'] = feature_cols[:30]
+
+                                  from sklearn.model_selection import train_test_split
+                                  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+                                  try:
+                                      from lazypredict.Supervised import LazyClassifier, LazyRegressor
+                                      lz = LazyClassifier(verbose=0, ignore_warnings=True) if task == 'classification' else LazyRegressor(verbose=0, ignore_warnings=True)
+                                      models, _ = lz.fit(X_train, X_test, y_train, y_test)
+                                      top_models = models.head(10).round(3)
+                                      result['lazypredict_leaderboard'] = {
+                                          'target': target_col,
+                                          'task': task,
+                                          'metric_columns': list(top_models.columns),
+                                          'best_model': str(top_models.index[0]) if len(top_models) else None,
+                                          'best_model_metrics': top_models.iloc[0].to_dict() if len(top_models) else {},
+                                          'top_10': json_safe_dict(top_models.to_dict())
+                                      }
+                                  except Exception as e:
+                                      result['lazypredict_leaderboard'] = {'error': str(e)}
+
+                                  try:
+                                      from flaml import AutoML
+                                      automl = AutoML()
+                                      automl.fit(X_train, y_train, task=task, time_budget=30, verbose=0)
+                                      result['flaml_best_model'] = {
+                                          'target': target_col,
+                                          'task': task,
+                                          'winner': automl.best_estimator,
+                                          'score': round(float(automl.best_loss), 4)
+                                      }
+                                  except Exception as e:
+                                      result['flaml_best_model'] = {'error': str(e)}
+                  except Exception as e:
+                      result['ml_error'] = str(e)
+
+                  print(json.dumps(result, indent=2, default=str))
+              except Exception as e:
+                  print(json.dumps({'error': str(e)}, indent=2))
+              PYEOF
           resume_session:
             type: constant
             value: true
           sandbox_id:
             type: mixed
-            value: '{{#1776584483616.text#}}'
+            value: "{{#1776584483616.text#}}"
           sandbox_timeout_seconds:
             type: constant
-            value: null
+            value: 
           session_id:
             type: mixed
-            value: null
+            value: 
           timeout_preset:
             type: constant
             value: '300'
@@ -2162,11 +2193,11 @@ workflow:
       height: 52
       id: '1776584772260'
       position:
-        x: 1408
-        y: 63.04761904761904
+        x: 1770
+        y: 125.61904761904762
       positionAbsolute:
-        x: 1408
-        y: 63.04761904761904
+        x: 1770
+        y: 125.61904761904762
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2188,87 +2219,53 @@ workflow:
         - edition_type: basic
           id: c155fa7b-64ba-4914-bde0-f5742e0a4982
           role: system
-          text: 'You are a senior statistician at the Department of Statistics. You
-            receive raw JSON output from a pandas statistical analysis and produce
-            clear, accurate, insightful data narratives for professional audiences.
-
+          text: |-
+            You are a senior statistician at the Department of Statistics. You receive raw JSON output from a pandas statistical analysis and produce clear, accurate, insightful data narratives for professional audiences.
 
             Rules:
-
             - Never invent numbers — only use what is in the JSON
-
             - Highlight the most meaningful patterns and relationships
-
             - Flag any data quality issues (missing values, skewed distributions)
-
-            - If lazypredict_leaderboard is present, explicitly report the best_model,
-            best_model_metrics, target, task, and features_used
-
+            - If lazypredict_leaderboard is present, explicitly report the best_model, best_model_metrics, target, task, and features_used
             - If flaml_best_model is present, explicitly report its winner and score
-
-            - If ml_error, lazypredict_leaderboard.error, or flaml_best_model.error
-            is present, quote the exact error instead of saying the tool could not
-            run modeling
-
+            - If ml_error, lazypredict_leaderboard.error, or flaml_best_model.error is present, quote the exact error instead of saying the tool could not run modeling
             - Use plain language alongside technical terms
-
-            - Structure your response clearly with sections'
+            - Structure your response clearly with sections
         - id: c8dc4aeb-2e7d-4e86-ae81-1d8fa7572ab0
           role: user
-          text: 'The analyst asked: {{{#1776584414076.analysis_question#}}
-
+          text: |-
+            The analyst asked: {{{#1776584414076.analysis_question#}}
 
             Here is the statistical output from pandas:
-
             {{{#1776584772260.text#}}
-
 
             Please provide:
 
-
             ## Dataset Overview
-
             Brief description of shape, columns, and data types.
 
-
             ## Key Statistical Findings
-
             The most important patterns from the descriptive stats and correlations.
 
-
             ## Notable Relationships
-
             Any strong correlations or patterns worth highlighting.
 
-
             ## Machine Learning Model Results
-
             If present in the JSON, report:
-
             - prediction target
-
             - task type
-
             - sample size
-
             - features used
-
             - LazyPredict best model and metrics
-
             - FLAML winner and score
-
             If model outputs contain errors, show the exact error messages.
 
-
             ## Data Quality Notes
-
             Missing values, outliers, or anything the analyst should know.
 
-
             ## Answer to the Question
-
-            A direct answer to: "{{#1776584414076.analysis_question#}}"'
-        selected: false
+            A direct answer to: "{{#1776584414076.analysis_question#}}"
+        selected: true
         title: LLM
         type: llm
         vision:
@@ -2276,12 +2273,12 @@ workflow:
       height: 88
       id: '1776584860907'
       position:
-        x: 1750
-        y: 53.71428571428571
+        x: 2112
+        y: 116.28571428571428
       positionAbsolute:
-        x: 1750
-        y: 53.71428571428571
-      selected: false
+        x: 2112
+        y: 116.28571428571428
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2296,14 +2293,14 @@ workflow:
         selected: false
         title: Output
         type: end
-      height: 89
+      height: 88
       id: '1776585058748'
       position:
-        x: 2454
-        y: 129.82142857142856
+        x: 2796
+        y: 139.61904761904762
       positionAbsolute:
-        x: 2454
-        y: 129.82142857142856
+        x: 2796
+        y: 139.61904761904762
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2338,11 +2335,11 @@ workflow:
       height: 188
       id: '1779011116288'
       position:
-        x: 684
-        y: 21.999999999999993
+        x: 1046
+        y: 22.095238095238102
       positionAbsolute:
-        x: 684
-        y: 21.999999999999993
+        x: 1046
+        y: 22.095238095238102
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2351,8 +2348,8 @@ workflow:
     - data:
         is_team_authorization: true
         paramSchemas:
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: The unique ID of the sandbox to permanently terminate. Get it from
@@ -2366,54 +2363,37 @@ workflow:
             ja_JP: サンドボックス ID
             pt_BR: ID do Sandbox
             zh_Hans: 沙盒 ID
-          llm_description: 'The unique identifier of the E2B sandbox to permanently
-            terminate.
-
+          llm_description: |
+            The unique identifier of the E2B sandbox to permanently terminate.
 
             ## Format
-
             Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
 
-
             ## Where to get this
-
             - From the output of "Create Sandbox" tool
-
             - From "List Sandboxes" tool
-
-            - From your application''s database
-
+            - From your application's database
 
             ## Example values
-
             - ixjj3iankaishgcge4jwn-b0b684e9
-
             - abc123def456-12345678
 
-
             ## WARNING
-
             This action is IRREVERSIBLE!
-
             - The sandbox and all its data will be permanently deleted
-
             - Use "Pause Sandbox" instead if you might need it later
 
-
             ## Reference
-
             - Sandbox Lifecycle: https://e2b.dev/docs/sandbox
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
         params:
           sandbox_id: ''
@@ -2435,17 +2415,17 @@ workflow:
         tool_parameters:
           sandbox_id:
             type: mixed
-            value: '{{#1776584483616.text#}}'
+            value: "{{#1776584483616.text#}}"
         type: tool
       height: 52
       id: '1779011984742'
       position:
-        x: 2143.1416657542354
-        y: 81.33333333333333
+        x: 2454
+        y: 148.95238095238096
       positionAbsolute:
-        x: 2143.1416657542354
-        y: 81.33333333333333
-      selected: true
+        x: 2454
+        y: 148.95238095238096
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2453,8 +2433,8 @@ workflow:
     - data:
         is_team_authorization: true
         paramSchemas:
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: The unique ID of the sandbox to write to. Get it from Create Sandbox
@@ -2468,57 +2448,40 @@ workflow:
             ja_JP: サンドボックス ID
             pt_BR: ID do Sandbox
             zh_Hans: 沙盒 ID
-          llm_description: 'The unique identifier of the E2B sandbox to write the
-            file to.
-
+          llm_description: |
+            The unique identifier of the E2B sandbox to write the file to.
 
             ## Format
-
             Sandbox IDs look like: "ixjj3iankaishgcge4jwn-b0b684e9"
 
-
             ## Where to get this
-
             - From the output of "Create Sandbox" tool (sandbox_id field)
-
             - From the output of "Create Next.js Sandbox" or other example tools
-
             - From "List Sandboxes" tool
-
-            - From your application''s database
-
+            - From your application's database
 
             ## Example values
-
             - ixjj3iankaishgcge4jwn-b0b684e9
-
             - abc123def456-12345678
 
-
             ## Requirements
-
             - The sandbox must be running (not paused or killed)
-
             - Use "Resume Existing Sandbox" first to resume a paused sandbox
 
-
             ## Reference
-
             - Connect to Sandbox: https://e2b.dev/docs/sandbox/connect
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: sandbox_id
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: The full path where the file will be created. Use absolute paths
@@ -2533,66 +2496,44 @@ workflow:
             ja_JP: ファイルパス
             pt_BR: Caminho do Arquivo
             zh_Hans: 文件路径
-          llm_description: 'The absolute path where the file will be written in the
-            sandbox.
-
+          llm_description: |
+            The absolute path where the file will be written in the sandbox.
 
             ## Path format
-
             ALWAYS use absolute paths starting with /
-
             Relative paths are not supported.
 
-
             ## Example values
-
             - /home/user/index.html
-
             - /home/user/project/src/App.tsx
-
             - /home/user/package.json
-
             - /home/user/config.json
-
             - /home/user/.env
-
             - /tmp/input.txt
 
-
             ## Directory creation
-
             Parent directories are created automatically.
-
-            Writing to /home/user/a/b/c/file.txt will create /home/user/a/b/c/ if
-            needed.
-
+            Writing to /home/user/a/b/c/file.txt will create /home/user/a/b/c/ if needed.
 
             ## Overwriting behavior
-
             If the file already exists, it will be completely overwritten.
-
             There is no append mode.
 
-
             ## Reference
-
             - Filesystem Overview: https://e2b.dev/docs/filesystem
-
             - Read & Write Files: https://e2b.dev/docs/filesystem/read-write
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: file_path
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: true
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Upload one or more files directly. Each file is written to file_path
@@ -2609,29 +2550,24 @@ workflow:
             ja_JP: ファイルアップロード（任意）
             pt_BR: Upload de Arquivos (Opcional)
             zh_Hans: 上传文件（可选）
-          llm_description: 'Upload files directly into the sandbox.
-
+          llm_description: |
+            Upload files directly into the sandbox.
             When provided, content parameter is ignored.
-
             Each file is written using its original filename to:
-
             - file_path directory (if file_path looks like a directory)
-
             - /home/user/uploads/ (if file_path is not set)
-
-            '
-          max: null
-          min: null
+          max: 
+          min: 
           name: upload_files
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: files
-        - auto_generate: null
-          default: null
+        - auto_generate: 
+          default: 
           form: llm
           human_description:
             en_US: Text content to write to the file specified by file_path. Supports
@@ -2647,25 +2583,47 @@ workflow:
             ja_JP: ファイル内容（任意）
             pt_BR: Conteúdo do Arquivo (Opcional)
             zh_Hans: 文件内容（可选）
-          llm_description: "The content to write to the file as a string.\n\n## How\
-            \ to provide content\nJust provide the text content directly. The system\
-            \ handles:\n- Multi-line content with normal newlines\n- Special characters\n\
-            - UTF-8 encoding\n\n## Example values\n\n### JSON configuration\n{\"name\"\
-            : \"my-app\", \"version\": \"1.0.0\"}\n\n### Environment variables\nAPI_KEY=sk-xxx\n\
-            DEBUG=true\n\n### Python code\ndef hello():\n    print(\"Hello, World!\"\
-            )\n\n### HTML file\n<!DOCTYPE html>\n<html><head><title>My App</title></head><body><h1>Hello</h1></body></html>\n\
-            \n## Special cases\n- For binary files, use base64-encoded content\n-\
-            \ Very large files may timeout\n\n## Reference\n- Read & Write Files:\
-            \ https://e2b.dev/docs/filesystem/read-write\n"
-          max: null
-          min: null
+          llm_description: |
+            The content to write to the file as a string.
+
+            ## How to provide content
+            Just provide the text content directly. The system handles:
+            - Multi-line content with normal newlines
+            - Special characters
+            - UTF-8 encoding
+
+            ## Example values
+
+            ### JSON configuration
+            {"name": "my-app", "version": "1.0.0"}
+
+            ### Environment variables
+            API_KEY=sk-xxx
+            DEBUG=true
+
+            ### Python code
+            def hello():
+                print("Hello, World!")
+
+            ### HTML file
+            <!DOCTYPE html>
+            <html><head><title>My App</title></head><body><h1>Hello</h1></body></html>
+
+            ## Special cases
+            - For binary files, use base64-encoded content
+            - Very large files may timeout
+
+            ## Reference
+            - Read & Write Files: https://e2b.dev/docs/filesystem/read-write
+          max: 
+          min: 
           name: content
           options: []
-          placeholder: null
-          precision: null
+          placeholder: 
+          precision: 
           required: false
-          scope: null
-          template: null
+          scope: 
+          template: 
           type: string
         params:
           content: ''
@@ -2690,32 +2648,32 @@ workflow:
         tool_parameters:
           content:
             type: mixed
-            value: '{{#1776584414076.csv_url#}}'
+            value: "{{#1776584414076.csv_url#}}"
           file_path:
             type: mixed
-            value: /home/user/data/input.url
+            value: "/home/user/data/input.url"
           sandbox_id:
             type: mixed
-            value: '{{#1776584483616.text#}}'
+            value: "{{#1776584483616.text#}}"
           upload_files:
             type: constant
-            value: null
+            value: 
         type: tool
       height: 52
       id: '1779162892173'
       position:
-        x: 1084.7094916911333
-        y: 316.1466572436195
+        x: 1408
+        y: 133.52380952380952
       positionAbsolute:
-        x: 1084.7094916911333
-        y: 316.1466572436195
+        x: 1408
+        y: 133.52380952380952
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -1258.8504893123281
-      y: 121.58666798427913
-      zoom: 0.699359413325176
+      x: -1176.5
+      y: 172
+      zoom: 0.7
   rag_pipeline_variables: []
