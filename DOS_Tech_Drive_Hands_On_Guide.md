@@ -141,7 +141,7 @@ What you need to do:
 5. Paste your E2B API key.
 6. Save the configuration.
 
-Screenshot placeholders:
+Screenshots:
 
 ![Dify plugin install options](docs/images/dify-plugins-install-options.png)
 
@@ -205,7 +205,7 @@ What you need to do:
 6. Save the configuration.
 7. Test the plugin with a public webpage if a test option is available.
 
-Screenshot placeholders:
+Screenshots:
 
 ![Install Firecrawl plugin from Marketplace](docs/images/dify-marketplace-install-firecrawl.png)
 
@@ -245,7 +245,7 @@ What you need to do in Dify:
 9. Save the provider configuration.
 10. Test the model connection if a test option is available.
 
-Screenshot placeholders:
+Screenshots:
 
 ![Dify Model Provider settings](docs/images/dify-model-provider-settings.png)
 

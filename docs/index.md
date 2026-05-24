@@ -80,9 +80,9 @@ What you need to do:
    - Plugins
    - Model Provider settings
 
-Screenshot placeholder:
+Screenshot:
 
-`<SCREENSHOT: Dify workspace home page>`
+![Dify Studio dashboard](images/dify-studio-empty-dashboard.png)
 
 
 ### 2. E2B Account
@@ -109,9 +109,13 @@ What you need to do:
 4. Create or copy your API key.
 5. Keep the key ready for the Dify configuration step.
 
-Screenshot placeholder:
+Screenshots:
 
-`<SCREENSHOT: E2B dashboard / API key page>`
+![E2B sandboxes dashboard](images/e2b-sandboxes-dashboard.png)
+
+![E2B API keys page](images/e2b-api-keys-empty.png)
+
+![E2B create API key modal](images/e2b-create-api-key-modal.png)
 
 Key placeholder:
 
@@ -137,11 +141,15 @@ What you need to do:
 5. Paste your E2B API key.
 6. Save the configuration.
 
-Screenshot placeholders:
+Screenshots:
 
-`<SCREENSHOT: Dify plugin marketplace / installed E2B plugin>`
+![Dify plugin install options](images/dify-plugins-install-options.png)
 
-`<SCREENSHOT: E2B API key credential form in Dify>`
+![Search for Better E2B Sandbox plugin](images/dify-marketplace-search-e2b.png)
+
+![Better E2B Sandbox plugin installed](images/dify-better-e2b-plugin-installed.png)
+
+![E2B API key credential form in Dify](images/dify-e2b-plugin-api-key-configuration.png)
 
 
 ### 4. Firecrawl Account
@@ -168,9 +176,9 @@ What you need to do:
 4. Create or copy your API key.
 5. Keep the key ready for the Dify configuration step.
 
-Screenshot placeholder:
+Screenshot:
 
-`<SCREENSHOT: Firecrawl dashboard / API key page>`
+![Firecrawl API key page](images/firecrawl-dashboard-api-key.png)
 
 Key placeholder:
 
@@ -197,11 +205,13 @@ What you need to do:
 6. Save the configuration.
 7. Test the plugin with a public webpage if a test option is available.
 
-Screenshot placeholders:
+Screenshots:
 
-`<SCREENSHOT: Firecrawl plugin in Dify>`
+![Install Firecrawl plugin from Marketplace](images/dify-marketplace-install-firecrawl.png)
 
-`<SCREENSHOT: Firecrawl API key credential form in Dify>`
+![Firecrawl plugin installed in Dify](images/dify-firecrawl-plugin-installed.png)
+
+![Firecrawl API key credential form in Dify](images/dify-firecrawl-plugin-api-key-configuration.png)
 
 Key placeholder:
 
@@ -235,13 +245,15 @@ What you need to do in Dify:
 9. Save the provider configuration.
 10. Test the model connection if a test option is available.
 
-Screenshot placeholders:
+Screenshots:
 
-`<SCREENSHOT: Dify Model Provider settings>`
+![Dify Model Provider settings](images/dify-model-provider-settings.png)
 
-`<SCREENSHOT: Amazon Bedrock provider configuration>`
+![Install Amazon Bedrock provider](images/dify-bedrock-provider-install.png)
 
-`<SCREENSHOT: Bedrock API key authentication form>`
+![Bedrock API key authentication form](images/dify-bedrock-api-key-configuration.png)
+
+![Default model settings in Dify](images/dify-default-model-settings.png)
 
 Key placeholder:
 
@@ -302,9 +314,7 @@ Files used in this hands-on:
 - `HDBPropertyInformation.csv`
 - `URA 21 26.csv`
 
-Screenshot placeholder:
-
-`<SCREENSHOT: GitHub repository showing DSL and CSV files>`
+The direct GitHub links above are the source of truth for imports during the hands-on.
 
 ## Important Note About Dify App Limit
 
@@ -362,20 +372,24 @@ What you need to do in Dify:
 
 6. Click **Import**.
 7. Open the imported app.
-8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings
-`<ScreenShot>`
+8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings.
+
+![E2B template Team ID settings in Dify](images/dify-e2b-template-team-id-settings.png)
+
 9. Confirm the template name is `dos-lazypredict-flaml`.
 10. Confirm the Python packages include `lazypredict,flaml[automl]`.
 11. Run the workflow once.
 12. Confirm that the E2B template was created successfully.
 
-Screenshot placeholders:
+Import and run screenshots:
 
-`<SCREENSHOT: Import DSL option in Dify>`
+![Import DSL selected in Dify Studio](images/dify-studio-import-dsl-selected.png)
 
-`<SCREENSHOT: E2B Sandbox workflow after import>`
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
-`<SCREENSHOT: E2B template creation result>`
+![E2B template creation workflow running](images/dify-e2b-template-test-run-in-progress.png)
+
+![E2B template created](images/e2b-template-created.png)
 
 Checklist:
 
@@ -400,9 +414,7 @@ What you need to do:
 3. Delete the app.
 4. Confirm the app count is back within the Dify limit.
 
-Screenshot placeholder:
-
-`<SCREENSHOT: Delete E2B Sandbox app>`
+After deleting the app, the important confirmation is that the E2B template still exists in E2B and the Dify app count is back within the free-plan limit.
 
 Checklist:
 
@@ -447,13 +459,19 @@ Important note:
 
 Knowledge Base is good for retrieval and context. For exact CSV analysis, filtering, statistics, and model comparison, use the Data Analyst tool.
 
-Screenshot placeholders:
+When adding a website source, use Firecrawl if Jina Reader is unavailable or slow.
 
-`<SCREENSHOT: Create Knowledge Base>`
+Knowledge Base screenshots:
 
-`<SCREENSHOT: Knowledge source added>`
+![Create Knowledge Base options](images/dify-knowledge-create-options.png)
 
-`<SCREENSHOT: Knowledge indexing complete>`
+![Knowledge website sync with Firecrawl URL](images/dify-knowledge-sync-website-firecrawl-url.png)
+
+![Knowledge website sync result from Firecrawl](images/dify-knowledge-sync-website-firecrawl-result.png)
+
+![Knowledge processing and retrieval settings](images/dify-knowledge-processing-retrieval-settings.png)
+
+![Knowledge created and indexed](images/dify-knowledge-created.png)
 
 Checklist:
 
@@ -500,13 +518,15 @@ What you need to do:
 
 Use this CSV URL: `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
-Screenshot placeholders:
+Workflow screenshots:
 
-`<SCREENSHOT: Import Data Analyst DSL>`
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
-`<SCREENSHOT: Data Analyst workflow>`
+![Data Analyst workflow overview](images/dify-data-analyst-workflow-overview.png)
 
-`<SCREENSHOT: Data Analyst test run>`
+![Data Analyst sandbox template settings](images/dify-data-analyst-create-sandbox-settings.png)
+
+![Data Analyst test run result](images/dify-data-analyst-test-run-result.png)
 
 Checklist:
 
@@ -550,13 +570,13 @@ Suggested test URL:
 
 `https://tablebuilder.singstat.gov.sg/`
 
-Screenshot placeholders:
+Workflow screenshots:
 
-`<SCREENSHOT: Import Web Scraper DSL>`
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
-`<SCREENSHOT: Web Scraper workflow>`
+![Web Page Researcher workflow overview](images/dify-web-page-researcher-workflow-overview.png)
 
-`<SCREENSHOT: Web Scraper test run>`
+Use the suggested SingStat or TableBuilder URL above to test the workflow after import.
 
 Checklist:
 
@@ -586,11 +606,11 @@ Recommended Web Scraper tool description:
 
 `Use this tool for public webpages, articles, reports, HTML pages, and web research. Use it when a public webpage needs to be read directly or when another source is inconclusive.`
 
-Screenshot placeholders:
+Tool screenshots:
 
-`<SCREENSHOT: Data Analyst tool settings>`
+![Data Analyst publish menu](images/dify-data-analyst-publish-menu.png)
 
-`<SCREENSHOT: Web Scraper tool settings>`
+Use the same publish flow for the Web Scraper workflow, then confirm the tool name and description before attaching it to the agent.
 
 Checklist:
 
@@ -633,15 +653,15 @@ What you need to do:
 11. Review the agent instructions.
 12. Publish the agent.
 
-Screenshot placeholders:
+Agent screenshots:
 
-`<SCREENSHOT: Import A2A Master Agent DSL>`
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
-`<SCREENSHOT: Attach Knowledge Base to agent>`
+Attach the `DOS Tech Drive` Knowledge Base after import.
 
-`<SCREENSHOT: Add tools to agent>`
+Add the published Data Analyst and Web Scraper tools after they are tested independently.
 
-`<SCREENSHOT: Publish master agent>`
+Publish the master agent only after the Knowledge Base and tools are attached.
 
 Checklist:
 
