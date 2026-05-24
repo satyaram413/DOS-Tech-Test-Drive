@@ -2252,7 +2252,7 @@ workflow:
           completion_params:
             cross-region: disabled
             model_name: Claude 3.5 Sonnet
-            temperature: 0.7
+            temperature: 0.2
           mode: chat
           name: anthropic claude
           provider: langgenius/bedrock/bedrock
@@ -2269,6 +2269,22 @@ workflow:
 
             - Never invent numbers — only use what is in the JSON
 
+            - Never infer an exact row value from summary statistics, descriptive
+            statistics, correlations, min/max values, or categorical counts
+
+            - If the user asks for an exact lookup, such as "what is", "how many",
+            a specific year range, a specific category, or a filtered row, only answer
+            if the raw JSON contains that exact value or matching row
+
+            - If the raw JSON only contains summaries and does not contain the exact
+            requested value, say DATA_ANALYST_STATUS: inconclusive
+
+            - When inconclusive, clearly say Data Analyst could not determine the
+            exact answer from the available JSON output and recommend fallback to
+            Researcher / Web Scraper
+
+            - For exact lookup questions, a broad dataset summary is not an answer
+
             - Highlight the most meaningful patterns and relationships
 
             - Flag any data quality issues (missing values, skewed distributions)
@@ -2284,7 +2300,12 @@ workflow:
 
             - Use plain language alongside technical terms
 
-            - Structure your response clearly with sections'
+            - Structure your response clearly with sections
+
+            - Always include a Data Analyst Status section with one of:
+            DATA_ANALYST_STATUS: answered
+            DATA_ANALYST_STATUS: inconclusive
+            DATA_ANALYST_STATUS: error'
         - id: c8dc4aeb-2e7d-4e86-ae81-1d8fa7572ab0
           role: user
           text: 'The analyst asked: {{#1776584414076.analysis_question#}}
@@ -2339,7 +2360,22 @@ workflow:
 
             ## Answer to the Question
 
-            A direct answer to: "{{#1776584414076.analysis_question#}}"'
+            A direct answer to: "{{#1776584414076.analysis_question#}}"
+
+
+            ## Data Analyst Status
+
+            If the exact requested answer is present in the JSON, write:
+            DATA_ANALYST_STATUS: answered
+
+            If the user asked for an exact value or filtered row but the JSON does
+            not contain that exact value, write:
+            DATA_ANALYST_STATUS: inconclusive
+            FALLBACK_RECOMMENDED: Researcher / Web Scraper
+
+            If an error is present, write:
+            DATA_ANALYST_STATUS: error
+            FALLBACK_RECOMMENDED: Researcher / Web Scraper'
         selected: true
         title: LLM
         type: llm
@@ -2787,7 +2823,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -1176.5
-      y: 172
+      x: 106.5
+      y: 190
       zoom: 0.7
   rag_pipeline_variables: []
