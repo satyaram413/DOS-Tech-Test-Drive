@@ -1,9 +1,5 @@
-tool description: Analyze tabular CSV data using Python in an E2B sandbox. Use this tool when the user asks for data analysis, statistical summaries, trends, correlations, missing-value checks, charts, or predictive modeling from a CSV file or CSV URL. If the user provides a GitHub CSV link, convert it to the raw.githubusercontent.com URL before calling this tool. For autonomous agent use, prefer csv_url over file upload. Do not pass full CSV text into this tool.
-input description: csv_data:
-Optional uploaded CSV file. Use only when the workflow or chatflow passes a real file object directly. Do not use from an Agent node.
+data_analyst
 
-csv_url:
-Optional direct URL to a CSV file. Use this for Agent calls. The URL must return raw CSV content, such as a raw.githubusercontent.com link or a presigned S3 URL.
+Description: 
+Use this tool for CSV data analysis. This tool accepts raw CSV URLs, downloads the CSV, and analyzes it with Python/pandas. Use it for exact lookup, filtering rows, year ranges, totals, averages, grouping, statistics, charts, correlations, predictions, model comparison, LazyPredict, FLAML, and feature importance. Use this tool instead of Web Scraper whenever the input is a CSV URL or the user asks about a structured dataset.
 
-analysis_question:
-The user’s analysis question or goal, for example “Find rental trends by district” or “Summarize missing values and correlations.”

@@ -115,7 +115,7 @@ Screenshot placeholder:
 
 Key placeholder:
 
-`<E2B_API_KEY>`
+`e2b_cdbb********************************************`
 
 Checklist:
 
@@ -136,7 +136,6 @@ What you need to do:
 4. Open the credential or authorization settings.
 5. Paste your E2B API key.
 6. Save the configuration.
-7. If Dify shows a test option, test the connection.
 
 Screenshot placeholders:
 
@@ -144,19 +143,6 @@ Screenshot placeholders:
 
 `<SCREENSHOT: E2B API key credential form in Dify>`
 
-Key placeholder:
-
-`<E2B_API_KEY>`
-
-Optional placeholders:
-
-`<E2B_TEAM_ID>`
-
-`<E2B_TEMPLATE_NAME>`
-
-Recommended template name for this workshop:
-
-`dos-lazypredict-flaml`
 
 ### 4. Firecrawl Account
 
@@ -263,11 +249,11 @@ Key placeholder:
 
 Optional placeholders:
 
-`<BEDROCK_REGION>`
+`<BEDROCK_REGION>` Use Singapore
 
-`<BEDROCK_CHAT_MODEL>`
+`<BEDROCK_CHAT_MODEL>` ANthropic Claude Sonet 3.5
 
-`<BEDROCK_EMBEDDING_MODEL>`
+`<BEDROCK_EMBEDDING_MODEL>` cohere english
 
 Recommended checks:
 
@@ -306,10 +292,10 @@ Branch:
 
 Files used in this hands-on:
 
-- `E2B Sandbox .yml`
-- `Data Analyst.yml`
-- `Web Scraper.yml`
-- `A2A Master Agent.yml`
+- [E2B Sandbox .yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/E2B%20Sandbox%20.yml)
+- [Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Data%20Analyst.yml)
+- [Web Page Researcher.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Web%20Page%20Researcher.yml)
+- [A2A Master Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Master%20Agent.yml)
 - `RAG_READY_DOS_TECH_DRIVE.md`
 - `DemandforRentalandSoldFlats.csv`
 - `PriceRangeofHDBFlatsOffered.csv`
@@ -328,7 +314,7 @@ Because of this limit, the `E2B Sandbox` app should be treated as a temporary se
 
 Flow:
 
-1. Import `E2B Sandbox.yml`.
+1. Import [E2B Sandbox .yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/E2B%20Sandbox%20.yml).
 2. Run it once to create the E2B template.
 3. Confirm the template is created.
 4. Delete the `E2B Sandbox` app from Dify.
@@ -358,7 +344,7 @@ Open the GitHub repository:
 
 Open the DSL file:
 
-`E2B Sandbox .yml`
+[E2B Sandbox .yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/E2B%20Sandbox%20.yml)
 
 Raw DSL URL:
 
@@ -368,13 +354,20 @@ What you need to do in Dify:
 
 1. Go to `https://cloud.dify.ai`.
 2. Open **Studio**.
-3. Choose **Import DSL**.
-4. Import `E2B Sandbox .yml`.
-5. Open the imported app.
-6. Confirm the template name is `dos-lazypredict-flaml`.
-7. Confirm the Python packages include `lazypredict,flaml[automl]`.
-8. Run the workflow once.
-9. Confirm that the E2B template was created successfully.
+3. Click **Import DSL**.
+4. Select **Import URL**.
+5. Copy and paste this URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/E2B%20Sandbox%20.yml`
+
+6. Click **Import**.
+7. Open the imported app.
+8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings
+`<ScreenShot>`
+9. Confirm the template name is `dos-lazypredict-flaml`.
+10. Confirm the Python packages include `lazypredict,flaml[automl]`.
+11. Run the workflow once.
+12. Confirm that the E2B template was created successfully.
 
 Screenshot placeholders:
 
@@ -479,7 +472,7 @@ Workflows will be imported into Dify through DSL files from the GitHub repositor
 
 DSL file:
 
-`Data Analyst.yml`
+[Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Data%20Analyst.yml)
 
 Raw DSL URL:
 
@@ -492,13 +485,20 @@ The Data Analyst workflow analyzes CSV URLs using Python inside E2B. It supports
 What you need to do:
 
 1. Go to **Studio**.
-2. Choose **Import DSL**.
-3. Import `Data Analyst.yml`.
-4. Open the workflow.
-5. Confirm the E2B template name is `dos-lazypredict-flaml`.
-6. Confirm the model provider is configured correctly.
-7. Publish the workflow.
-8. Test it with a raw CSV URL.
+2. Click **Import DSL**.
+3. Select **Import URL**.
+4. Copy and paste this URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/Data%20Analyst.yml`
+
+5. Click **Import**.
+6. Open the workflow.
+7. Confirm the E2B template name is `dos-lazypredict-flaml`.
+8. Confirm the model provider is configured correctly.
+9. Publish the workflow.
+10. Test it with a raw CSV URL.
+
+Use this CSV URL: `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
 Screenshot placeholders:
 
@@ -520,11 +520,11 @@ Checklist:
 
 DSL file:
 
-`Web Scraper.yml`
+[Web Page Researcher.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Web%20Page%20Researcher.yml)
 
 Raw DSL URL:
 
-`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/Web%20Scraper.yml`
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/Web%20Page%20Researcher.yml`
 
 Purpose:
 
@@ -533,17 +533,22 @@ The Web Scraper workflow reads public webpages and returns clean content for the
 What you need to do:
 
 1. Go to **Studio**.
-2. Choose **Import DSL**.
-3. Import `Web Scraper.yml`.
-4. Open the workflow.
-5. Confirm the web scraping or reader configuration.
-6. Confirm the model provider is configured correctly.
-7. Publish the workflow.
-8. Test it with a public webpage.
+2. Click **Import DSL**.
+3. Select **Import URL**.
+4. Copy and paste this URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/Web%20Page%20Researcher.yml`
+
+5. Click **Import**.
+6. Open the workflow.
+7. Confirm the web scraping or reader configuration.
+8. Confirm the model provider is configured correctly.
+9. Publish the workflow.
+10. Test it with a public webpage.
 
 Suggested test URL:
 
-`https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+`https://tablebuilder.singstat.gov.sg/`
 
 Screenshot placeholders:
 
@@ -600,7 +605,7 @@ The master agent will also be imported through DSL.
 
 DSL file:
 
-`A2A Master Agent.yml`
+[A2A Master Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Master%20Agent.yml)
 
 Raw DSL URL:
 
@@ -613,15 +618,20 @@ The master agent uses the Knowledge Base and decides whether to call Data Analys
 What you need to do:
 
 1. Go to **Studio**.
-2. Choose **Import DSL**.
-3. Import `A2A Master Agent.yml`.
-4. Open the imported agent.
-5. Attach the `DOS Tech Drive` Knowledge Base.
-6. Add the Data Analyst tool.
-7. Add the Web Scraper tool.
-8. Add Yahoo Ticker if required.
-9. Review the agent instructions.
-10. Publish the agent.
+2. Click **Import DSL**.
+3. Select **Import URL**.
+4. Copy and paste this URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/A2A%20Master%20Agent.yml`
+
+5. Click **Import**.
+6. Open the imported agent.
+7. Attach the `DOS Tech Drive` Knowledge Base.
+8. Add the Data Analyst tool.
+9. Add the Web Scraper tool.
+10. Add Yahoo Ticker if required.
+11. Review the agent instructions.
+12. Publish the agent.
 
 Screenshot placeholders:
 
