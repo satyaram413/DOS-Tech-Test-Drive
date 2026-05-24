@@ -1,11 +1,15 @@
 app:
-  description: Scrape any webpage to clean markdown via Jina Reader, then extract
-    or summarize with an LLM.
+  description: 'Use this tool only for public webpages, articles, reports, HTML pages,
+    and live web research. Do not use this tool for CSV files, raw GitHub CSV URLs,
+    structured datasets, exact table lookups, statistics, model comparison, or data
+    analysis. If the source is a CSV URL, use Data Analyst instead.
+
+    '
   icon: 🕷️
   icon_background: '#E0F2FE'
   icon_type: emoji
   mode: workflow
-  name: Web Scraper
+  name: Web Page Researcher
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -272,7 +276,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -537.1944248213447
-      y: 213.73297744240716
+      x: 77.83285388305504
+      y: 296.20576775239226
       zoom: 0.9443717740377896
   rag_pipeline_variables: []

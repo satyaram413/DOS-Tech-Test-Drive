@@ -2302,10 +2302,8 @@ workflow:
 
             - Structure your response clearly with sections
 
-            - Always include a Data Analyst Status section with one of:
-            DATA_ANALYST_STATUS: answered
-            DATA_ANALYST_STATUS: inconclusive
-            DATA_ANALYST_STATUS: error'
+            - Always include a Data Analyst Status section with one of: DATA_ANALYST_STATUS:
+            answered DATA_ANALYST_STATUS: inconclusive DATA_ANALYST_STATUS: error'
         - id: c8dc4aeb-2e7d-4e86-ae81-1d8fa7572ab0
           role: user
           text: 'The analyst asked: {{#1776584414076.analysis_question#}}
@@ -2365,17 +2363,15 @@ workflow:
 
             ## Data Analyst Status
 
-            If the exact requested answer is present in the JSON, write:
-            DATA_ANALYST_STATUS: answered
+            If the exact requested answer is present in the JSON, write: DATA_ANALYST_STATUS:
+            answered
 
             If the user asked for an exact value or filtered row but the JSON does
-            not contain that exact value, write:
-            DATA_ANALYST_STATUS: inconclusive
+            not contain that exact value, write: DATA_ANALYST_STATUS: inconclusive
             FALLBACK_RECOMMENDED: Researcher / Web Scraper
 
-            If an error is present, write:
-            DATA_ANALYST_STATUS: error
-            FALLBACK_RECOMMENDED: Researcher / Web Scraper'
+            If an error is present, write: DATA_ANALYST_STATUS: error FALLBACK_RECOMMENDED:
+            Researcher / Web Scraper'
         selected: true
         title: LLM
         type: llm
