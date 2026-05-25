@@ -307,10 +307,12 @@ Branch:
 Files used in this hands-on:
 
 - [E2B Sandbox .yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/E2B%20Sandbox%20.yml)
+- [Simple Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Simple%20Data%20Analyst.yml)
 - [Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Data%20Analyst.yml)
 - [Web Page Researcher.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Web%20Page%20Researcher.yml)
 - [A2A Master Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Master%20Agent.yml)
 - [A2A Data Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Data%20Agent.yml)
+- [scripts/data_analyst.py](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/scripts/data_analyst.py)
 - `RAG_READY_DOS_TECH_DRIVE.md`
 - `DemandforRentalandSoldFlats.csv`
 - `HDBPropertyInformation.csv`
@@ -466,7 +468,97 @@ Checklist:
 
 ## Workflows
 
-Workflows will be imported into Dify through DSL files from the GitHub repository.
+Start the workflow section by creating a simple workflow from scratch. This helps participants understand the moving parts before importing the larger DSL workflows.
+
+After the simple workflow is working, the remaining workflows can be imported through DSL files from the GitHub repository.
+
+### Simple Data Analyst Workflow
+
+This is the first workflow to build during the hands-on.
+
+Purpose:
+
+The Simple Data Analyst workflow shows the basic pattern for running Python in E2B from Dify:
+
+1. Accept a CSV URL and analysis question.
+2. Create an E2B sandbox.
+3. Write the CSV URL into the sandbox.
+4. Run Python from **Send Sandbox Input**.
+5. Send the Python JSON output to an LLM for a readable answer.
+
+Code file:
+
+[scripts/data_analyst.py](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/scripts/data_analyst.py)
+
+Optional reference DSL:
+
+[Simple Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Simple%20Data%20Analyst.yml)
+
+Build it from scratch in Dify:
+
+1. Go to **Studio**.
+2. Click **Create from Blank**.
+3. Choose **Workflow**.
+4. Name it `Simple Data Analyst`.
+5. Add these Start node inputs:
+   - `csv_url`
+   - `analysis_question`
+6. Add a **Create Sandbox** node.
+7. Use the E2B template alias created earlier:
+   - `dos-lazypredict-flaml`
+8. Add a **Write Sandbox File** node for the CSV URL.
+9. Configure the Write Sandbox File node:
+   - `sandbox_id`: output from **Create Sandbox**
+   - `file_path`: `/home/user/data/input.url`
+   - `content`: Start node `csv_url`
+10. Add a **Send Sandbox Input** node.
+11. Configure Send Sandbox Input:
+   - `sandbox_id`: output from **Create Sandbox**
+   - `action`: `shell_command`
+   - `input_text`: paste the code from `scripts/data_analyst.py`
+12. In the pasted code, make sure the `analysis_question` variable points to the Start node `analysis_question` input for this workflow.
+13. Add an LLM node after **Send Sandbox Input**.
+14. The LLM node must summarize the output from **Send Sandbox Input**, not the Write Sandbox File node.
+15. Add a **Kill Sandbox** node.
+16. Add an **End** node.
+
+Important wiring note:
+
+The final LLM node should read the output from **Send Sandbox Input**. If it reads from **Write Sandbox File**, it will only see a message such as `wrote 101 bytes to file`, which is not the analysis result.
+
+Recommended LLM prompt:
+
+```text
+You are a senior statistician. You receive raw JSON output from a pandas analysis and produce a clear answer.
+
+Question:
+{{analysis_question}}
+
+Python JSON output:
+{{Send Sandbox Input.text}}
+
+Use only the JSON output. If the requested answer is not present, say what is missing.
+```
+
+Recommended test CSV:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+
+Recommended test questions:
+
+1. `Using this CSV, what is the lowest monthly gross rent and which row does it come from?`
+2. `Summarize the dataset shape, missing values, numeric summaries, and strongest correlations.`
+3. `Does rent appear related to floor area, number of bedrooms, postal district, or lease year? Use only the data output.`
+
+Checklist:
+
+- <input type="checkbox"> Created `Simple Data Analyst` from blank.
+- <input type="checkbox"> Added `csv_url` and `analysis_question` inputs.
+- <input type="checkbox"> Created an E2B sandbox.
+- <input type="checkbox"> Wrote the CSV URL to `/home/user/data/input.url`.
+- <input type="checkbox"> Added the Python code from `scripts/data_analyst.py` to Send Sandbox Input.
+- <input type="checkbox"> Connected the LLM node to **Send Sandbox Input** output.
+- <input type="checkbox"> Tested with the URA CSV URL.
 
 ### Data Analyst Workflow
 
@@ -765,6 +857,7 @@ At this point, the workspace should contain only the apps needed for the hands-o
 
 Expected active apps:
 
+- `Simple Data Analyst`
 - `Data Analyst`
 - `Web Scraper`
 - `A2A Master Agent`
@@ -775,6 +868,7 @@ Checklist:
 - <input type="checkbox"> E2B template created.
 - <input type="checkbox"> Temporary E2B Sandbox app deleted.
 - <input type="checkbox"> Knowledge Base created.
+- <input type="checkbox"> Simple Data Analyst workflow created from scratch.
 - <input type="checkbox"> Data Analyst workflow imported and published.
 - <input type="checkbox"> Web Scraper workflow imported and published.
 - <input type="checkbox"> Master Agent imported and published.
