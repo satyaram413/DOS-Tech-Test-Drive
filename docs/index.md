@@ -215,7 +215,7 @@ Screenshots:
 
 Key placeholder:
 
-`<FIRECRAWL_API_KEY>`
+`fc-***********************`
 
 Suggested test URL:
 
@@ -741,14 +741,7 @@ Expected active apps:
 - `Data Analyst`
 - `Web Scraper`
 - `A2A Master Agent`
-
-Temporary app already deleted:
-
 - `E2B Sandbox`
-
-Optional apps only if required:
-
-- `A2A Research Agent`
 - `A2A Data Agent`
 
 Checklist:
@@ -760,3 +753,37 @@ Checklist:
 - [ ] Web Scraper workflow imported and published.
 - [ ] Master Agent imported and published.
 - [ ] App count is within the Dify limit.
+
+---
+
+# Vibe Coding with Lovable
+
+- Log into Lovable at [lovable.dev](https://lovable.dev) to begin building.
+- Maximise generation success by using the **RICE Prompting** strategy: **Role, Instruction, Context, and Expectation**.
+
+> ⚠️ **Warning:** Users are limited to only **5 credits** for Lovable.
+
+---
+
+## RICE Prompting Framework
+
+| Component | Description |
+|---|---|
+| **Role** | The persona and expertise (e.g., senior architect, data scientist). |
+| **Instruction** | The core task or objective to be completed. |
+| **Context** | Details, features, constraints, and technologies to include. |
+| **Expectation** | The required quality, outcome, or format of the output. |
+
+---
+
+## Example RICE Prompt
+
+**Role:** Act as a senior SaaS architect, data scientist, and UI/UX engineer.
+
+**Instruction:** Build a modern AI-powered Data Science Analytics web platform.
+
+**Context:** Features include dataset upload, automated EDA, and ML training using React + FastAPI.
+
+**Expectation:** Generate a production-ready responsive application with clean architecture.
+
+---
