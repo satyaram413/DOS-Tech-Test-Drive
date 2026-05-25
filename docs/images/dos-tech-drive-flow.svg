@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760" role="img" aria-labelledby="title desc">
+  <title id="title">DOS Tech Drive build flow</title>
+  <desc id="desc">A workshop build flow from setup to sandbox template, knowledge base, workflows exposed as tools, master agent, and final demo.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L12,7 L2,12 Z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 42px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 22px Arial, sans-serif; fill: #475569; }
+      .step { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2.5; rx: 18; }
+      .step-blue { fill: #eff6ff; stroke: #2563eb; stroke-width: 3; rx: 18; }
+      .step-green { fill: #ecfdf5; stroke: #059669; stroke-width: 3; rx: 18; }
+      .step-amber { fill: #fffbeb; stroke: #d97706; stroke-width: 3; rx: 18; }
+      .step-purple { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 3; rx: 18; }
+      .step-slate { fill: #f1f5f9; stroke: #334155; stroke-width: 3; rx: 18; }
+      .num { font: 800 18px Arial, sans-serif; fill: #ffffff; }
+      .eyebrow { font: 800 14px Arial, sans-serif; fill: #64748b; letter-spacing: .08em; }
+      .label { font: 800 25px Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 18px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 16px Arial, sans-serif; fill: #475569; }
+      .arrow { fill: none; stroke: #2563eb; stroke-width: 4; marker-end: url(#arrow); }
+      .thin { fill: none; stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 8 8; marker-end: url(#arrow); }
+      .icon { fill: none; stroke: #1e40af; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-green { fill: none; stroke: #047857; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-amber { fill: none; stroke: #b45309; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-purple { fill: none; stroke: #6d28d9; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .badge { fill: #2563eb; }
+      .badge-green { fill: #059669; }
+      .badge-amber { fill: #d97706; }
+      .badge-purple { fill: #7c3aed; }
+      .badge-slate { fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="760"/>
+
+  <text class="title" x="64" y="70">Hands-On Build Flow</text>
+  <text class="subtitle" x="64" y="106">Build foundations first, then turn workflows into tools and plug them into one master agent.</text>
+
+  <!-- Step 1 -->
+  <rect class="step" x="64" y="160" width="230" height="164"/>
+  <circle class="badge" cx="98" cy="194" r="20"/>
+  <text class="num" x="92" y="201">1</text>
+  <path class="icon" d="M96 237 h52 a14 14 0 0 1 14 14 v34 a14 14 0 0 1-14 14 H96 a14 14 0 0 1-14-14 v-34 a14 14 0 0 1 14-14 Z"/>
+  <path class="icon" d="M109 237 v-18 h40 v18"/>
+  <text class="eyebrow" x="170" y="190">SETUP</text>
+  <text class="label" x="170" y="221">Accounts</text>
+  <text class="body" x="170" y="251">Dify</text>
+  <text class="body" x="170" y="277">E2B</text>
+  <text class="body" x="170" y="303">Firecrawl</text>
+
+  <!-- Step 2 -->
+  <rect class="step-blue" x="352" y="160" width="250" height="164"/>
+  <circle class="badge" cx="386" cy="194" r="20"/>
+  <text class="num" x="380" y="201">2</text>
+  <path class="icon" d="M384 243 h42 v42 h-42 Z M374 251 h-14 M374 277 h-14 M426 251 h14 M426 277 h14 M392 233 v-14 M418 233 v-14 M392 285 v14 M418 285 v14"/>
+  <text class="eyebrow" x="456" y="190">E2B</text>
+  <text class="label" x="456" y="221">Sandbox</text>
+  <text class="body" x="456" y="251">Create template</text>
+  <text class="small" x="456" y="279">Python, pandas,</text>
+  <text class="small" x="456" y="302">LazyPredict, FLAML</text>
+
+  <!-- Step 3 -->
+  <rect class="step-green" x="660" y="160" width="250" height="164"/>
+  <circle class="badge-green" cx="694" cy="194" r="20"/>
+  <text class="num" x="688" y="201">3</text>
+  <path class="icon-green" d="M689 237 h50 v62 h-50 Z M702 252 h22 M702 268 h22 M702 284 h14"/>
+  <text class="eyebrow" x="762" y="190">RAG</text>
+  <text class="label" x="762" y="217">Knowledge</text>
+  <text class="label" x="762" y="246">Base</text>
+  <text class="body" x="762" y="276">Add Markdown docs</text>
+  <text class="small" x="762" y="302">Workshop and CPI</text>
+
+  <!-- Step 4 -->
+  <rect class="step-amber" x="968" y="160" width="260" height="164"/>
+  <circle class="badge-amber" cx="1002" cy="194" r="20"/>
+  <text class="num" x="996" y="201">4</text>
+  <path class="icon-amber" d="M1000 293 V246 M1018 293 V266 M1036 293 V232 M990 293 h58"/>
+  <text class="eyebrow" x="1070" y="190">WORKFLOW 1</text>
+  <text class="label" x="1070" y="221">Data Analyst</text>
+  <text class="body" x="1070" y="251">Create or import</text>
+  <text class="body" x="1070" y="278">Expose as tool</text>
+  <text class="small" x="1070" y="304">CSV + Python</text>
+
+  <!-- Step 5 -->
+  <rect class="step-purple" x="1286" y="160" width="250" height="164"/>
+  <circle class="badge-purple" cx="1320" cy="194" r="20"/>
+  <text class="num" x="1314" y="201">5</text>
+  <circle class="icon-purple" cx="1328" cy="268" r="29"/>
+  <path class="icon-purple" d="M1299 268 h58 M1328 239 c12 15 12 43 0 58 M1328 239 c-12 15-12 43 0 58"/>
+  <text class="eyebrow" x="1390" y="190">WORKFLOW 2</text>
+  <text class="label" x="1390" y="221">Researcher</text>
+  <text class="body" x="1390" y="251">Import DSL</text>
+  <text class="body" x="1390" y="278">Expose as tool</text>
+  <text class="small" x="1390" y="304">Web pages</text>
+
+  <!-- Arrows top row -->
+  <path class="arrow" d="M294 242 H348"/>
+  <path class="arrow" d="M602 242 H656"/>
+  <path class="arrow" d="M910 242 H964"/>
+  <path class="arrow" d="M1228 242 H1282"/>
+
+  <!-- Master agent row -->
+  <rect class="step-slate" x="500" y="446" width="600" height="176"/>
+  <circle class="badge-slate" cx="540" cy="486" r="22"/>
+  <text class="num" x="534" y="493">6</text>
+  <path class="icon" d="M566 530 h36 v36 h-36 Z M558 538 h-14 M558 558 h-14 M602 538 h14 M602 558 h14 M574 522 v-14 M594 522 v-14 M574 566 v14 M594 566 v14"/>
+  <text class="eyebrow" x="650" y="486">MASTER AGENT</text>
+  <text class="label" x="650" y="520">Attach Knowledge Base and Tools</text>
+  <text class="body" x="650" y="552">Knowledge Base + Data Analyst tool</text>
+  <text class="body" x="650" y="580">+ Researcher tool</text>
+  <text class="small" x="650" y="606">Agent decides which source to use.</text>
+
+  <!-- Inputs into master -->
+  <path class="thin" d="M785 324 V442"/>
+  <path class="thin" d="M1098 324 C1098 384 980 410 900 444"/>
+  <path class="thin" d="M1411 324 C1411 414 1110 418 980 444"/>
+
+  <!-- Final demo -->
+  <rect class="step-blue" x="1190" y="446" width="346" height="176"/>
+  <circle class="badge" cx="1230" cy="486" r="22"/>
+  <text class="num" x="1224" y="493">7</text>
+  <path class="icon" d="M1246 537 h54 l22 22 v54 h-76 Z M1300 537 v22 h22 M1260 578 h44 M1260 596 h34"/>
+  <text class="eyebrow" x="1350" y="486">DEMO</text>
+  <text class="label" x="1350" y="520">Run Questions</text>
+  <text class="body" x="1350" y="552">Housing, CPI, CSV,</text>
+  <text class="body" x="1350" y="578">and web context</text>
+
+  <path class="arrow" d="M1100 534 H1186"/>
+
+  <!-- Bottom note -->
+  <rect x="64" y="670" width="1472" height="48" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text class="small" x="92" y="701">Important: each workflow is imported or created, tested independently, then exposed immediately as a tool before the master agent is built.</text>
+</svg>
