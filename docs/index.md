@@ -219,7 +219,9 @@ Key placeholder:
 
 Suggested test URL:
 
-`https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+`https://tablebuilder.singstat.gov.sg/`
+
+Do not use the direct SingStat CPI news page for the live scraper test. It can be blocked by Cloudflare. TableBuilder is the safer demo URL.
 
 
 ### 6. Add Bedrock Model API Key to Dify
@@ -582,9 +584,9 @@ Suggested test URL:
 
 Recommended test questions:
 
-1. `Read this SingStat CPI page and summarize the latest consumer price context in plain language: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
-2. `Read this SingStat TableBuilder page and explain what kind of data a user can look for there: https://tablebuilder.singstat.gov.sg/`
-3. `Use this public page to extract the most relevant facts for a Singapore cost-of-living discussion: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+1. `Read this SingStat TableBuilder page and explain what kind of data a user can look for there: https://tablebuilder.singstat.gov.sg/`
+2. `Read this SingStat TableBuilder page and summarize how a user can search for Consumer Price Index, prices, or housing-related tables: https://tablebuilder.singstat.gov.sg/`
+3. `Use this public page to extract the most relevant entry points for a Singapore cost-of-living discussion: https://tablebuilder.singstat.gov.sg/`
 
 Workflow screenshots:
 
@@ -635,7 +637,7 @@ Data Analyst:
 
 Web Scraper:
 
-1. `Summarize the latest CPI context from this page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+1. `Summarize what cost-of-living or price-related data a user can explore from this page: https://tablebuilder.singstat.gov.sg/`
 2. `Read this public page and return the key facts useful for a housing and cost-of-living discussion: https://tablebuilder.singstat.gov.sg/`
 
 Yahoo Ticker:
@@ -672,27 +674,29 @@ Purpose:
 
 The master agent uses the Knowledge Base and decides whether to call Data Analyst, Web Scraper, Yahoo Ticker, or answer from retrieved context.
 
+For this hands-on, the Knowledge Base contains Tech Drive Markdown content. Use it for workshop setup, tool-routing rules, and explanation of the hands-on flow. Do not treat the Knowledge Base as a housing or CPI data source unless those facts are explicitly present in the Markdown.
+
 Recommended master agent questions:
 
 1. Knowledge Base only:
 
 `Using the attached Knowledge Base, explain the DOS Tech Drive hands-on flow. Include the role of Dify, E2B, Firecrawl, Knowledge Base, workflows, tools, and agents.`
 
-2. Knowledge Base plus Data Analyst:
+2. Data Analyst:
 
-`Using the Knowledge Base for workshop context and the Data Analyst tool for the CSV, analyze whether the URA rental data shows meaningful rent differences by floor area, bedrooms, postal district, and lease year. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. At the end, list the Knowledge Base and tools used.`
+`Analyze whether the URA rental CSV shows meaningful rent differences by floor area, bedrooms, postal district, and lease year. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. At the end, list the tools used and say whether the Knowledge Base was needed.`
 
-3. Knowledge Base plus Web Scraper:
+3. Web Scraper:
 
-`Using the Knowledge Base for workshop context and Web Scraper for current public context, summarize Singapore CPI or cost-of-living context from this SingStat page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data. Explain how this context should and should not be used when discussing rental pressure.`
+`Use Web Scraper to read SingStat TableBuilder and explain how a user can find CPI, prices, or cost-of-living tables: https://tablebuilder.singstat.gov.sg/. Do not claim this proves rental pressure; explain what the public page can and cannot provide.`
 
-4. Knowledge Base plus Yahoo Ticker:
+4. Yahoo Ticker:
 
-`Use Yahoo Ticker to retrieve context for C38U.SI, then explain why market or REIT data is only supporting market context and should not be treated as direct evidence of HDB rental-flat demand. Use the Knowledge Base rules to explain the limitation.`
+`Use Yahoo Ticker to retrieve context for C38U.SI, then explain why market or REIT data is only supporting market context and should not be treated as direct evidence of HDB rental-flat demand.`
 
 5. Full routing demo:
 
-`Use the Knowledge Base for workshop rules, Data Analyst for the URA rental CSV, Web Scraper for the SingStat CPI page, and Yahoo Ticker for C38U.SI. Answer this: does the available Singapore housing and cost-of-living evidence suggest rental pressure? Clearly separate what the rental dataset shows, what SingStat CPI says, what ticker data can and cannot prove, and which tools were used. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. CPI page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+`First use the Knowledge Base only to explain the workshop tool-routing rules. Then use Data Analyst for the URA rental CSV, Web Scraper for SingStat TableBuilder, and Yahoo Ticker for C38U.SI. Answer this: does the available Singapore housing and cost-of-living evidence suggest rental pressure? Clearly separate what the rental dataset shows, what the public price-data source can provide, what ticker data can and cannot prove, and which tools were used. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. Public data page: https://tablebuilder.singstat.gov.sg/`
 
 What you need to do:
 
