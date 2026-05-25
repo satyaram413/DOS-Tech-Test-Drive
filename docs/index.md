@@ -215,7 +215,7 @@ Screenshots:
 
 Key placeholder:
 
-`<FIRECRAWL_API_KEY>`
+`fc-***********************`
 
 Suggested test URL:
 
