@@ -451,9 +451,9 @@ SingStat CPI page:
 
 `https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
 
-Demand for Rental and Sold Flats CSV:
+Population PDF:
 
-`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/DemandforRentalandSoldFlats.csv`
+`https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/population2025.pdf`
 
 Important note:
 
@@ -682,14 +682,7 @@ Expected active apps:
 - `Data Analyst`
 - `Web Scraper`
 - `A2A Master Agent`
-
-Temporary app already deleted:
-
 - `E2B Sandbox`
-
-Optional apps only if required:
-
-- `A2A Research Agent`
 - `A2A Data Agent`
 
 Checklist:
