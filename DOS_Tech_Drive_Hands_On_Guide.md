@@ -44,12 +44,12 @@ Session flow:
    - Add Data Analyst, Researcher, and other tools.
    - Tune the agent instructions so it can route tasks properly.
 
-7. Demo Scenario
+5. Demo Scenario
    - Ask housing and cost-of-living questions.
    - Let the agent decide when to use Knowledge Base, Data Analyst, and Researcher.
    - Review tool calls, answers, limitations, and fallback behavior.
 
-8. Wrap-Up
+6. Wrap-Up
    - Review what worked.
    - Review what failed.
    - Understand how tool descriptions and agent instructions affect behavior.
@@ -310,6 +310,7 @@ Files used in this hands-on:
 - [Data Analyst.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Data%20Analyst.yml)
 - [Web Page Researcher.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/Web%20Page%20Researcher.yml)
 - [A2A Master Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Master%20Agent.yml)
+- [A2A Data Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Data%20Agent.yml)
 - `RAG_READY_DOS_TECH_DRIVE.md`
 - `DemandforRentalandSoldFlats.csv`
 - `HDBPropertyInformation.csv`
@@ -373,23 +374,25 @@ What you need to do in Dify:
 
 6. Click **Import**.
 
-![Import DSL selected in Dify Studio](images/dify-studio-import-dsl-selected.png)
+   ![Import DSL selected in Dify Studio](images/dify-studio-import-dsl-selected.png)
 
 7. Open the imported app.
 
-![Import app from URL in Dify](images/dify-import-app-from-url.png)
-
+   ![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
 8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings.
-![E2B template Team ID settings in Dify](images/dify-e2b-template-team-id-settings.png)
+
+   ![E2B template Team ID settings in Dify](images/dify-e2b-template-team-id-settings.png)
 
 9. Confirm the template name is `dos-lazypredict-flaml`.
 10. Confirm the Python packages include `lazypredict,flaml[automl]`.
 
 11. Run the workflow once.
 12. Confirm that the E2B template was created successfully.
-![E2B template creation workflow running](images/dify-e2b-template-test-run-in-progress.png)
-![E2B template created](images/e2b-template-created.png)
+
+    ![E2B template creation workflow running](images/dify-e2b-template-test-run-in-progress.png)
+
+    ![E2B template created](images/e2b-template-created.png)
 
 Checklist:
 
@@ -412,16 +415,22 @@ What you need to do:
 1. Go to `https://cloud.dify.ai`.
 2. Open **Knowledge**.
 3. Create a new Knowledge Base.
-![Create Knowledge Base options](images/dify-knowledge-create-options.png)
-![Knowledge website sync with Firecrawl URL](images/dify-knowledge-sync-website-firecrawl-url.png)
-![Knowledge website sync result from Firecrawl](images/dify-knowledge-sync-website-firecrawl-result.png)
+
+   ![Create Knowledge Base options](images/dify-knowledge-create-options.png)
+
+   ![Knowledge website sync with Firecrawl URL](images/dify-knowledge-sync-website-firecrawl-url.png)
+
+   ![Knowledge website sync result from Firecrawl](images/dify-knowledge-sync-website-firecrawl-result.png)
+
 4. Name it `DOS Tech Drive`.
 5. Select a valid embedding model.
-![Knowledge processing and retrieval settings](images/dify-knowledge-processing-retrieval-settings.png)
+
+   ![Knowledge processing and retrieval settings](images/dify-knowledge-processing-retrieval-settings.png)
+
 6. Add the required documents or public sources.
 7. Wait for indexing to complete.
 
-![Knowledge created and indexed](images/dify-knowledge-created.png)
+   ![Knowledge created and indexed](images/dify-knowledge-created.png)
 
 8. Test retrieval with a simple question.
 
@@ -483,17 +492,22 @@ What you need to do:
 `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/Data%20Analyst.yml`
 
 5. Click **Import**.
-![Import app from URL in Dify](images/dify-import-app-from-url.png)
+
+   ![Import app from URL in Dify](images/dify-import-app-from-url.png)
+
 6. Open the workflow.
 
-![Data Analyst workflow overview](images/dify-data-analyst-workflow-overview.png)
-7. Confirm the E2B template name is `dos-lazypredict-flaml`.
-![Data Analyst sandbox template settings](images/dify-data-analyst-create-sandbox-settings.png)
-8. Confirm the model provider is configured correctly.
+   ![Data Analyst workflow overview](images/dify-data-analyst-workflow-overview.png)
 
-![Data Analyst test run result](images/dify-data-analyst-test-run-result.png)
+7. Confirm the E2B template name is `dos-lazypredict-flaml`.
+
+   ![Data Analyst sandbox template settings](images/dify-data-analyst-create-sandbox-settings.png)
+
+8. Confirm the model provider is configured correctly.
 9. Publish the workflow.
 10. Test it with a raw CSV URL.
+
+    ![Data Analyst test run result](images/dify-data-analyst-test-run-result.png)
 
 Use this CSV URL: `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
@@ -695,6 +709,56 @@ Checklist:
 - <input type="checkbox"> Reviewed agent instructions.
 - <input type="checkbox"> Published the agent.
 
+### A2A Data Agent
+
+The A2A Data Agent is a focused data specialist agent. It should be created with **one tool only**: Data Analyst.
+
+DSL file:
+
+[A2A Data Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Data%20Agent.yml)
+
+Raw DSL URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/A2A%20Data%20Agent.yml`
+
+Purpose:
+
+The Data Agent demonstrates a narrower agent design. It does not need the Knowledge Base, Web Page Researcher, or Yahoo Ticker. Its job is to analyze structured CSV data, respond to a research claim if one is provided, and end with a message that another agent or synthesis step can use.
+
+What you need to do:
+
+1. Go to **Studio**.
+2. Click **Import DSL**.
+3. Select **Import URL**.
+4. Copy and paste this URL:
+
+`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/A2A%20Data%20Agent.yml`
+
+5. Click **Import**.
+6. Open the imported agent.
+7. Add only the Data Analyst tool.
+8. Do not attach the Knowledge Base.
+9. Do not add Web Page Researcher.
+10. Do not add Yahoo Ticker.
+11. Review the agent instructions.
+12. Publish the agent.
+
+Recommended A2A Data Agent questions:
+
+1. `Analyze the URA rental CSV and identify the strongest data patterns in monthly gross rent by floor area, bedrooms, postal district, and lease year. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. End with a section titled "Message to Synthesis Agent".`
+2. `A Research Agent claims that Singapore rental pressure is likely connected to cost-of-living pressure. Use only the URA rental CSV to verify what the data can actually support. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. Clearly separate data evidence from unsupported claims, and end with "Message to Synthesis Agent".`
+3. `Use the Data Analyst tool to run model comparison on the URA rental CSV for monthly gross rent. Report the target, features used, best model, metrics, and caveats. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv.`
+
+Checklist:
+
+- <input type="checkbox"> Imported `A2A Data Agent.yml`.
+- <input type="checkbox"> Added only the Data Analyst tool.
+- <input type="checkbox"> Confirmed no Knowledge Base is attached.
+- <input type="checkbox"> Confirmed Web Page Researcher is not attached.
+- <input type="checkbox"> Confirmed Yahoo Ticker is not attached.
+- <input type="checkbox"> Tested with a raw CSV URL.
+- <input type="checkbox"> Published the Data Agent.
+
 ## Import Checkpoint
 
 At this point, the workspace should contain only the apps needed for the hands-on.
@@ -704,7 +768,6 @@ Expected active apps:
 - `Data Analyst`
 - `Web Scraper`
 - `A2A Master Agent`
-- `E2B Sandbox`
 - `A2A Data Agent`
 
 Checklist:
@@ -715,11 +778,12 @@ Checklist:
 - <input type="checkbox"> Data Analyst workflow imported and published.
 - <input type="checkbox"> Web Scraper workflow imported and published.
 - <input type="checkbox"> Master Agent imported and published.
+- <input type="checkbox"> Data Agent imported and published with only the Data Analyst tool.
 - <input type="checkbox"> App count is within the Dify limit.
 
 ---
 
-# Vibe Coding with Lovable
+## Vibe Coding with Lovable
 
 - Log into Lovable at [lovable.dev](https://lovable.dev) to begin building.
 - Maximise generation success by using the **RICE Prompting** strategy: **Role, Instruction, Context, and Expectation**.
@@ -728,7 +792,7 @@ Checklist:
 
 ---
 
-## RICE Prompting Framework
+### RICE Prompting Framework
 
 | Component | Description |
 |---|---|
@@ -739,7 +803,7 @@ Checklist:
 
 ---
 
-## Example RICE Prompt
+### Example RICE Prompt
 
 **Role:** Act as a senior SaaS architect, data scientist, and UI/UX engineer.
 
