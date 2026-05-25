@@ -447,13 +447,17 @@ Workshop RAG document:
 
 `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/RAG_READY_DOS_TECH_DRIVE.md`
 
-SingStat CPI page:
+For this hands-on, keep the Knowledge Base Markdown-only.
 
-`https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+Do not upload CSV files into the Knowledge Base. CSV files should be passed to the Data Analyst workflow or Data Analyst tool as raw CSV URLs.
 
-Demand for Rental and Sold Flats CSV:
+If CPI or public-context content is needed inside the Knowledge Base, add it to the Markdown document first, then index the Markdown file.
 
-`https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/DemandforRentalandSoldFlats.csv`
+Recommended Knowledge Base test questions:
+
+1. `What is the purpose of the DOS Tech Drive hands-on, and what are the main components we are building?`
+2. `What is the difference between using the Knowledge Base, Data Analyst, and Web Scraper in this workshop?`
+3. `When should the agent avoid using the Knowledge Base alone and call a tool instead?`
 
 Important note:
 
@@ -518,6 +522,12 @@ What you need to do:
 
 Use this CSV URL: `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
+Recommended test questions:
+
+1. `Analyze this URA rental CSV and summarize monthly gross rent patterns by lease year, postal district, number of bedrooms, and floor area: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+2. `Using this URA rental CSV, build a model to predict monthly gross rent. Compare the best-performing models and explain which features matter most: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+3. `Use this URA rental CSV to explain whether floor area and number of bedrooms appear related to monthly gross rent. Include correlations and limitations: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+
 Workflow screenshots:
 
 ![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
@@ -570,6 +580,12 @@ Suggested test URL:
 
 `https://tablebuilder.singstat.gov.sg/`
 
+Recommended test questions:
+
+1. `Read this SingStat CPI page and summarize the latest consumer price context in plain language: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+2. `Read this SingStat TableBuilder page and explain what kind of data a user can look for there: https://tablebuilder.singstat.gov.sg/`
+3. `Use this public page to extract the most relevant facts for a Singapore cost-of-living discussion: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+
 Workflow screenshots:
 
 ![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
@@ -606,6 +622,27 @@ Recommended Web Scraper tool description:
 
 `Use this tool for public webpages, articles, reports, HTML pages, and web research. Use it when a public webpage needs to be read directly or when another source is inconclusive.`
 
+Recommended Yahoo Ticker tool description:
+
+`Use this tool only for stocks, ETFs, crypto, indexes, tickers, price movements, and market data. Do not use it as a fallback for CSV, Knowledge Base, housing, or CPI questions unless the user explicitly asks for market context.`
+
+Recommended tool test prompts:
+
+Data Analyst:
+
+1. `Analyze this CSV and summarize rent patterns by lease year and postal district: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+2. `Run model comparison on this CSV to predict monthly gross rent and explain the best model carefully: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
+
+Web Scraper:
+
+1. `Summarize the latest CPI context from this page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
+2. `Read this public page and return the key facts useful for a housing and cost-of-living discussion: https://tablebuilder.singstat.gov.sg/`
+
+Yahoo Ticker:
+
+1. `Use Yahoo Ticker to retrieve the latest available information for C38U.SI and summarize the ticker, price context, and caveats.`
+2. `Compare the latest available market context for C38U.SI and STI. Make clear that this is market context, not direct evidence of rental-flat demand.`
+
 Tool screenshots:
 
 ![Data Analyst publish menu](docs/images/dify-data-analyst-publish-menu.png)
@@ -634,6 +671,28 @@ Raw DSL URL:
 Purpose:
 
 The master agent uses the Knowledge Base and decides whether to call Data Analyst, Web Scraper, Yahoo Ticker, or answer from retrieved context.
+
+Recommended master agent questions:
+
+1. Knowledge Base only:
+
+`Using the attached Knowledge Base, explain the DOS Tech Drive hands-on flow. Include the role of Dify, E2B, Firecrawl, Knowledge Base, workflows, tools, and agents.`
+
+2. Knowledge Base plus Data Analyst:
+
+`Using the Knowledge Base for workshop context and the Data Analyst tool for the CSV, analyze whether the URA rental data shows meaningful rent differences by floor area, bedrooms, postal district, and lease year. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. At the end, list the Knowledge Base and tools used.`
+
+3. Knowledge Base plus Web Scraper:
+
+`Using the Knowledge Base for workshop context and Web Scraper for current public context, summarize Singapore CPI or cost-of-living context from this SingStat page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data. Explain how this context should and should not be used when discussing rental pressure.`
+
+4. Knowledge Base plus Yahoo Ticker:
+
+`Use Yahoo Ticker to retrieve context for C38U.SI, then explain why market or REIT data is only supporting market context and should not be treated as direct evidence of HDB rental-flat demand. Use the Knowledge Base rules to explain the limitation.`
+
+5. Full routing demo:
+
+`Use the Knowledge Base for workshop rules, Data Analyst for the URA rental CSV, Web Scraper for the SingStat CPI page, and Yahoo Ticker for C38U.SI. Answer this: does the available Singapore housing and cost-of-living evidence suggest rental pressure? Clearly separate what the rental dataset shows, what SingStat CPI says, what ticker data can and cannot prove, and which tools were used. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. CPI page: https://www.singstat.gov.sg/find-data/explore-data-themes/economy-prices/consumer-price-index/latest-news-data`
 
 What you need to do:
 
