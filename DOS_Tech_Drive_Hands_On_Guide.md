@@ -82,7 +82,7 @@ What you need to do:
 
 Screenshot:
 
-![Dify Studio dashboard](docs/images/dify-studio-empty-dashboard.png)
+![Dify Studio dashboard](images/dify-studio-empty-dashboard.png)
 
 
 ### 2. E2B Account
@@ -111,11 +111,11 @@ What you need to do:
 
 Screenshots:
 
-![E2B sandboxes dashboard](docs/images/e2b-sandboxes-dashboard.png)
+![E2B sandboxes dashboard](images/e2b-sandboxes-dashboard.png)
 
-![E2B API keys page](docs/images/e2b-api-keys-empty.png)
+![E2B API keys page](images/e2b-api-keys-empty.png)
 
-![E2B create API key modal](docs/images/e2b-create-api-key-modal.png)
+![E2B create API key modal](images/e2b-create-api-key-modal.png)
 
 Key placeholder:
 
@@ -123,10 +123,10 @@ Key placeholder:
 
 Checklist:
 
-- [ ] Can sign in to E2B.
-- [ ] Can open the E2B dashboard.
-- [ ] Have created or copied my E2B API key.
-- [ ] Have stored the key securely.
+- <input type="checkbox"> Can sign in to E2B.
+- <input type="checkbox"> Can open the E2B dashboard.
+- <input type="checkbox"> Have created or copied my E2B API key.
+- <input type="checkbox"> Have stored the key securely.
 
 ### 3. Add E2B API Key to Dify
 
@@ -143,13 +143,13 @@ What you need to do:
 
 Screenshots:
 
-![Dify plugin install options](docs/images/dify-plugins-install-options.png)
+![Dify plugin install options](images/dify-plugins-install-options.png)
 
-![Search for Better E2B Sandbox plugin](docs/images/dify-marketplace-search-e2b.png)
+![Search for Better E2B Sandbox plugin](images/dify-marketplace-search-e2b.png)
 
-![Better E2B Sandbox plugin installed](docs/images/dify-better-e2b-plugin-installed.png)
+![Better E2B Sandbox plugin installed](images/dify-better-e2b-plugin-installed.png)
 
-![E2B API key credential form in Dify](docs/images/dify-e2b-plugin-api-key-configuration.png)
+![E2B API key credential form in Dify](images/dify-e2b-plugin-api-key-configuration.png)
 
 
 ### 4. Firecrawl Account
@@ -178,18 +178,18 @@ What you need to do:
 
 Screenshot:
 
-![Firecrawl API key page](docs/images/firecrawl-dashboard-api-key.png)
+![Firecrawl API key page](images/firecrawl-dashboard-api-key.png)
 
 Key placeholder:
 
-`<FIRECRAWL_API_KEY>`
+`fc-***********************`
 
 Checklist:
 
-- [ ] Can sign in to Firecrawl.
-- [ ] Can open the Firecrawl app.
-- [ ] Have created or copied my Firecrawl API key.
-- [ ] Have stored the key securely.
+- <input type="checkbox"> Can sign in to Firecrawl.
+- <input type="checkbox"> Can open the Firecrawl app.
+- <input type="checkbox"> Have created or copied my Firecrawl API key.
+- <input type="checkbox"> Have stored the key securely.
 
 ### 5. Add Firecrawl API Key to Dify
 
@@ -207,15 +207,15 @@ What you need to do:
 
 Screenshots:
 
-![Install Firecrawl plugin from Marketplace](docs/images/dify-marketplace-install-firecrawl.png)
+![Install Firecrawl plugin from Marketplace](images/dify-marketplace-install-firecrawl.png)
 
-![Firecrawl plugin installed in Dify](docs/images/dify-firecrawl-plugin-installed.png)
+![Firecrawl plugin installed in Dify](images/dify-firecrawl-plugin-installed.png)
 
-![Firecrawl API key credential form in Dify](docs/images/dify-firecrawl-plugin-api-key-configuration.png)
+![Firecrawl API key credential form in Dify](images/dify-firecrawl-plugin-api-key-configuration.png)
 
 Key placeholder:
 
-`<FIRECRAWL_API_KEY>`
+`fc-***********************`
 
 Suggested test URL:
 
@@ -249,13 +249,13 @@ What you need to do in Dify:
 
 Screenshots:
 
-![Dify Model Provider settings](docs/images/dify-model-provider-settings.png)
+![Dify Model Provider settings](images/dify-model-provider-settings.png)
 
-![Install Amazon Bedrock provider](docs/images/dify-bedrock-provider-install.png)
+![Install Amazon Bedrock provider](images/dify-bedrock-provider-install.png)
 
-![Bedrock API key authentication form](docs/images/dify-bedrock-api-key-configuration.png)
+![Bedrock API key authentication form](images/dify-bedrock-api-key-configuration.png)
 
-![Default model settings in Dify](docs/images/dify-default-model-settings.png)
+![Default model settings in Dify](images/dify-default-model-settings.png)
 
 Key placeholder:
 
@@ -279,16 +279,16 @@ Recommended checks:
 
 Before we move to the next part, please confirm:
 
-- [ ] Can access Dify.
-- [ ] Can access E2B.
-- [ ] Added the E2B API key to Dify.
-- [ ] Can access Firecrawl.
-- [ ] Added the Firecrawl API key to Dify.
-- [ ] Added the Bedrock API key to Dify.
-- [ ] The chat model works.
-- [ ] The embedding model works.
-- [ ] Dify can create an E2B sandbox.
-- [ ] Dify can scrape a public webpage through Firecrawl.
+- <input type="checkbox"> Can access Dify.
+- <input type="checkbox"> Can access E2B.
+- <input type="checkbox"> Added the E2B API key to Dify.
+- <input type="checkbox"> Can access Firecrawl.
+- <input type="checkbox"> Added the Firecrawl API key to Dify.
+- <input type="checkbox"> Added the Bedrock API key to Dify.
+- <input type="checkbox"> The chat model works.
+- <input type="checkbox"> The embedding model works.
+- <input type="checkbox"> Dify can create an E2B sandbox.
+- <input type="checkbox"> Dify can scrape a public webpage through Firecrawl.
 
 Stop here before continuing to Knowledge Base, workflows, tools, and agents.
 
@@ -312,7 +312,6 @@ Files used in this hands-on:
 - [A2A Master Agent.yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/A2A%20Master%20Agent.yml)
 - `RAG_READY_DOS_TECH_DRIVE.md`
 - `DemandforRentalandSoldFlats.csv`
-- `PriceRangeofHDBFlatsOffered.csv`
 - `HDBPropertyInformation.csv`
 - `URA 21 26.csv`
 
@@ -373,56 +372,32 @@ What you need to do in Dify:
 `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/E2B%20Sandbox%20.yml`
 
 6. Click **Import**.
-7. Open the imported app.
-8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings.
 
-![E2B template Team ID settings in Dify](docs/images/dify-e2b-template-team-id-settings.png)
+![Import DSL selected in Dify Studio](images/dify-studio-import-dsl-selected.png)
+
+7. Open the imported app.
+
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
+
+
+8. Check the Team Id, grab your Team ID from E2B and paste it in the Node Settings.
+![E2B template Team ID settings in Dify](images/dify-e2b-template-team-id-settings.png)
 
 9. Confirm the template name is `dos-lazypredict-flaml`.
 10. Confirm the Python packages include `lazypredict,flaml[automl]`.
+
 11. Run the workflow once.
 12. Confirm that the E2B template was created successfully.
-
-Import and run screenshots:
-
-![Import DSL selected in Dify Studio](docs/images/dify-studio-import-dsl-selected.png)
-
-![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
-
-![E2B template creation workflow running](docs/images/dify-e2b-template-test-run-in-progress.png)
-
-![E2B template created](docs/images/e2b-template-created.png)
+![E2B template creation workflow running](images/dify-e2b-template-test-run-in-progress.png)
+![E2B template created](images/e2b-template-created.png)
 
 Checklist:
 
-- [ ] Imported `E2B Sandbox .yml`.
-- [ ] Confirmed template name is `dos-lazypredict-flaml`.
-- [ ] Confirmed Python packages are configured.
-- [ ] Ran the workflow once.
-- [ ] Confirmed the E2B template was created.
-
-### Delete E2B Sandbox App After Template Creation
-
-Once the E2B template is created, delete the `E2B Sandbox` app from Dify.
-
-Reason:
-
-The app is only needed to create the template. The actual hands-on uses the template through the Data Analyst workflow, so the temporary app can be removed.
-
-What you need to do:
-
-1. Go to **Studio**.
-2. Find the `E2B Sandbox` app.
-3. Delete the app.
-4. Confirm the app count is back within the Dify limit.
-
-After deleting the app, the important confirmation is that the E2B template still exists in E2B and the Dify app count is back within the free-plan limit.
-
-Checklist:
-
-- [ ] E2B template exists.
-- [ ] `E2B Sandbox` app deleted.
-- [ ] Dify app count is within the limit.
+- <input type="checkbox"> Imported `E2B Sandbox .yml`.
+- <input type="checkbox"> Confirmed template name is `dos-lazypredict-flaml`.
+- <input type="checkbox"> Confirmed Python packages are configured.
+- <input type="checkbox"> Ran the workflow once.
+- <input type="checkbox"> Confirmed the E2B template was created.
 
 ## Knowledge Base
 
@@ -437,10 +412,17 @@ What you need to do:
 1. Go to `https://cloud.dify.ai`.
 2. Open **Knowledge**.
 3. Create a new Knowledge Base.
+![Create Knowledge Base options](images/dify-knowledge-create-options.png)
+![Knowledge website sync with Firecrawl URL](images/dify-knowledge-sync-website-firecrawl-url.png)
+![Knowledge website sync result from Firecrawl](images/dify-knowledge-sync-website-firecrawl-result.png)
 4. Name it `DOS Tech Drive`.
 5. Select a valid embedding model.
+![Knowledge processing and retrieval settings](images/dify-knowledge-processing-retrieval-settings.png)
 6. Add the required documents or public sources.
 7. Wait for indexing to complete.
+
+![Knowledge created and indexed](images/dify-knowledge-created.png)
+
 8. Test retrieval with a simple question.
 
 Recommended sources:
@@ -451,15 +433,12 @@ Workshop RAG document:
 
 For this hands-on, keep the Knowledge Base Markdown-only.
 
-Do not upload CSV files into the Knowledge Base. CSV files should be passed to the Data Analyst workflow or Data Analyst tool as raw CSV URLs.
-
-If CPI or public-context content is needed inside the Knowledge Base, add it to the Markdown document first, then index the Markdown file.
-
 Recommended Knowledge Base test questions:
 
 1. `What is the purpose of the DOS Tech Drive hands-on, and what are the main components we are building?`
 2. `What is the difference between using the Knowledge Base, Data Analyst, and Web Scraper in this workshop?`
 3. `When should the agent avoid using the Knowledge Base alone and call a tool instead?`
+4. `What are the libraries used in dos-lazypredict-flaml template`
 
 Important note:
 
@@ -467,26 +446,14 @@ Knowledge Base is good for retrieval and context. For exact CSV analysis, filter
 
 When adding a website source, use Firecrawl if Jina Reader is unavailable or slow.
 
-Knowledge Base screenshots:
-
-![Create Knowledge Base options](docs/images/dify-knowledge-create-options.png)
-
-![Knowledge website sync with Firecrawl URL](docs/images/dify-knowledge-sync-website-firecrawl-url.png)
-
-![Knowledge website sync result from Firecrawl](docs/images/dify-knowledge-sync-website-firecrawl-result.png)
-
-![Knowledge processing and retrieval settings](docs/images/dify-knowledge-processing-retrieval-settings.png)
-
-![Knowledge created and indexed](docs/images/dify-knowledge-created.png)
-
 Checklist:
 
-- [ ] Created `DOS Tech Drive` Knowledge Base.
-- [ ] Added workshop context.
-- [ ] Added SingStat CPI context.
-- [ ] Added dataset context if needed.
-- [ ] Indexing completed successfully.
-- [ ] Retrieval test works.
+- <input type="checkbox"> Created `DOS Tech Drive` Knowledge Base.
+- <input type="checkbox"> Added workshop context.
+- <input type="checkbox"> Added SingStat CPI context.
+- <input type="checkbox"> Added dataset context if needed.
+- <input type="checkbox"> Indexing completed successfully.
+- <input type="checkbox"> Retrieval test works.
 
 ## Workflows
 
@@ -516,9 +483,15 @@ What you need to do:
 `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/Data%20Analyst.yml`
 
 5. Click **Import**.
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 6. Open the workflow.
+
+![Data Analyst workflow overview](images/dify-data-analyst-workflow-overview.png)
 7. Confirm the E2B template name is `dos-lazypredict-flaml`.
+![Data Analyst sandbox template settings](images/dify-data-analyst-create-sandbox-settings.png)
 8. Confirm the model provider is configured correctly.
+
+![Data Analyst test run result](images/dify-data-analyst-test-run-result.png)
 9. Publish the workflow.
 10. Test it with a raw CSV URL.
 
@@ -530,23 +503,13 @@ Recommended test questions:
 2. `Using this URA rental CSV, build a model to predict monthly gross rent. Compare the best-performing models and explain which features matter most: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 3. `Use this URA rental CSV to explain whether floor area and number of bedrooms appear related to monthly gross rent. Include correlations and limitations: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
-Workflow screenshots:
-
-![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
-
-![Data Analyst workflow overview](docs/images/dify-data-analyst-workflow-overview.png)
-
-![Data Analyst sandbox template settings](docs/images/dify-data-analyst-create-sandbox-settings.png)
-
-![Data Analyst test run result](docs/images/dify-data-analyst-test-run-result.png)
-
 Checklist:
 
-- [ ] Imported `Data Analyst.yml`.
-- [ ] Confirmed E2B template name.
-- [ ] Confirmed model settings.
-- [ ] Published workflow.
-- [ ] Tested with a raw CSV URL.
+- <input type="checkbox"> Imported `Data Analyst.yml`.
+- <input type="checkbox"> Confirmed E2B template name.
+- <input type="checkbox"> Confirmed model settings.
+- <input type="checkbox"> Published workflow.
+- <input type="checkbox"> Tested with a raw CSV URL.
 
 ### Web Scraper Workflow
 
@@ -590,19 +553,19 @@ Recommended test questions:
 
 Workflow screenshots:
 
-![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
-![Web Page Researcher workflow overview](docs/images/dify-web-page-researcher-workflow-overview.png)
+![Web Page Researcher workflow overview](images/dify-web-page-researcher-workflow-overview.png)
 
 Use the suggested SingStat or TableBuilder URL above to test the workflow after import.
 
 Checklist:
 
-- [ ] Imported `Web Scraper.yml`.
-- [ ] Confirmed scraper configuration.
-- [ ] Confirmed model settings.
-- [ ] Published workflow.
-- [ ] Tested with a public webpage.
+- <input type="checkbox"> Imported `Web Scraper.yml`.
+- <input type="checkbox"> Confirmed scraper configuration.
+- <input type="checkbox"> Confirmed model settings.
+- <input type="checkbox"> Published workflow.
+- <input type="checkbox"> Tested with a public webpage.
 
 ## Tools
 
@@ -635,28 +598,24 @@ Data Analyst:
 1. `Analyze this CSV and summarize rent patterns by lease year and postal district: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 2. `Run model comparison on this CSV to predict monthly gross rent and explain the best model carefully: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv`
 
-Web Scraper:
+Web Page Researcher:
 
 1. `Summarize what cost-of-living or price-related data a user can explore from this page: https://tablebuilder.singstat.gov.sg/`
 2. `Read this public page and return the key facts useful for a housing and cost-of-living discussion: https://tablebuilder.singstat.gov.sg/`
 
-Yahoo Ticker:
-
-1. `Use Yahoo Ticker to retrieve the latest available information for C38U.SI and summarize the ticker, price context, and caveats.`
-2. `Compare the latest available market context for C38U.SI and STI. Make clear that this is market context, not direct evidence of rental-flat demand.`
 
 Tool screenshots:
 
-![Data Analyst publish menu](docs/images/dify-data-analyst-publish-menu.png)
+![Data Analyst publish menu](images/dify-data-analyst-publish-menu.png)
 
 Use the same publish flow for the Web Scraper workflow, then confirm the tool name and description before attaching it to the agent.
 
 Checklist:
 
-- [ ] Data Analyst is available as a tool.
-- [ ] Web Scraper is available as a tool.
-- [ ] Tool descriptions are clear.
-- [ ] Tools are tested independently.
+- <input type="checkbox"> Data Analyst is available as a tool.
+- <input type="checkbox"> Web Scraper is available as a tool.
+- <input type="checkbox"> Tool descriptions are clear.
+- <input type="checkbox"> Tools are tested independently.
 
 ## Agents
 
@@ -686,9 +645,9 @@ Recommended master agent questions:
 
 `Analyze whether the URA rental CSV shows meaningful rent differences by floor area, bedrooms, postal district, and lease year. CSV: https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/refs/heads/master/URA%2021%2026.csv. At the end, list the tools used and say whether the Knowledge Base was needed.`
 
-3. Web Scraper:
+3. Web Page Researcher:
 
-`Use Web Scraper to read SingStat TableBuilder and explain how a user can find CPI, prices, or cost-of-living tables: https://tablebuilder.singstat.gov.sg/. Do not claim this proves rental pressure; explain what the public page can and cannot provide.`
+`Use Web Page Researcher to read SingStat TableBuilder and explain how a user can find CPI, prices, or cost-of-living tables: https://tablebuilder.singstat.gov.sg/. Do not claim this proves rental pressure; explain what the public page can and cannot provide.`
 
 4. Yahoo Ticker:
 
@@ -718,7 +677,7 @@ What you need to do:
 
 Agent screenshots:
 
-![Import app from URL in Dify](docs/images/dify-import-app-from-url.png)
+![Import app from URL in Dify](images/dify-import-app-from-url.png)
 
 Attach the `DOS Tech Drive` Knowledge Base after import.
 
@@ -728,13 +687,13 @@ Publish the master agent only after the Knowledge Base and tools are attached.
 
 Checklist:
 
-- [ ] Imported `A2A Master Agent.yml`.
-- [ ] Attached `DOS Tech Drive` Knowledge Base.
-- [ ] Added Data Analyst tool.
-- [ ] Added Web Scraper tool.
-- [ ] Added Yahoo Ticker if required.
-- [ ] Reviewed agent instructions.
-- [ ] Published the agent.
+- <input type="checkbox"> Imported `A2A Master Agent.yml`.
+- <input type="checkbox"> Attached `DOS Tech Drive` Knowledge Base.
+- <input type="checkbox"> Added Data Analyst tool.
+- <input type="checkbox"> Added Web Scraper tool.
+- <input type="checkbox"> Added Yahoo Ticker if required.
+- <input type="checkbox"> Reviewed agent instructions.
+- <input type="checkbox"> Published the agent.
 
 ## Import Checkpoint
 
@@ -745,22 +704,49 @@ Expected active apps:
 - `Data Analyst`
 - `Web Scraper`
 - `A2A Master Agent`
-
-Temporary app already deleted:
-
 - `E2B Sandbox`
-
-Optional apps only if required:
-
-- `A2A Research Agent`
 - `A2A Data Agent`
 
 Checklist:
 
-- [ ] E2B template created.
-- [ ] Temporary E2B Sandbox app deleted.
-- [ ] Knowledge Base created.
-- [ ] Data Analyst workflow imported and published.
-- [ ] Web Scraper workflow imported and published.
-- [ ] Master Agent imported and published.
-- [ ] App count is within the Dify limit.
+- <input type="checkbox"> E2B template created.
+- <input type="checkbox"> Temporary E2B Sandbox app deleted.
+- <input type="checkbox"> Knowledge Base created.
+- <input type="checkbox"> Data Analyst workflow imported and published.
+- <input type="checkbox"> Web Scraper workflow imported and published.
+- <input type="checkbox"> Master Agent imported and published.
+- <input type="checkbox"> App count is within the Dify limit.
+
+---
+
+# Vibe Coding with Lovable
+
+- Log into Lovable at [lovable.dev](https://lovable.dev) to begin building.
+- Maximise generation success by using the **RICE Prompting** strategy: **Role, Instruction, Context, and Expectation**.
+
+> ⚠️ **Warning:** Users are limited to only **5 credits** for Lovable.
+
+---
+
+## RICE Prompting Framework
+
+| Component | Description |
+|---|---|
+| **Role** | The persona and expertise (e.g., senior architect, data scientist). |
+| **Instruction** | The core task or objective to be completed. |
+| **Context** | Details, features, constraints, and technologies to include. |
+| **Expectation** | The required quality, outcome, or format of the output. |
+
+---
+
+## Example RICE Prompt
+
+**Role:** Act as a senior SaaS architect, data scientist, and UI/UX engineer.
+
+**Instruction:** Build a modern AI-powered Data Science Analytics web platform.
+
+**Context:** Features include dataset upload, automated EDA, and ML training using React + FastAPI.
+
+**Expectation:** Generate a production-ready responsive application with clean architecture.
+
+---
