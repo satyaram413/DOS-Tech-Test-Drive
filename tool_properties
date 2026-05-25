@@ -1,5 +1,0 @@
-data_analyst
-
-Description: 
-Use this tool for CSV data analysis. This tool accepts raw CSV URLs, downloads the CSV, and analyzes it with Python/pandas. Use it for exact lookup, filtering rows, year ranges, totals, averages, grouping, statistics, charts, correlations, predictions, model comparison, LazyPredict, FLAML, and feature importance. Use this tool instead of Web Scraper whenever the input is a CSV URL or the user asks about a structured dataset.
-
