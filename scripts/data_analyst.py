@@ -1,3 +1,4 @@
+python3 - << 'PYEOF'
 import pandas as pd
 import numpy as np
 import json
@@ -297,3 +298,4 @@ try:
     print(json.dumps(result, indent=2, default=str))
 except Exception as e:
     print(json.dumps({'error': str(e)}, indent=2))
+PYEOF
