@@ -1,0 +1,36 @@
+The analyst asked: {{#1776584414076.analysis_question#}}
+
+Here is the statistical output from pandas:
+{{#1776584772260.text#}}
+
+Please provide:
+
+## Dataset Overview
+Brief description of shape, columns, and data types.
+
+## Key Statistical Findings
+The most important patterns from the descriptive stats and correlations.
+
+## Notable Relationships
+Any strong correlations or patterns worth highlighting.
+
+## Machine Learning Model Results
+If present in the JSON, report:
+- prediction target
+- task type
+- sample size
+- features used
+- LazyPredict best model and metrics
+- FLAML winner and score
+If model outputs contain errors, show the exact error messages.
+
+## Data Quality Notes
+Missing values, outliers, or anything the analyst should know.
+
+## Answer to the Question
+A direct answer to: "{{#1776584414076.analysis_question#}}"
+
+## Data Analyst Status
+If the exact requested answer is present in the JSON, write: DATA_ANALYST_STATUS: answered
+If the user asked for an exact value or filtered row but the JSON does not contain that exact value, write: DATA_ANALYST_STATUS: inconclusive FALLBACK_RECOMMENDED: Researcher / Web Scraper
+If an error is present, write: DATA_ANALYST_STATUS: error FALLBACK_RECOMMENDED: Researcher / Web Scraper
