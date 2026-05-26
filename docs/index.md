@@ -330,17 +330,6 @@ The direct GitHub links above are the source of truth for imports during the han
 
 Free version of Dify accounts allow only **5 apps**.
 
-Because of this limit, the `E2B Sandbox` app should be treated as a temporary setup app.
-
-Flow:
-
-1. Import [E2B Sandbox .yml](https://github.com/satyaram413/DOS-Tech-Test-Drive/blob/master/E2B%20Sandbox%20.yml).
-2. Run it once to create the E2B template.
-3. Confirm the template is created.
-4. Delete the `E2B Sandbox` app from Dify.
-5. Continue with Knowledge Base, workflows, tools, and agents.
-
-This keeps the Dify workspace clean and avoids hitting the app limit.
 
 ## E2B Template Creation From Dify
 
@@ -448,7 +437,6 @@ Workshop RAG document:
 
 `https://raw.githubusercontent.com/satyaram413/DOS-Tech-Test-Drive/master/RAG_READY_DOS_TECH_DRIVE.md`
 
-For this hands-on, keep the Knowledge Base Markdown-only.
 
 Recommended Knowledge Base test questions:
 
@@ -529,8 +517,6 @@ Build it from scratch in Dify:
 16. Add an **End** node.
 
 Important wiring note:
-
-The final LLM node should read the output from **Send Sandbox Input**. If it reads from **Write Sandbox File**, it will only see a message such as `wrote 101 bytes to file`, which is not the analysis result.
 
 Recommended LLM prompt:
 
