@@ -103,6 +103,9 @@ E2B dashboard:
 
 `https://e2b.dev/dashboard`
 
+API KEY:
+e2b_ed278f22d1aeb72860082b38d32c6a21a9f09453
+241d9294-d4ae-4836-803f-e6ca4d65b69a
 Why we need it:
 
 Our Data Analyst workflow uses E2B to run Python, pandas, charts, LazyPredict, and FLAML. Without E2B, the analysis tool cannot create a sandbox or run code.
