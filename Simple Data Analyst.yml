@@ -1781,209 +1781,116 @@ workflow:
             value: null
           input_text:
             type: mixed
-            value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport numpy as np\n\
-              import json\nimport warnings\nimport os\nimport urllib.request\nimport\
-              \ matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n\
-              import base64\nfrom io import BytesIO\nwarnings.filterwarnings('ignore')\n\
-              \n\nQUESTION = '''{{#1779717550794.analysis_question#}}'''\nQUESTION_LOWER\
-              \ = QUESTION.lower()\n\n\n\ndef parse_floor_area(val):\n    try:\n \
-              \       parts = str(val).replace(',', '').split(' to ')\n        if\
-              \ len(parts) == 2:\n            return (float(parts[0]) + float(parts[1]))\
-              \ / 2\n        return float(parts[0])\n    except Exception:\n     \
-              \   return np.nan\n\n\n\ndef download_url_to_csv(url, output_path):\n\
-              \    request = urllib.request.Request(url.strip(), headers={'User-Agent':\
-              \ 'Mozilla/5.0'})\n    with urllib.request.urlopen(request, timeout=60)\
-              \ as response:\n        data = response.read()\n    with open(output_path,\
-              \ 'wb') as f:\n        f.write(data)\n    return output_path\n\n\n\n\
-              def load_dataframe():\n    data_dir = '/home/user/data/'\n    upload_dirs\
-              \ = [data_dir, '/home/user/upload/', '/home/user/uploads/']\n    for\
-              \ directory in upload_dirs:\n        if os.path.exists(directory):\n\
-              \            files = [f for f in os.listdir(directory) if f.lower().endswith('.csv')]\n\
-              \            if files:\n                return pd.read_csv(os.path.join(directory,\
-              \ files[0]), on_bad_lines='skip')\n    if os.path.exists(data_dir):\n\
-              \        url_files = [f for f in os.listdir(data_dir) if f.lower().endswith('.url')]\n\
-              \        if url_files:\n            with open(os.path.join(data_dir,\
-              \ url_files[0]), 'r', encoding='utf-8') as f:\n                url =\
-              \ f.read().strip()\n            if not url:\n                raise ValueError('CSV\
-              \ URL file is empty.')\n            csv_path = os.path.join(data_dir,\
-              \ 'input.csv')\n            download_url_to_csv(url, csv_path)\n   \
-              \         return pd.read_csv(csv_path, on_bad_lines='skip')\n    raise\
-              \ ValueError('No CSV file found. Upload a CSV file or provide a CSV\
-              \ URL.')\n\n\n\ndef clean_dataframe(df):\n    df = df.copy()\n    df.columns\
-              \ = [str(c).strip() for c in df.columns]\n    dirty_nulls = {'-', '–',\
-              \ '—', 'na', 'n/a', 'null', 'none', ''}\n    for col in df.columns:\n\
-              \        if df[col].dtype == 'object':\n            df[col] = df[col].map(lambda\
-              \ x: np.nan if str(x).strip().lower() in dirty_nulls else x)\n\n\n \
-              \   if 'Floor Area (sq ft)' in df.columns:\n        df['Floor Area (sq\
-              \ ft)'] = df['Floor Area (sq ft)'].apply(parse_floor_area)\n    if 'No.\
-              \ of Bedroom(for Non-Landed Only)' in df.columns:\n        df['No. of\
-              \ Bedroom(for Non-Landed Only)'] = pd.to_numeric(df['No. of Bedroom(for\
-              \ Non-Landed Only)'], errors='coerce')\n    if 'Lease Commencement Date'\
-              \ in df.columns:\n        df['Lease Year'] = pd.to_datetime(df['Lease\
-              \ Commencement Date'], format='%b-%Y', errors='coerce').dt.year\n\n\n\
-              \    for col in df.columns:\n        if df[col].dtype == 'object':\n\
-              \            s = df[col].astype(str).str.strip()\n            cleaned\
-              \ = s.str.replace(',', '', regex=False).str.replace('$', '', regex=False).str.replace('%',\
-              \ '', regex=False)\n            numeric = pd.to_numeric(cleaned, errors='coerce')\n\
-              \            non_null_original = df[col].notna().sum()\n           \
-              \ if non_null_original and numeric.notna().sum() / non_null_original\
-              \ >= 0.70:\n                df[col] = numeric\n            else:\n \
-              \               df[col] = s.replace({'nan': np.nan, 'None': np.nan})\n\
-              \n\n    if 'room_type' in df.columns and df['room_type'].dtype == 'object':\n\
-              \        df['room_type'] = df['room_type'].str.strip()\n\n\n    if {'min_selling_price',\
-              \ 'max_selling_price'}.issubset(df.columns):\n        df['avg_selling_price']\
-              \ = df[['min_selling_price', 'max_selling_price']].mean(axis=1)\n  \
-              \      df['selling_price_range'] = df['max_selling_price'] - df['min_selling_price']\n\
-              \    if {'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg'}.issubset(df.columns):\n\
-              \        df['avg_selling_price_less_ahg_shg'] = df[['min_selling_price_less_ahg_shg',\
-              \ 'max_selling_price_less_ahg_shg']].mean(axis=1)\n    return df\n\n\
-              \n\ndef json_safe_dict(d):\n    return json.loads(json.dumps(d, default=str))\n\
-              \n\n\ndef choose_target_column(df):\n    numeric_names = list(df.select_dtypes(include='number').columns)\n\
-              \    if not numeric_names:\n        return None\n    for col in numeric_names:\n\
-              \        cl = col.lower()\n        if f'target: {cl}' in QUESTION_LOWER\
-              \ or f'target column {cl}' in QUESTION_LOWER:\n            return col\n\
-              \        if f'predict {cl}' in QUESTION_LOWER or f'predicting {cl}'\
-              \ in QUESTION_LOWER:\n            return col\n        if f'use {cl}\
-              \ as' in QUESTION_LOWER and 'target' in QUESTION_LOWER:\n          \
-              \  return col\n\n\n    priority = []\n    if 'max_selling_price' in\
-              \ QUESTION_LOWER:\n        priority += ['max_selling_price']\n    if\
-              \ 'min_selling_price' in QUESTION_LOWER:\n        priority += ['min_selling_price']\n\
-              \    if 'average' in QUESTION_LOWER or 'avg' in QUESTION_LOWER:\n  \
-              \      priority += ['avg_selling_price', 'avg_selling_price_less_ahg_shg']\n\
-              \    if 'price' in QUESTION_LOWER or 'affordability' in QUESTION_LOWER\
-              \ or 'cost' in QUESTION_LOWER:\n        priority += ['max_selling_price',\
-              \ 'avg_selling_price', 'min_selling_price']\n    if 'rent' in QUESTION_LOWER\
-              \ or 'rental' in QUESTION_LOWER:\n        priority += ['Monthly Gross\
-              \ Rent ($)', 'monthly_gross_rent', '1room_rental', '2room_rental', '3room_rental']\n\
-              \    if 'dwelling' in QUESTION_LOWER or 'stock' in QUESTION_LOWER or\
-              \ 'supply' in QUESTION_LOWER:\n        priority += ['total_dwelling_units']\n\
-              \n\n    for wanted in priority:\n        for col in numeric_names:\n\
-              \            if col.lower() == wanted.lower():\n                return\
-              \ col\n    for wanted in priority:\n        matches = [c for c in numeric_names\
-              \ if wanted.lower() in c.lower()]\n        if matches:\n           \
-              \ return matches[0]\n    non_time_cols = [c for c in numeric_names if\
-              \ c not in ['S/N'] and 'year' not in c.lower() and 'date' not in c.lower()]\n\
-              \    return non_time_cols[-1] if non_time_cols else numeric_names[-1]\n\
-              \n\n\ndef build_ml_frame(df, target_col):\n    df_ml = df.copy()\n \
-              \   numeric_features = [c for c in df_ml.select_dtypes(include='number').columns\
-              \ if c != target_col and c != 'S/N']\n    leakage_groups = {\n     \
-              \   'max_selling_price': ['min_selling_price', 'avg_selling_price',\
-              \ 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg',\
-              \ 'avg_selling_price_less_ahg_shg'],\n        'min_selling_price': ['max_selling_price',\
-              \ 'avg_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg',\
-              \ 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],\n\
-              \        'avg_selling_price': ['min_selling_price', 'max_selling_price',\
-              \ 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg',\
-              \ 'avg_selling_price_less_ahg_shg'],\n    }\n    numeric_features =\
-              \ [c for c in numeric_features if c not in leakage_groups.get(target_col,\
-              \ [])]\n\n\n    cat_features = []\n    for col in df_ml.select_dtypes(include='object').columns:\n\
-              \        nunique = df_ml[col].nunique(dropna=True)\n        if 2 <=\
-              \ nunique <= 50:\n            cat_features.append(col)\n\n\n    keep\
-              \ = numeric_features + cat_features + [target_col]\n    model_df = df_ml[keep].dropna(subset=[target_col]).copy()\n\
-              \    for col in numeric_features:\n        model_df[col] = model_df[col].fillna(model_df[col].median())\n\
-              \    for col in cat_features:\n        model_df[col] = model_df[col].fillna('Unknown')\n\
-              \    if cat_features:\n        model_df = pd.get_dummies(model_df, columns=cat_features,\
-              \ drop_first=True)\n    feature_cols = [c for c in model_df.columns\
-              \ if c != target_col]\n    return model_df, feature_cols, numeric_features,\
-              \ cat_features\n\n\n\ntry:\n    df_raw = load_dataframe()\n    df =\
-              \ clean_dataframe(df_raw)\n    result = {\n        'rows': int(df.shape[0]),\n\
-              \        'columns': int(df.shape[1]),\n        'column_names': list(df.columns),\n\
-              \        'question': QUESTION,\n    }\n\n\n    numeric_cols = df.select_dtypes(include='number')\n\
-              \    cat_cols = df.select_dtypes(include='object')\n    if not numeric_cols.empty:\n\
-              \        result['descriptive_stats'] = json_safe_dict(numeric_cols.describe().round(2).to_dict())\n\
-              \    if len(numeric_cols.columns) >= 2:\n        result['correlation']\
-              \ = json_safe_dict(numeric_cols.corr(numeric_only=True).round(3).to_dict())\n\
-              \n\n    missing = df.isnull().sum()\n    result['missing_values'] =\
-              \ json_safe_dict(missing[missing > 0].to_dict())\n\n\n    cat_summary\
-              \ = {}\n    for col in list(cat_cols.columns)[:8]:\n        cat_summary[col]\
-              \ = df[col].value_counts(dropna=False).head(10).to_dict()\n    result['categorical_summary']\
-              \ = json_safe_dict(cat_summary)\n\n\n    grouped = {}\n    if 'financial_year'\
-              \ in df.columns:\n        price_cols = [c for c in ['min_selling_price',\
-              \ 'max_selling_price', 'avg_selling_price'] if c in df.columns]\n  \
-              \      if price_cols:\n            grouped['price_by_year'] = json_safe_dict(df.groupby('financial_year')[price_cols].mean().round(2).tail(10).to_dict())\n\
-              \    if 'town' in df.columns:\n        cols = [c for c in ['max_selling_price',\
-              \ 'avg_selling_price', 'total_dwelling_units'] if c in df.columns]\n\
-              \        if cols:\n            grouped['top_towns'] = json_safe_dict(df.groupby('town')[cols].mean().round(2).sort_values(cols[0],\
-              \ ascending=False).head(10).to_dict())\n    if 'room_type' in df.columns:\n\
-              \        cols = [c for c in ['max_selling_price', 'avg_selling_price']\
-              \ if c in df.columns]\n        if cols:\n            grouped['price_by_room_type']\
-              \ = json_safe_dict(df.groupby('room_type')[cols].mean().round(2).to_dict())\n\
-              \    if grouped:\n        result['grouped_insights'] = grouped\n\n\n\
-              \    try:\n        if len(numeric_cols.columns) > 0:\n            target_for_chart\
-              \ = choose_target_column(df) or numeric_cols.columns[-1]\n         \
-              \   fig, axes = plt.subplots(1, 2, figsize=(12, 4))\n            axes[0].hist(df[target_for_chart].dropna(),\
-              \ bins=40, color='steelblue', edgecolor='white')\n            axes[0].set_title(f'{target_for_chart}\
-              \ Distribution')\n            axes[0].set_xlabel(target_for_chart)\n\
-              \            axes[0].set_ylabel('Frequency')\n            if 'financial_year'\
-              \ in df.columns:\n                trend = df.groupby('financial_year')[target_for_chart].mean().dropna()\n\
-              \                axes[1].plot(trend.index, trend.values, marker='o',\
-              \ color='coral')\n                axes[1].set_title(f'Average {target_for_chart}\
-              \ by Year')\n                axes[1].tick_params(axis='x', rotation=45)\n\
-              \            elif len(cat_cols.columns) > 0:\n                group_col\
-              \ = 'room_type' if 'room_type' in df.columns else cat_cols.columns[0]\n\
-              \                group_data = df.groupby(group_col)[target_for_chart].median().sort_values(ascending=False).head(15)\n\
-              \                axes[1].bar(range(len(group_data)), group_data.values,\
-              \ color='coral', edgecolor='white')\n                axes[1].set_xticks(range(len(group_data)))\n\
-              \                axes[1].set_xticklabels(group_data.index.astype(str),\
-              \ rotation=45, ha='right', fontsize=8)\n                axes[1].set_title(f'Median\
-              \ {target_for_chart} by {group_col}')\n            plt.tight_layout()\n\
-              \            buffer = BytesIO()\n            plt.savefig(buffer, format='png',\
-              \ dpi=100, bbox_inches='tight')\n            buffer.seek(0)\n      \
-              \      result['chart_base64'] = base64.b64encode(buffer.read()).decode('utf-8')\n\
-              \            plt.close()\n    except Exception as e:\n        result['chart_error']\
-              \ = str(e)\n\n\n    try:\n        if numeric_cols.empty:\n         \
-              \   result['ml_error'] = 'No numeric columns available for modeling.'\n\
-              \        else:\n            df_sample = df.sample(min(5000, len(df)),\
-              \ random_state=42).copy()\n            target_col = choose_target_column(df_sample)\n\
-              \            if target_col is None:\n                result['ml_error']\
-              \ = 'No target column could be selected.'\n            else:\n     \
-              \           model_df, feature_cols, numeric_features, cat_features =\
-              \ build_ml_frame(df_sample, target_col)\n                model_df =\
-              \ model_df.dropna()\n                if len(model_df) < 20 or len(feature_cols)\
-              \ == 0:\n                    result['ml_error'] = 'Insufficient rows\
-              \ or features after cleaning.'\n                else:\n            \
-              \        X = model_df[feature_cols]\n                    y = model_df[target_col]\n\
-              \                    task = 'classification' if y.nunique() <= 10 and\
-              \ not pd.api.types.is_float_dtype(y) else 'regression'\n           \
-              \         if task == 'classification':\n                        y =\
-              \ y.astype(str)\n                    result['ml_sample_size'] = int(len(X))\n\
-              \                    result['target_column'] = target_col\n        \
-              \            result['task_type'] = task\n                    result['numeric_features_used']\
-              \ = numeric_features\n                    result['categorical_features_encoded']\
-              \ = cat_features\n                    result['features_used_count']\
-              \ = int(len(feature_cols))\n                    result['features_used_preview']\
-              \ = feature_cols[:30]\n\n\n                    from sklearn.model_selection\
-              \ import train_test_split\n                    X_train, X_test, y_train,\
-              \ y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n\
-              \n                    try:\n                        from lazypredict.Supervised\
-              \ import LazyClassifier, LazyRegressor\n                        lz =\
-              \ LazyClassifier(verbose=0, ignore_warnings=True) if task == 'classification'\
-              \ else LazyRegressor(verbose=0, ignore_warnings=True)\n            \
-              \            models, _ = lz.fit(X_train, X_test, y_train, y_test)\n\
-              \                        top_models = models.head(10).round(3)\n   \
-              \                     result['lazypredict_leaderboard'] = {\n      \
-              \                      'target': target_col,\n                     \
-              \       'task': task,\n                            'metric_columns':\
-              \ list(top_models.columns),\n                            'best_model':\
-              \ str(top_models.index[0]) if len(top_models) else None,\n         \
-              \                   'best_model_metrics': top_models.iloc[0].to_dict()\
-              \ if len(top_models) else {},\n                            'top_10':\
-              \ json_safe_dict(top_models.to_dict())\n                        }\n\
-              \                    except Exception as e:\n                      \
-              \  result['lazypredict_leaderboard'] = {'error': str(e)}\n\n\n     \
-              \               try:\n                        from flaml import AutoML\n\
-              \                        automl = AutoML()\n                       \
-              \ automl.fit(X_train, y_train, task=task, time_budget=30, verbose=0)\n\
-              \                        result['flaml_best_model'] = {\n          \
-              \                  'target': target_col,\n                         \
-              \   'task': task,\n                            'winner': automl.best_estimator,\n\
-              \                            'score': round(float(automl.best_loss),\
-              \ 4)\n                        }\n                    except Exception\
-              \ as e:\n                        result['flaml_best_model'] = {'error':\
-              \ str(e)}\n    except Exception as e:\n        result['ml_error'] =\
-              \ str(e)\n\n\n    print(json.dumps(result, indent=2, default=str))\n\
-              except Exception as e:\n    print(json.dumps({'error': str(e)}, indent=2))\n\
-              PYEOF"
+            value: "python3 - << 'PYEOF'\nimport pandas as pd\nimport numpy as np\nimport json\nimport warning\
+              s\nimport os\nimport urllib.request\nimport matplotlib\nmatplotlib.use('Agg')\nimport matp\
+              lotlib.pyplot as plt\nimport base64\nfrom io import BytesIO\nwarnings.filterwarnings('igno\
+              re')\n\nQUESTION = '''{{#1779717550794.analysis_question#}}'''\nQUESTION_LOWER = QUESTION.\
+              lower()\n\n\ndef parse_floor_area(val):\n    try:\n        parts = str(val).replace(',', '\
+              ').split(' to ')\n        if len(parts) == 2:\n            return (float(parts[0]) + float\
+              (parts[1])) / 2\n        return float(parts[0])\n    except Exception:\n        return np.\
+              nan\n\n\ndef download_url_to_csv(url, output_path):\n    request = urllib.request.Request(\
+              url.strip(), headers={'User-Agent': 'Mozilla/5.0'})\n    with urllib.request.urlopen(reque\
+              st, timeout=60) as response:\n        data = response.read()\n    with open(output_path, '\
+              wb') as f:\n        f.write(data)\n    return output_path\n\n\ndef load_dataframe():\n    \
+              data_dir = '/home/user/data/'\n    upload_dirs = [data_dir, '/home/user/upload/', '/home/u\
+              ser/uploads/']\n    for directory in upload_dirs:\n        if os.path.exists(directory):\n\
+                          files = [f for f in os.listdir(directory) if f.lower().endswith('.csv')]\n    \
+                      if files:\n                return pd.read_csv(os.path.join(directory, files[0]), o\
+              n_bad_lines='skip')\n    if os.path.exists(data_dir):\n        url_files = [f for f in os.\
+              listdir(data_dir) if f.lower().endswith('.url')]\n        if url_files:\n            with \
+              open(os.path.join(data_dir, url_files[0]), 'r', encoding='utf-8') as f:\n                u\
+              rl = f.read().strip()\n            if not url:\n                raise ValueError('CSV URL \
+              file is empty.')\n            csv_path = os.path.join(data_dir, 'input.csv')\n            \
+              download_url_to_csv(url, csv_path)\n            return pd.read_csv(csv_path, on_bad_lines=\
+              'skip')\n    raise ValueError('No CSV file found. Upload a CSV file or provide a CSV URL.'\
+              )\n\n\ndef clean_dataframe(df):\n    df = df.copy()\n    df.columns = [str(c).strip() for \
+              c in df.columns]\n    dirty_nulls = {'-', '–', '—', 'na', 'n/a', 'null', 'none', ''}\n    \
+              for col in df.columns:\n        if df[col].dtype == 'object':\n            df[col] = df[co\
+              l].map(lambda x: np.nan if str(x).strip().lower() in dirty_nulls else x)\n\n    if 'Floor \
+              Area (sq ft)' in df.columns:\n        df['Floor Area (sq ft)'] = df['Floor Area (sq ft)'].\
+              apply(parse_floor_area)\n    if 'No. of Bedroom(for Non-Landed Only)' in df.columns:\n    \
+                  df['No. of Bedroom(for Non-Landed Only)'] = pd.to_numeric(df['No. of Bedroom(for Non-L\
+              anded Only)'], errors='coerce')\n    if 'Lease Commencement Date' in df.columns:\n        \
+              df['Lease Year'] = pd.to_datetime(df['Lease Commencement Date'], format='%b-%Y', errors='c\
+              oerce').dt.year\n\n    for col in df.columns:\n        if df[col].dtype == 'object':\n    \
+                      s = df[col].astype(str).str.strip()\n            cleaned = s.str.replace(',', '', \
+              regex=False).str.replace('$', '', regex=False).str.replace('%', '', regex=False)\n        \
+                  numeric = pd.to_numeric(cleaned, errors='coerce')\n            non_null_original = df[\
+              col].notna().sum()\n            if non_null_original and numeric.notna().sum() / non_null_\
+              original >= 0.70:\n                df[col] = numeric\n            else:\n                d\
+              f[col] = s.replace({'nan': np.nan, 'None': np.nan})\n\n    if 'room_type' in df.columns an\
+              d df['room_type'].dtype == 'object':\n        df['room_type'] = df['room_type'].str.strip(\
+              )\n\n    if {'min_selling_price', 'max_selling_price'}.issubset(df.columns):\n        df['\
+              avg_selling_price'] = df[['min_selling_price', 'max_selling_price']].mean(axis=1)\n       \
+               df['selling_price_range'] = df['max_selling_price'] - df['min_selling_price']\n    if {'m\
+              in_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg'}.issubset(df.columns):\n \
+                     df['avg_selling_price_less_ahg_shg'] = df[['min_selling_price_less_ahg_shg', 'max_s\
+              elling_price_less_ahg_shg']].mean(axis=1)\n    return df\n\n\ndef json_safe_dict(d):\n    \
+              return json.loads(json.dumps(d, default=str))\n\n\ndef choose_target_column(df):\n    nume\
+              ric_names = list(df.select_dtypes(include='number').columns)\n    if not numeric_names:\n \
+                     return None\n    for col in numeric_names:\n        cl = col.lower()\n        if f'\
+              target: {cl}' in QUESTION_LOWER or f'target column {cl}' in QUESTION_LOWER:\n            r\
+              eturn col\n        if f'predict {cl}' in QUESTION_LOWER or f'predicting {cl}' in QUESTION_\
+              LOWER:\n            return col\n        if f'use {cl} as' in QUESTION_LOWER and 'target' i\
+              n QUESTION_LOWER:\n            return col\n\n    priority = []\n    if 'max_selling_price'\
+               in QUESTION_LOWER:\n        priority += ['max_selling_price']\n    if 'min_selling_price'\
+               in QUESTION_LOWER:\n        priority += ['min_selling_price']\n    if 'average' in QUESTI\
+              ON_LOWER or 'avg' in QUESTION_LOWER:\n        priority += ['avg_selling_price', 'avg_selli\
+              ng_price_less_ahg_shg']\n    if 'price' in QUESTION_LOWER or 'affordability' in QUESTION_L\
+              OWER or 'cost' in QUESTION_LOWER:\n        priority += ['max_selling_price', 'avg_selling_\
+              price', 'min_selling_price']\n    if 'rent' in QUESTION_LOWER or 'rental' in QUESTION_LOWE\
+              R:\n        priority += ['Monthly Gross Rent ($)', 'monthly_gross_rent', '1room_rental', '\
+              2room_rental', '3room_rental']\n    if 'dwelling' in QUESTION_LOWER or 'stock' in QUESTION\
+              _LOWER or 'supply' in QUESTION_LOWER:\n        priority += ['total_dwelling_units']\n\n   \
+               for wanted in priority:\n        for col in numeric_names:\n            if col.lower() ==\
+               wanted.lower():\n                return col\n    for wanted in priority:\n        matches\
+               = [c for c in numeric_names if wanted.lower() in c.lower()]\n        if matches:\n       \
+                   return matches[0]\n    non_time_cols = [c for c in numeric_names if c not in ['S/N'] \
+              and 'year' not in c.lower() and 'date' not in c.lower()]\n    return non_time_cols[-1] if \
+              non_time_cols else numeric_names[-1]\n\n\ntry:\n    df_raw = load_dataframe()\n    df = cl\
+              ean_dataframe(df_raw)\n    result = {\n        'rows': int(df.shape[0]),\n        'columns\
+              ': int(df.shape[1]),\n        'column_names': list(df.columns),\n        'question': QUEST\
+              ION,\n    }\n\n    numeric_cols = df.select_dtypes(include='number')\n    cat_cols = df.se\
+              lect_dtypes(include='object')\n    if not numeric_cols.empty:\n        result['descriptive\
+              _stats'] = json_safe_dict(numeric_cols.describe().round(2).to_dict())\n    if len(numeric_\
+              cols.columns) >= 2:\n        result['correlation'] = json_safe_dict(numeric_cols.corr(nume\
+              ric_only=True).round(3).to_dict())\n\n    missing = df.isnull().sum()\n    result['missing\
+              _values'] = json_safe_dict(missing[missing > 0].to_dict())\n\n    cat_summary = {}\n    fo\
+              r col in list(cat_cols.columns)[:8]:\n        cat_summary[col] = df[col].value_counts(drop\
+              na=False).head(10).to_dict()\n    result['categorical_summary'] = json_safe_dict(cat_summa\
+              ry)\n\n    grouped = {}\n    if 'financial_year' in df.columns:\n        price_cols = [c f\
+              or c in ['min_selling_price', 'max_selling_price', 'avg_selling_price'] if c in df.columns\
+              ]\n        if price_cols:\n            grouped['price_by_year'] = json_safe_dict(df.groupb\
+              y('financial_year')[price_cols].mean().round(2).tail(10).to_dict())\n    if 'town' in df.c\
+              olumns:\n        cols = [c for c in ['max_selling_price', 'avg_selling_price', 'total_dwel\
+              ling_units'] if c in df.columns]\n        if cols:\n            grouped['top_towns'] = jso\
+              n_safe_dict(df.groupby('town')[cols].mean().round(2).sort_values(cols[0], ascending=False)\
+              .head(10).to_dict())\n    if 'room_type' in df.columns:\n        cols = [c for c in ['max_\
+              selling_price', 'avg_selling_price'] if c in df.columns]\n        if cols:\n            gr\
+              ouped['price_by_room_type'] = json_safe_dict(df.groupby('room_type')[cols].mean().round(2)\
+              .to_dict())\n    if grouped:\n        result['grouped_insights'] = grouped\n\n    try:\n  \
+                    if len(numeric_cols.columns) > 0:\n            target_for_chart = choose_target_colu\
+              mn(df) or numeric_cols.columns[-1]\n            fig, axes = plt.subplots(1, 2, figsize=(12\
+              , 4))\n            axes[0].hist(df[target_for_chart].dropna(), bins=40, color='steelblue',\
+               edgecolor='white')\n            axes[0].set_title(f'{target_for_chart} Distribution')\n  \
+                        axes[0].set_xlabel(target_for_chart)\n            axes[0].set_ylabel('Frequency'\
+              )\n            if 'financial_year' in df.columns:\n                trend = df.groupby('fin\
+              ancial_year')[target_for_chart].mean().dropna()\n                axes[1].plot(trend.index,\
+               trend.values, marker='o', color='coral')\n                axes[1].set_title(f'Average {ta\
+              rget_for_chart} by Year')\n                axes[1].tick_params(axis='x', rotation=45)\n   \
+                       elif len(cat_cols.columns) > 0:\n                group_col = 'room_type' if 'room\
+              _type' in df.columns else cat_cols.columns[0]\n                group_data = df.groupby(gro\
+              up_col)[target_for_chart].median().sort_values(ascending=False).head(15)\n                \
+              axes[1].bar(range(len(group_data)), group_data.values, color='coral', edgecolor='white')\n\
+                              axes[1].set_xticks(range(len(group_data)))\n                axes[1].set_xt\
+              icklabels(group_data.index.astype(str), rotation=45, ha='right', fontsize=8)\n            \
+                  axes[1].set_title(f'Median {target_for_chart} by {group_col}')\n            plt.tight_\
+              layout()\n            buffer = BytesIO()\n            plt.savefig(buffer, format='png', dp\
+              i=100, bbox_inches='tight')\n            buffer.seek(0)\n            result['chart_base64'\
+              ] = base64.b64encode(buffer.read()).decode('utf-8')\n            plt.close()\n    except E\
+              xception as e:\n        result['chart_error'] = str(e)\n\n    print(json.dumps(result, ind\
+              ent=2, default=str))\nexcept Exception as e:\n    print(json.dumps({'error': str(e)}, inde\
+              nt=2))\nPYEOF"
           resume_session:
             type: constant
             value: true
@@ -2058,14 +1965,9 @@ workflow:
 
             - Flag any data quality issues (missing values, skewed distributions)
 
-            - If lazypredict_leaderboard is present, explicitly report the best_model,
-            best_model_metrics, target, task, and features_used
-
-            - If flaml_best_model is present, explicitly report its winner and score
-
-            - If ml_error, lazypredict_leaderboard.error, or flaml_best_model.error
-            is present, quote the exact error instead of saying the tool could not
-            run modeling
+            - Use grouped_insights, correlation, and descriptive_stats for patterns;
+            this workflow does not run LazyPredict or FLAML (removed for faster tool/MCP
+            timeouts)
 
             - Use plain language alongside technical terms
 
@@ -2104,26 +2006,6 @@ workflow:
             ## Notable Relationships
 
             Any strong correlations or patterns worth highlighting.
-
-
-
-            ## Machine Learning Model Results
-
-            If present in the JSON, report:
-
-            - prediction target
-
-            - task type
-
-            - sample size
-
-            - features used
-
-            - LazyPredict best model and metrics
-
-            - FLAML winner and score
-
-            If model outputs contain errors, show the exact error messages.
 
 
 

@@ -14,16 +14,6 @@ The most important patterns from the descriptive stats and correlations.
 ## Notable Relationships
 Any strong correlations or patterns worth highlighting.
 
-## Machine Learning Model Results
-If present in the JSON, report:
-- prediction target
-- task type
-- sample size
-- features used
-- LazyPredict best model and metrics
-- FLAML winner and score
-If model outputs contain errors, show the exact error messages.
-
 ## Data Quality Notes
 Missing values, outliers, or anything the analyst should know.
 

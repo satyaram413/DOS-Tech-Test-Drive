@@ -136,34 +136,6 @@ def choose_target_column(df):
     return non_time_cols[-1] if non_time_cols else numeric_names[-1]
 
 
-def build_ml_frame(df, target_col):
-    df_ml = df.copy()
-    numeric_features = [c for c in df_ml.select_dtypes(include='number').columns if c != target_col and c != 'S/N']
-    leakage_groups = {
-        'max_selling_price': ['min_selling_price', 'avg_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
-        'min_selling_price': ['max_selling_price', 'avg_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
-        'avg_selling_price': ['min_selling_price', 'max_selling_price', 'selling_price_range', 'min_selling_price_less_ahg_shg', 'max_selling_price_less_ahg_shg', 'avg_selling_price_less_ahg_shg'],
-    }
-    numeric_features = [c for c in numeric_features if c not in leakage_groups.get(target_col, [])]
-
-    cat_features = []
-    for col in df_ml.select_dtypes(include='object').columns:
-        nunique = df_ml[col].nunique(dropna=True)
-        if 2 <= nunique <= 50:
-            cat_features.append(col)
-
-    keep = numeric_features + cat_features + [target_col]
-    model_df = df_ml[keep].dropna(subset=[target_col]).copy()
-    for col in numeric_features:
-        model_df[col] = model_df[col].fillna(model_df[col].median())
-    for col in cat_features:
-        model_df[col] = model_df[col].fillna('Unknown')
-    if cat_features:
-        model_df = pd.get_dummies(model_df, columns=cat_features, drop_first=True)
-    feature_cols = [c for c in model_df.columns if c != target_col]
-    return model_df, feature_cols, numeric_features, cat_features
-
-
 try:
     df_raw = load_dataframe()
     df = clean_dataframe(df_raw)
@@ -233,67 +205,6 @@ try:
             plt.close()
     except Exception as e:
         result['chart_error'] = str(e)
-
-    try:
-        if numeric_cols.empty:
-            result['ml_error'] = 'No numeric columns available for modeling.'
-        else:
-            df_sample = df.sample(min(5000, len(df)), random_state=42).copy()
-            target_col = choose_target_column(df_sample)
-            if target_col is None:
-                result['ml_error'] = 'No target column could be selected.'
-            else:
-                model_df, feature_cols, numeric_features, cat_features = build_ml_frame(df_sample, target_col)
-                model_df = model_df.dropna()
-                if len(model_df) < 20 or len(feature_cols) == 0:
-                    result['ml_error'] = 'Insufficient rows or features after cleaning.'
-                else:
-                    X = model_df[feature_cols]
-                    y = model_df[target_col]
-                    task = 'classification' if y.nunique() <= 10 and not pd.api.types.is_float_dtype(y) else 'regression'
-                    if task == 'classification':
-                        y = y.astype(str)
-                    result['ml_sample_size'] = int(len(X))
-                    result['target_column'] = target_col
-                    result['task_type'] = task
-                    result['numeric_features_used'] = numeric_features
-                    result['categorical_features_encoded'] = cat_features
-                    result['features_used_count'] = int(len(feature_cols))
-                    result['features_used_preview'] = feature_cols[:30]
-
-                    from sklearn.model_selection import train_test_split
-                    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-                    try:
-                        from lazypredict.Supervised import LazyClassifier, LazyRegressor
-                        lz = LazyClassifier(verbose=0, ignore_warnings=True) if task == 'classification' else LazyRegressor(verbose=0, ignore_warnings=True)
-                        models, _ = lz.fit(X_train, X_test, y_train, y_test)
-                        top_models = models.head(10).round(3)
-                        result['lazypredict_leaderboard'] = {
-                            'target': target_col,
-                            'task': task,
-                            'metric_columns': list(top_models.columns),
-                            'best_model': str(top_models.index[0]) if len(top_models) else None,
-                            'best_model_metrics': top_models.iloc[0].to_dict() if len(top_models) else {},
-                            'top_10': json_safe_dict(top_models.to_dict())
-                        }
-                    except Exception as e:
-                        result['lazypredict_leaderboard'] = {'error': str(e)}
-
-                    try:
-                        from flaml import AutoML
-                        automl = AutoML()
-                        automl.fit(X_train, y_train, task=task, time_budget=30, verbose=0)
-                        result['flaml_best_model'] = {
-                            'target': target_col,
-                            'task': task,
-                            'winner': automl.best_estimator,
-                            'score': round(float(automl.best_loss), 4)
-                        }
-                    except Exception as e:
-                        result['flaml_best_model'] = {'error': str(e)}
-    except Exception as e:
-        result['ml_error'] = str(e)
 
     print(json.dumps(result, indent=2, default=str))
 except Exception as e:
