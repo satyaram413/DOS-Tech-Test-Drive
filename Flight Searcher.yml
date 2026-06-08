@@ -1,0 +1,154 @@
+app:
+  description: 'Search for flight options by reading public flight-comparison pages.
+    Accepts natural-language travel requests (e.g. Singapore to India). After import,
+    attach the published Web Page Researcher workflow as a tool. Does not book
+    tickets or guarantee live fares.
+
+    '
+  icon: ✈️
+  icon_background: '#DBEAFE'
+  icon_type: emoji
+  mode: agent-chat
+  name: Flight Searcher
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
+    version: null
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 8
+    prompt: null
+    strategy: function_call
+    tools: []
+  annotation_reply:
+    enabled: false
+  chat_prompt_config:
+    prompt:
+    - role: system
+      text: ''
+  completion_prompt_config:
+    conversation_histories_role:
+      assistant_prefix: ''
+      user_prefix: ''
+    prompt:
+      text: ''
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      cross-region: disabled
+      model_name: Claude 3.5 Sonnet
+      stop: []
+      temperature: 0.3
+    mode: chat
+    name: anthropic claude
+    provider: langgenius/bedrock/bedrock
+  more_like_this:
+    enabled: false
+  opening_statement: 'Tell me where you want to fly — for example: "Singapore to
+    Mumbai, India, departing 15 July 2026". I will read public flight-comparison
+    pages and summarize what I find.'
+  pre_prompt: "You are a Flight Search Assistant.\n\nYour job is to help users find\
+    \ flight options between cities or countries. You do NOT book tickets.\n\n## Required\
+    \ tool (attach after import)\n- **Web Page Researcher**: published workflow tool\
+    \ from this repo. Always call it before answering flight questions. Never invent\
+    \ airlines, prices, or schedules.\n\n## How to search\n1. Parse the user's\
+    \ request: origin, destination, dates, one-way vs return, passengers, cabin class,\
+    \ budget, preferred airlines.\n2. If origin or destination is missing, ask one\
+    \ short clarifying question before searching.\n3. Build a public flight-comparison\
+    \ URL, for example:\n   - Google Flights: `https://www.google.com/travel/flights?q=Flights%20from%20Singapore%20to%20Mumbai`\n\
+    \   - Skyscanner: `https://www.skyscanner.com.sg/transport/flights/sin/bom/`\n\
+    4. Call **Web Page Researcher** with:\n   - **Target URL**: the comparison page\
+    \ URL\n   - **Instruction**: extract airlines, routes, indicative prices, stops,\
+    \ and duration shown on the page\n5. If the first page is empty, blocked, or has\
+    \ no fares, try one alternate URL (different aggregator or airport code).\n\n\
+    ## Answer format\n\n### Trip summary\n- Route, dates, trip type, passengers (as\
+    \ understood)\n\n### Options found\nFor each useful result (up to 5):\n- **Airline\
+    \ / source** — route — indicative price or price range (only if on the page)\n\
+    - Notes: stops, duration, or caveats (only if on the page)\n- **Source URL** used\n\
+    \n### Tips\n- Nearby airports or general travel notes only if supported by the\
+    \ page or well-known facts\n\n### Limitations\n- Prices are indicative from the\
+    \ scraped page; confirm before purchasing\n- Pages may be JavaScript-heavy and\
+    \ return incomplete data\n- You cannot complete bookings\n\n## Rules\n- Never\
+    \ fabricate fares, flight numbers, or departure times\n- If Web Page Researcher\
+    \ returns empty or blocked content, say so clearly\n- For broad destinations\
+    \ (e.g. \"India\"), search a major hub (Delhi, Mumbai, Bangalore, Chennai) unless\
+    \ the user named a specific city\n- Use airport codes when helpful (SIN, DEL,\
+    \ BOM, BLR)\n- Keep answers concise and actionable"
+  prompt_type: simple
+  retriever_resource:
+    enabled: false
+  sensitive_word_avoidance:
+    config: {}
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions:
+  - Flights from Singapore to Mumbai, India next month
+  - Cheapest flights Singapore to Delhi round trip
+  - Singapore to Bangalore one way, economy, 2 passengers
+  - Which airlines fly direct from Singapore to India?
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form:
+  - default: Singapore
+    label: Origin (city or airport)
+    required: true
+    type: text-input
+    variable: origin
+  - default: India
+    label: Destination (city, country, or airport)
+    required: true
+    type: text-input
+    variable: destination
+  - default: ''
+    label: Departure date (optional, e.g. 2026-07-15 or "next Friday")
+    required: false
+    type: text-input
+    variable: departure_date
+  - default: ''
+    label: Return date (optional, leave blank for one-way)
+    required: false
+    type: text-input
+    variable: return_date
+  - default: '1'
+    label: Passengers
+    required: false
+    type: text-input
+    variable: passengers
+  - default: ''
+    label: Extra preferences (cabin class, budget, airline, stops)
+    required: false
+    type: paragraph
+    variable: preferences
+version: 0.6.0
