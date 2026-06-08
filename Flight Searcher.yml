@@ -1,14 +1,14 @@
 app:
-  description: 'Search for flight options by reading public flight-comparison pages.
-    Accepts natural-language travel requests (e.g. Singapore to India). After import,
-    attach the published Web Page Researcher workflow as a tool. Does not book
-    tickets or guarantee live fares.
+  description: 'Use this tool for flight search between cities or countries. Provide
+    origin, destination, and optional dates. Reads public flight-comparison pages
+    and returns indicative airlines, routes, prices, and caveats. Does not book
+    tickets or guarantee live fares. Not for CSV, housing, CPI, or market data.
 
     '
   icon: ✈️
   icon_background: '#DBEAFE'
   icon_type: emoji
-  mode: agent-chat
+  mode: workflow
   name: Flight Searcher
   use_icon_as_answer_icon: false
 dependencies:
@@ -18,137 +18,400 @@ dependencies:
     marketplace_plugin_unique_identifier: langgenius/bedrock:0.0.66@afee1cbca3751d2c668d11ff86e52f51267ba97c98a98ac5231806412be541da
     version: null
 kind: app
-model_config:
-  agent_mode:
-    enabled: true
-    max_iteration: 8
-    prompt: null
-    strategy: function_call
-    tools: []
-  annotation_reply:
-    enabled: false
-  chat_prompt_config:
-    prompt:
-    - role: system
-      text: ''
-  completion_prompt_config:
-    conversation_histories_role:
-      assistant_prefix: ''
-      user_prefix: ''
-    prompt:
-      text: ''
-  dataset_configs:
-    datasets:
-      datasets: []
-    retrieval_model: multiple
-    top_k: 4
-  dataset_query_variable: ''
-  external_data_tools: []
-  file_upload:
-    allowed_file_extensions: []
-    allowed_file_types: []
-    allowed_file_upload_methods:
-    - remote_url
-    - local_file
-    enabled: false
-    image:
-      detail: high
-      enabled: false
-      number_limits: 3
-      transfer_methods:
-      - remote_url
-      - local_file
-    number_limits: 3
-  model:
-    completion_params:
-      cross-region: disabled
-      model_name: Claude 3.5 Sonnet
-      stop: []
-      temperature: 0.3
-    mode: chat
-    name: anthropic claude
-    provider: langgenius/bedrock/bedrock
-  more_like_this:
-    enabled: false
-  opening_statement: 'Tell me where you want to fly — for example: "Singapore to
-    Mumbai, India, departing 15 July 2026". I will read public flight-comparison
-    pages and summarize what I find.'
-  pre_prompt: "You are a Flight Search Assistant.\n\nYour job is to help users find\
-    \ flight options between cities or countries. You do NOT book tickets.\n\n## Required\
-    \ tool (attach after import)\n- **Web Page Researcher**: published workflow tool\
-    \ from this repo. Always call it before answering flight questions. Never invent\
-    \ airlines, prices, or schedules.\n\n## How to search\n1. Parse the user's\
-    \ request: origin, destination, dates, one-way vs return, passengers, cabin class,\
-    \ budget, preferred airlines.\n2. If origin or destination is missing, ask one\
-    \ short clarifying question before searching.\n3. Build a public flight-comparison\
-    \ URL, for example:\n   - Google Flights: `https://www.google.com/travel/flights?q=Flights%20from%20Singapore%20to%20Mumbai`\n\
-    \   - Skyscanner: `https://www.skyscanner.com.sg/transport/flights/sin/bom/`\n\
-    4. Call **Web Page Researcher** with:\n   - **Target URL**: the comparison page\
-    \ URL\n   - **Instruction**: extract airlines, routes, indicative prices, stops,\
-    \ and duration shown on the page\n5. If the first page is empty, blocked, or has\
-    \ no fares, try one alternate URL (different aggregator or airport code).\n\n\
-    ## Answer format\n\n### Trip summary\n- Route, dates, trip type, passengers (as\
-    \ understood)\n\n### Options found\nFor each useful result (up to 5):\n- **Airline\
-    \ / source** — route — indicative price or price range (only if on the page)\n\
-    - Notes: stops, duration, or caveats (only if on the page)\n- **Source URL** used\n\
-    \n### Tips\n- Nearby airports or general travel notes only if supported by the\
-    \ page or well-known facts\n\n### Limitations\n- Prices are indicative from the\
-    \ scraped page; confirm before purchasing\n- Pages may be JavaScript-heavy and\
-    \ return incomplete data\n- You cannot complete bookings\n\n## Rules\n- Never\
-    \ fabricate fares, flight numbers, or departure times\n- If Web Page Researcher\
-    \ returns empty or blocked content, say so clearly\n- For broad destinations\
-    \ (e.g. \"India\"), search a major hub (Delhi, Mumbai, Bangalore, Chennai) unless\
-    \ the user named a specific city\n- Use airport codes when helpful (SIN, DEL,\
-    \ BOM, BLR)\n- Keep answers concise and actionable"
-  prompt_type: simple
-  retriever_resource:
-    enabled: false
-  sensitive_word_avoidance:
-    config: {}
-    enabled: false
-    type: ''
-  speech_to_text:
-    enabled: false
-  suggested_questions:
-  - Flights from Singapore to Mumbai, India next month
-  - Cheapest flights Singapore to Delhi round trip
-  - Singapore to Bangalore one way, economy, 2 passengers
-  - Which airlines fly direct from Singapore to India?
-  suggested_questions_after_answer:
-    enabled: false
-  text_to_speech:
-    enabled: false
-    language: ''
-    voice: ''
-  user_input_form:
-  - default: Singapore
-    label: Origin (city or airport)
-    required: true
-    type: text-input
-    variable: origin
-  - default: India
-    label: Destination (city, country, or airport)
-    required: true
-    type: text-input
-    variable: destination
-  - default: ''
-    label: Departure date (optional, e.g. 2026-07-15 or "next Friday")
-    required: false
-    type: text-input
-    variable: departure_date
-  - default: ''
-    label: Return date (optional, leave blank for one-way)
-    required: false
-    type: text-input
-    variable: return_date
-  - default: '1'
-    label: Passengers
-    required: false
-    type: text-input
-    variable: passengers
-  - default: ''
-    label: Extra preferences (cabin class, budget, airline, stops)
-    required: false
-    type: paragraph
-    variable: preferences
 version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions: []
+      allowed_file_types: []
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1900000000001-source-1900000000002-target
+      selected: false
+      source: '1900000000001'
+      sourceHandle: source
+      target: '1900000000002'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: http-request
+      id: 1900000000002-source-1900000000003-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: source
+      target: '1900000000003'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 1900000000003-source-1900000000004-target
+      selected: false
+      source: '1900000000003'
+      sourceHandle: source
+      target: '1900000000004'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1900000000004-source-1900000000005-target
+      selected: false
+      source: '1900000000004'
+      sourceHandle: source
+      target: '1900000000005'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - default: Singapore
+          hint: City, country, or airport code
+          label: Origin
+          options: []
+          placeholder: Singapore or SIN
+          required: true
+          type: text-input
+          variable: origin
+        - default: India
+          hint: City, country, or airport code
+          label: Destination
+          options: []
+          placeholder: Mumbai, India or BOM
+          required: true
+          type: text-input
+          variable: destination
+        - default: ''
+          hint: e.g. 2026-07-15 or "next month"
+          label: Departure date (optional)
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: departure_date
+        - default: ''
+          hint: Leave blank for one-way
+          label: Return date (optional)
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: return_date
+        - default: '1'
+          hint: ''
+          label: Passengers
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: passengers
+        - default: ''
+          hint: Cabin class, budget, airline, direct only, etc.
+          label: Preferences (optional)
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: preferences
+      height: 161
+      id: '1900000000001'
+      position:
+        x: 0
+        y: 10
+      positionAbsolute:
+        x: 0
+        y: 10
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.1
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: b1111111-1111-1111-1111-111111111111
+          role: system
+          text: 'You build a single public flight-comparison page URL from travel
+            inputs.
+
+
+            Rules:
+
+            - Output ONLY one full https URL on a single line — no markdown, no
+            explanation, no quotes
+
+            - Prefer Google Flights search URLs, e.g.
+            https://www.google.com/travel/flights?q=Flights%20from%20Singapore%20to%20Mumbai%20in%20July%202026
+
+            - If the destination is a country (e.g. India), pick a major hub city
+            (Mumbai or Delhi) unless a specific city was given
+
+            - Include dates in the query when provided
+
+            - Use Skyscanner only if Google Flights URL cannot be formed'
+        - edition_type: basic
+          id: b2222222-2222-2222-2222-222222222222
+          role: user
+          text: 'Origin: {{#1900000000001.origin#}}
+
+            Destination: {{#1900000000001.destination#}}
+
+            Departure date: {{#1900000000001.departure_date#}}
+
+            Return date: {{#1900000000001.return_date#}}
+
+            Passengers: {{#1900000000001.passengers#}}
+
+            Preferences: {{#1900000000001.preferences#}}'
+        selected: false
+        title: Build search URL
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000002'
+      position:
+        x: 342
+        y: 30
+      positionAbsolute:
+        x: 342
+        y: 30
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config:
+            api_key: jina_7f9498e5b7ce45848086968cfb09ea9agQh1H5aLj8hZl5plSEPMvIvtfLPS
+            type: bearer
+          type: api-key
+        body:
+          data: []
+          type: none
+        desc: '='
+        headers: 'Accept:text/plain
+
+          X-Return-Format:markdown
+
+          X-Engine:browser'
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 2
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 60
+          max_write_timeout: 20
+        title: Fetch comparison page
+        type: http-request
+        url: https://r.jina.ai/{{#1900000000002.text#}}
+        variables: []
+      height: 168
+      id: '1900000000003'
+      position:
+        x: 684
+        y: 0
+      positionAbsolute:
+        x: 684
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            cross-region: disabled
+            model_name: Claude 3.5 Sonnet
+            temperature: 0.2
+          mode: chat
+          name: anthropic claude
+          provider: langgenius/bedrock/bedrock
+        prompt_template:
+        - edition_type: basic
+          id: b3333333-3333-3333-3333-333333333333
+          role: system
+          text: 'You are a flight search assistant. You receive scraped markdown
+            from a public flight-comparison page plus the user''s trip inputs.
+
+
+            Rules:
+
+            - Use only information present in the scraped content — never invent
+            fares, airlines, or times
+
+            - If the page is empty, blocked, paywalled, or CAPTCHA, say so and
+            suggest checking the source URL directly
+
+            - For broad destinations, note which hub city was searched
+
+            - Do not claim you can book tickets
+
+            - Structure output as RAG-compatible markdown with clear headings'
+        - edition_type: basic
+          id: b4444444-4444-4444-4444-444444444444
+          role: user
+          text: '## Trip request
+
+            - Origin: {{#1900000000001.origin#}}
+
+            - Destination: {{#1900000000001.destination#}}
+
+            - Departure: {{#1900000000001.departure_date#}}
+
+            - Return: {{#1900000000001.return_date#}}
+
+            - Passengers: {{#1900000000001.passengers#}}
+
+            - Preferences: {{#1900000000001.preferences#}}
+
+
+            ## Search URL used
+
+            {{#1900000000002.text#}}
+
+
+            ## Scraped page (markdown)
+
+            {{#1900000000003.body#}}
+
+
+            Return:
+
+            ### Trip summary
+
+            ### Options found (up to 5, with source-backed prices only)
+
+            ### Limitations
+
+            ### Source URL'
+        selected: false
+        title: Extract flight options
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000004'
+      position:
+        x: 1026
+        y: 89
+      positionAbsolute:
+        x: 1026
+        y: 89
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1900000000004'
+          - text
+          value_type: string
+          variable: result
+        - value_selector:
+          - '1900000000002'
+          - text
+          value_type: string
+          variable: search_url
+        - value_selector:
+          - '1900000000003'
+          - body
+          value_type: string
+          variable: raw_markdown
+        selected: false
+        title: Output
+        type: end
+      height: 130
+      id: '1900000000005'
+      position:
+        x: 1368
+        y: 90
+      positionAbsolute:
+        x: 1368
+        y: 90
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 0
+      y: 200
+      zoom: 0.85
+  rag_pipeline_variables: []
